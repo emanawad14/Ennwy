@@ -1,0 +1,80 @@
+<div>
+  <div class="container">
+
+
+    <app-home-slider></app-home-slider>
+
+    <section class="mt-5">
+      <div class="d-flex justify-content-between align-items-center">
+    
+        <h1 class="fs-5 fw-bold d-none d-md-block">{{ 'popularCategories' | translate }}</h1>
+
+        <app-sort-ads (sortHandler)="sort($event)"></app-sort-ads>
+      </div>
+
+   
+      <div class="scroll-wrapper d-md-none mt-4">
+        <div class="scroll-content">
+          @for (item of activeCategories(); track $index) {
+           <app-category-card
+        [showIcon]="true"
+        [title]="language() == 'ar' ? (item?.name ?? '') : (item?.name_L1 ?? '')"
+        [icon]="item?.image"
+        [items]="item?.children"
+        [parentId]="item?.id">
+      </app-category-card>
+          }
+        </div>
+      </div>
+
+      <!-- ✅ عرض شبكي للكمبيوتر -->
+      <div class="row mt-4 d-none d-md-flex">
+        @for (item of activeCategories(); track $index) {
+          <div class="col-lg-3 col-md-6 mb-4">
+           <app-category-card
+        [showIcon]="true"
+        [title]="language() == 'ar' ? (item?.name ?? '') : (item?.name_L1 ?? '')"
+        [icon]="item?.image"
+        [items]="item?.children"
+        [parentId]="item?.id">
+      </app-category-card>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- ✅ عرض الإعلانات بالأقسام -->
+    @for (cat of topCategoriesAds(); track $index) {
+      @if (cat?.list?.length) {
+        <app-home-card
+          [title]="language() == 'ar' ? cat?.name || '' : cat?.name_L1 || ''"
+          [categoryId]="cat.categoryId">
+
+          @for (item of cat?.list; track $index) {
+            @if ($index < 10) {
+              <div class="card-wrapper">
+                <app-product-card [product]="item" [isVillas]="true"></app-product-card>
+              </div>
+            }
+          }
+        </app-home-card>
+      }
+    }
+
+    <!-- ✅ قسم البحث الشائع (مخفي) -->
+   @if (false) { <section class="mt-5 d-none">
+      <h6 class="fs-5">Popular Searches</h6>
+      <div class="row mt-4">
+        @for (item of [2, 3, 3, 3]; track $index) {
+          <div class="col-lg-3 col-md-6 mb-4" [class.border-end]="$index < 3">
+            <app-category-card
+              [items]="searches()"
+              [title]="'Cars for Sale in Egypt'">
+            </app-category-card>
+          </div>
+        }
+      </div>
+    </section>
+  }
+  </div>
+</div>

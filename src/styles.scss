@@ -1,0 +1,261 @@
+/* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+@import "@ng-select/ng-select/themes/default.theme.css";
+
+:root {
+  --body-bg: #ffffff;
+  --text-main-color: #dc143c;
+  --card-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+  --card-radius: 10px;
+  --font-sans: "Cairo", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+               Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+
+}
+ 
+ 
+
+* {
+  padding: 0  ; 
+  margin: 0 ;
+  box-sizing: border-box;
+}
+.swal2-container{
+  position: absolute !important;
+  z-index: 9999999 !important;
+}
+html,
+body,
+app-root {
+  width: 100%;
+  height: 100%;
+  background-color: var(--body-bg);
+  font-family: var(--font-sans);
+  padding-left: 6rem; /* 16px small margin */
+  padding-right: 6rem; /* 16px small margin */
+ // overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: #111; /* ← لون الروابط الافتراضي يرجع كما هو */
+  cursor: pointer;
+}
+
+ul {
+  padding: 0;
+}
+li {
+  list-style: none;
+}
+
+.form-control:focus,
+.form-control.is-invalid:focus {
+  box-shadow: none;
+  border-color: #dee2e6;
+}
+
+input:checked {
+  accent-color: var(--text-main-color);
+}
+
+.text-main-color {
+  color: var(--text-main-color);
+}
+
+.fs-6-1 {
+  font-size: 0.9rem;
+}
+.fs-6-2 {
+  font-size: 0.87rem;
+}
+
+/* RTL */
+[dir="rtl"] {
+  text-align: right;
+  direction: rtl;
+
+  body {
+    font-family: "Cairo", sans-serif;
+  }
+
+  .ms-2 {
+    margin-right: 0.5rem !important;
+    margin-left: initial !important;
+  }
+
+  .text-start {
+    text-align: right !important;
+  }
+
+  .pi {
+    transform: scaleX(-1);
+  }
+
+  .form-control.is-invalid {
+    padding-left: calc(1.5em + 0.75rem);
+    padding-right: 0.75rem;
+    background-position: left calc(0.375em + 0.1875rem) center;
+  }
+}
+
+[dir="ltr"] {
+  text-align: left;
+  direction: ltr;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 0.3125rem;
+}
+::-webkit-scrollbar:horizontal {
+  height: 0.25rem;
+}
+::-webkit-scrollbar-track {
+  background: #dc143c10;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #dc143c4d;
+  opacity: 0.7;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #dc143c4d;
+}
+
+.p-scroller,
+.p-dropdown-items-wrapper {
+  margin: 5px 10px !important;
+
+  &::-webkit-scrollbar-thumb {
+    background: #dc143c4d;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 10px;
+    max-height: 80% !important;
+  }
+}
+
+/* Optional max width limit */
+.container,
+.container-fluid {
+  max-width: 100%;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Remove Bootstrap row padding if needed */
+.row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Responsive tweak */
+@media (max-width: 1080px) {
+  html,
+  body,
+  app-root {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+/* =========================
+   إصلاحات الهيدر والـlayout
+   ========================= */
+
+/* تثبيت الهيدر وطبقات العرض */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1100;
+  background: #fff;
+}
+.navbar-content {
+  position: sticky;
+  top: 0;
+  z-index: 1110;
+  background: #fff;
+}
+.links-bar {
+  /* position: sticky;*/
+  top: 0;
+  z-index: 1110;
+  background: #fff;
+}
+
+/* السماح للمنيوز بالظهور فوق الحاويات */
+header, nav, .container, .container-fluid { overflow: visible !important; }
+
+/* طبقات الـdropdown/offcanvas/modal فقط (بدون ألوان) */
+.site-header .dropdown-menu { z-index: 1200; }
+.offcanvas { z-index: 1250; }
+.modal     { z-index: 1300; }
+
+/* تراص اللوجو + عناصر النافبار جنب بعض */
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: nowrap;     /* لا يلف */
+  min-height: 64px;
+}
+.header-logo-wrap {
+  flex: 0 0 auto;        /* لا يتمدد */
+  display: inline-flex;
+  align-items: center;
+}
+/* منع أي عنصر داخل header يأخذ width:100% */
+.header-logo-wrap app-header,
+.header-logo-wrap app-header > * {
+  display: inline-flex;
+  width: auto !important;
+  max-width: 100%;
+}
+.header-actions-wrap {
+  flex: 1 1 auto;        /* يتمدّد */
+  min-width: 0;          /* لأجل حقول البحث */
+  display: block;
+}
+.header-actions-wrap app-navbar {
+  display: block;
+  width: 100%;
+}
+
+/* البانرات/السلايدر تحت طبقة الهيدر */
+.carousel,
+.home-banner,
+.home-slider,
+.banner,
+#carouselExampleDark { position: relative; z-index: 1; }
+
+/* المحتوى الرئيسي */
+.page-content { min-height: 60vh; }
+
+/* =========================
+   Loader أحمر (فقط اللودر)
+   ========================= */
+.global-loader {
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,.65);
+  backdrop-filter: blur(1px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000; /* أعلى من الهيدر والدروبداؤن */
+}
+/* دائرة أحمر – لا تؤثر على أي عنصر آخر */
+.ring-loader {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 4px solid var(--text-main-color);
+  border-right-color: transparent;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }

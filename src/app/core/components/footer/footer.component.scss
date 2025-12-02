@@ -1,0 +1,106 @@
+.footer {
+  background-color: #f6f6f6;
+
+  .download {
+    color: crimson;
+    text-decoration: none;
+  }
+
+  .copy-right {
+    background-color: #edeeee;
+  }
+
+  .section-title {
+    font-size: clamp(0.9rem, 0.85rem + 0.2vw, 1rem);
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-link {
+    font-size: 0.95rem;
+    color: #464c55;
+    text-decoration: none;
+    display: inline-block;
+    padding: 0.15rem 0;
+
+    &:hover {
+      color: #222;
+      text-decoration: underline;
+    }
+  }
+
+  /* Store badges */
+  .store-badge {
+    width: 130px;
+    height: auto;
+  }
+  .store-badge-sm {
+    width: 90px;
+    height: auto;
+  }
+
+  /* Social icons */
+  .icon {
+    width: 2.4rem;
+    min-width: 2.4rem;
+    height: 2.4rem;
+    color: crimson;
+    border: 1px solid crimson;
+    transition: all 0.2s ease-in-out;
+
+    i {
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
+    &:hover {
+      background-color: crimson;
+      color: #fff;
+    }
+  }
+
+  /* Top area tweaks */
+  .footer-top {
+    &__left {
+      .download {
+        font-size: clamp(1rem, 0.9rem + 0.4vw, 1.25rem);
+      }
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 576px) {
+    .footer-top {
+      flex-direction: column;
+      align-items: center !important;
+      text-align: center;
+
+      &__left {
+        margin-bottom: 0.75rem;
+      }
+    }
+
+    .footer-badges {
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .store-badge {
+      width: 120px;
+    }
+
+    .social {
+      justify-content: center;
+    }
+
+    .copy-right small {
+      text-align: center !important;
+      display: block;
+    }
+  }
+
+  @media (min-width: 577px) and (max-width: 991.98px) {
+    .store-badge {
+      width: 120px;
+    }
+  }
+}

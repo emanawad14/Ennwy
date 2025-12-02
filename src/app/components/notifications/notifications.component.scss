@@ -1,0 +1,149 @@
+/* ===== Theme tuned to screenshot ===== */
+:root {
+  --accent: #ff3b30;              /* أحمر العنوان والدوت */
+  --accent-700: #d91b4c;
+  --accent-soft: #ffe9ea;         /* خلفية حبّة الجرس */
+  --card-border-color: #ffe4e7;   /* حدود وردي فاتح جداً */
+  --card-shadow: 0 2px 12px rgba(0,0,0,.04);
+  --muted: #9aa0a6;               /* لون التاريخ */
+  --body: #222;                   /* نص المحتوى */
+  --bg: #fafafa;
+
+  /* ===== Pagination colors ===== */
+  --pg-border: #ffd6dc;           /* حدود الدائرة */
+  --pg-active: var(--accent-700); /* خلفية الزرّ النشط */
+  --pg-active-text: #fff;
+  --pg-hover: #ffaab9;            /* لون الحدود عند hover */
+  --pg-disabled: #c8ccd1;         /* لون السهم المعطّل */
+}
+
+/* ===== Wrapper / Header ===== */
+.notif-wrapper { background: var(--bg); min-height: 100dvh; }
+.notif-wrapper[dir="rtl"] { direction: rtl; }
+.notif-wrapper[dir="ltr"] { direction: ltr; }
+
+.notif-header{
+  display:flex;align-items:center;gap:.5rem;
+  padding:10px 0;position:sticky;top:0;background:var(--bg);z-index:5;
+  border-bottom:1px solid #f3ccd1; /* وردي خفيف */
+}
+.notif-header .icon-btn{border:0;background:transparent;font-size:22px;cursor:pointer}
+.notif-header .title{margin:0;font-weight:700;font-size:16px}
+.notif-header .spacer{flex:1}
+
+/* ===== Layout ===== */
+.grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media (min-width:992px){ .grid{grid-template-columns:260px minmax(0,1fr);gap:16px} }
+.sidebar .card{background:#fff;border-radius:14px;box-shadow:var(--card-shadow)}
+
+/* ===== List / Card ===== */
+.list-area{display:grid;gap:12px}
+
+.notif-card{
+  position:relative;background:#fff;border:1px solid var(--card-border-color);
+  border-radius:14px;padding:12px 16px;display:grid;grid-template-columns:1fr auto;
+  align-items:start;gap:10px;box-shadow:var(--card-shadow);word-break:break-word
+}
+/* padding لترك مسافة لحبة الجرس */
+.notif-wrapper[dir="rtl"] .notif-card{padding-right:70px}
+.notif-wrapper[dir="ltr"] .notif-card{padding-left:70px}
+
+/* تأثير خفيف لغير المقروء */
+.notif-card.unread{
+  box-shadow: 0 0 0 2px rgba(255,59,48,.10) inset, var(--card-shadow);
+  border-color: rgba(255,59,48,.18);
+}
+
+/* الدوت */
+.notif-card .dot{
+  position:absolute;top:10px;width:9px;height:9px;border-radius:50%;background:var(--accent)
+}
+.notif-wrapper[dir="rtl"] .notif-card .dot{left:12px}
+.notif-wrapper[dir="ltr"] .notif-card .dot{right:12px}
+
+/* النص */
+.notif-card .left{display:block;width:100%}
+.notif-card .text{display:grid;gap:4px}
+.notif-card .text .title-row{display:flex;align-items:center;justify-content:center}
+.notif-card .title{font-weight:700;font-size:14px;color:var(--accent)}
+.notif-card .body{color:var(--body);font-size:13px;line-height:1.45;text-align:start}
+.notif-card .date{color:var(--muted);font-size:12px;text-align:center;display:block;margin-top:4px}
+
+/* الجرس داخل حبة وردية */
+.notif-card .right{position:absolute;top:50%;transform:translateY(-50%)}
+.notif-wrapper[dir="rtl"] .notif-card .right{right:12px}
+.notif-wrapper[dir="ltr"] .notif-card .right{left:12px}
+.notif-card .bell-badge{
+  display:inline-grid;place-items:center;width:36px;height:36px;border-radius:12px;
+  background:var(--accent-soft);border:1px solid rgba(255,59,48,.25)
+}
+.notif-card .right img{width:18px;height:18px;opacity:.95}
+
+/* ===== Empty / Loading ===== */
+.center{text-align:center}
+.muted{color:var(--muted)}
+.spinner{
+  width:22px;height:22px;border:3px solid #ddd;border-top-color:#333;
+  border-radius:50%;display:inline-block;animation:spin .9s linear infinite
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ===== Mobile tweaks ===== */
+@media (max-width:576px){
+  .notif-header .title{font-size:15px}
+  .list-area{gap:10px}
+  .notif-card{border-radius:12px;padding-top:10px;padding-bottom:10px}
+  .notif-card .title{font-size:13.5px}
+  .notif-card .body{font-size:13px}
+  .notif-card .date{font-size:11.5px}
+  .notif-card .bell-badge{width:34px;height:34px;border-radius:12px}
+}
+
+/* ===== Desktop width ===== */
+@media (min-width:1200px){ .notif-wrapper .container{max-width:1100px} }
+
+/* ===== Pagination (Bubble style) ===== */
+.paginator{
+  display: grid;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+/* وضع compact: نخفي الميتا ونُظهر الأزرار فقط */
+.paginator.compact .meta{ display:none; }
+
+.paginator .meta{
+  display:flex;align-items:center;justify-content:space-between;
+  color:var(--muted);font-size:13px;
+}
+.paginator .psize{ display:inline-flex;align-items:center;gap:6px; }
+.paginator select{
+  border:1px solid #e8e8e8;border-radius:8px;padding:4px 8px;background:#fff;font-size:13px;
+}
+
+.paginator .pages{
+  display:flex;align-items:center;gap:12px;justify-content:flex-start;padding:6px 0;
+}
+
+.pg-btn{
+  width:36px;height:36px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:#fff;border:1.5px solid var(--pg-border);
+  color:#333;font-size:14px;line-height:1;cursor:pointer;
+  transition:border-color .15s ease, background-color .15s ease, color .15s ease, box-shadow .15s ease;
+  box-shadow:none;padding:0;
+}
+.pg-btn:hover:not(:disabled):not(.active){ border-color:var(--pg-hover); }
+.pg-btn.active{
+  background:var(--pg-active); color:var(--pg-active-text); border-color:var(--pg-active);
+  box-shadow:0 2px 10px rgba(217,27,76,.28);
+}
+.pg-btn:disabled{
+  color:var(--pg-disabled); border-color:var(--pg-border); background:#fff; opacity:1;
+  cursor:not-allowed;
+}
+
+@media (max-width:576px){
+  .pg-btn{ width:34px; height:34px; font-size:13px; }
+  .paginator .pages{ gap:10px; }
+}

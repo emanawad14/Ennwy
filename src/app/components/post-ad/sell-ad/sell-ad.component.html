@@ -1,0 +1,228 @@
+<div class="sell-ad py-4">
+  <div class="container">
+    <h1 class="fs-4">{{ 'post_ad.sellAd' | translate }}</h1>
+
+    <div class="row mt-4">
+      <div class="col-lg-9">
+        <div class="sell-card p-4">
+
+          <!-- Category -->
+          <div class="row">
+            <div class="col-lg-4">
+              <label class="m-0 fw-medium">{{ 'post_ad.category' | translate }}</label>
+            </div>
+            <div class="col-lg-8">
+              <div class="d-flex justify-content-between gap-2 align-items-start align-items-lg-center">
+                <div class="d-flex gap-3 align-items-center">
+                  <div class="cat-img d-flex justify-content-center align-items-center rounded">
+                    <img [src]="category()?.image" width="22" [alt]="category()?.name_L1" loading="lazy" />
+                  </div>
+                  <div>
+                    <h6 class="mb-1 text-capitalize">{{ category().category }}</h6>
+                    <p class="m-0 fs-6-1 lh-1">
+                      {{ category()?.subCategory }} / {{ category()?.secondSubCategory }}
+                    </p>
+                  </div>
+                </div>
+                <a
+  class="text-main-color fs-6-1"
+  role="button"
+  (click)="clearAllImages()"
+  title="إزالة كل الصور وإعادة الرفع من البداية">
+ {{ 'ClearAll' | translate }}
+</a>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Upload Images -->
+          <div class="row mt-5">
+            <div class="col-lg-4">
+              <label class="m-0 fw-medium">{{ 'post_ad.upload' | translate }}</label>
+            </div>
+
+            <div class="col-lg-8">
+              <div class="upload-img">
+
+                <input
+                  type="file"
+                  hidden
+                  id="upload"
+                  accept=".png,.jpg,.jpeg"
+                  multiple
+                  (change)="onFileSelected($event)" />
+
+                <label
+                  for="upload"
+                  class="upload rounded d-flex justify-content-center align-items-center">
+                  <i class="pi pi-plus fs-5 text-main-color"></i>
+                </label>
+
+                @for (item of uploadedImgs(); track $index) {
+                  <div
+                    class="photo rounded position-relative"
+                    draggable="true"
+                    (dragstart)="onDragStart($event, $index)"
+                    (dragover)="onDragOver($event)"
+                    (drop)="onDrop($event, $index)"
+                  >
+                    <img
+                      [src]="uploadedImgs()[$index]?.base64Image"
+                      [alt]="uploadedImgs()[$index]?.name" />
+
+                    <button
+                      type="button"
+                      title="remove"
+                      (click)="removeImage($index)">
+                    </button>
+                  </div>
+                }
+              </div>
+
+              <small class="mt-2 d-block">{{ 'post_ad.cover' | translate }}</small>
+            </div>
+          </div>
+
+          <!-- Form -->
+          <form [formGroup]="adForm" aria-label="Sell Ad Form">
+
+            <!-- Price (Lira) -->
+            <div class="row mt-4">
+              <div class="col-lg-4">
+                <label class="m-0 fw-medium" for="price">{{ 'label.price' | translate }}</label>
+              </div>
+              <div class="col-lg-8">
+                <div class="price-group"
+                     [class.is-invalid]="(formControls?.price?.invalid && (formControls?.price?.dirty || formControls?.price?.touched)) || adForm?.errors?.['priceRequired']">
+                  <!-- 👇 العملة داخل المربع -->
+                  <input
+                    id="price"
+                    type="text"
+                    class="form-control border-0 shadow-none"
+                    formControlName="price"
+                    [placeholder]="('placeholder.price' | translate) + ' (' + ('lira' | translate) + ')'"
+                    (input)="onPriceInput('price')" />
+                </div>
+
+                
+              </div>
+            </div>
+
+            <!-- Price in USD -->
+            <div class="row mt-4">
+              <div class="col-lg-4">
+                <label class="m-0 fw-medium" for="priceInUSD">{{ 'label.priceInUSD' | translate }}</label>
+              </div>
+              <div class="col-lg-8">
+                <div class="price-group"
+                     [class.is-invalid]="(formControls?.priceInUSD?.invalid && (formControls?.priceInUSD?.dirty || formControls?.priceInUSD?.touched)) || adForm?.errors?.['priceRequired']">
+                  <!-- 👇 العملة داخل المربع -->
+                  <input
+                    id="priceInUSD"
+                    type="text"
+                    class="form-control border-0 shadow-none"
+                    formControlName="priceInUSD"
+                    [placeholder]="('placeholder.priceInUSD' | translate) + ' (' + ('usd' | translate) + ')'"
+                    (input)="onPriceInput('priceInUSD')" />
+                </div>
+
+                
+              </div>
+            </div>
+
+            <!-- Title -->
+            <div class="row mt-4">
+              <div class="col-lg-4">
+                <label class="m-0 fw-medium required" for="title">{{ 'label.adTitle' | translate }}</label>
+              </div>
+              <div class="col-lg-8">
+                <input
+                  id="title"
+                  type="text"
+                  class="form-control"
+                  formControlName="title"
+                  [placeholder]="'placeholder.title' | translate"
+                  (input)="clearValidationErrors(formControls?.title)"
+                  [class.is-invalid]="formControls?.title?.invalid && (formControls?.title?.dirty || formControls?.title?.touched)" />
+
+                @if (formControls?.title?.invalid && (formControls?.title?.dirty || formControls?.title?.touched)) {
+                  <div class="mt-1">
+                    @if (formControls?.title?.errors?.['required']) {
+                      <small class="text-danger fs-8">{{ 'validation.title' | translate }}</small>
+                    }
+                    @else if (formControls?.title?.errors?.['minlength']) {
+                      <small class="text-danger fs-8">{{ 'validation.minTitle' | translate }}</small>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="row mt-4">
+              <div class="col-lg-4">
+                <label class="m-0 fw-medium required" for="description">{{ 'label.description' | translate }}</label>
+              </div>
+              <div class="col-lg-8">
+                <textarea
+                  id="description"
+                  class="form-control"
+                  formControlName="description"
+                  [placeholder]="'placeholder.description' | translate"
+                  (input)="clearValidationErrors(formControls?.description)"
+                  [class.is-invalid]="formControls?.description?.invalid && (formControls?.description?.dirty || formControls?.description?.touched)"></textarea>
+
+                @if (formControls?.description?.invalid && (formControls?.description?.dirty || formControls?.description?.touched)) {
+                  <div class="mt-1">
+                    @if (formControls?.description?.errors?.['required']) {
+                      <small class="text-danger fs-8">{{ 'validation.description' | translate }}</small>
+                    }
+                    @else if (formControls?.description?.errors?.['minlength']) {
+                      <small class="text-danger fs-8">{{ 'validation.minDescription' | translate }}</small>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+
+            <!-- City -->
+            <div class="row mt-4">
+              <div class="col-lg-4">
+                <label class="m-0 fw-medium required">{{ 'label.city' | translate }}</label>
+              </div>
+              <div class="col-lg-8">
+                <app-dropdown
+                  formControlName="location"
+                  [options]="cities()"
+                  [key]="language()=='ar' ? 'nameAr' : 'nameEn'">
+                </app-dropdown>
+              </div>
+            </div>
+
+            <!-- Dynamic Fields -->
+            @if (flatFields().length) { <hr class="my-4" /> }
+            @defer (when !isLoadingFields()) {
+              <app-dynamic-fields
+                [fields]="flatFields()"
+                (submitFields)="adsFlatFieldsData.set($event)">
+              </app-dynamic-fields>
+            }
+
+            <hr class="my-4" />
+
+            <!-- Contact Method (تم طلب إزالته) -->
+
+            <div class="d-flex justify-content-end">
+              <button type="button" class="btn btn-solid-main" (click)="postAd()">
+                إضافة إعلان +
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-lg-3"></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,407 @@
+<div class="ad-details mb-3">
+  <div class="container">
+
+    <app-breadcrumb [items]="breadcrumbList()"></app-breadcrumb>
+
+    <div class="mt-4">
+      <div class="row">
+        <!-- ===================== Left column ===================== -->
+        <div class="col-md-8">
+
+          <!-- ===== Responsive Gallery ===== -->
+          @if (adDetails()?.photos?.length) {
+          <div class="ad-card p-2 p-md-3">
+            <div class="row g-2 g-lg-3 gallery align-items-stretch">
+
+              <!-- ===== Desktop ===== -->
+              <div class="col-12 d-none d-lg-block">
+                <div class="row g-2 g-lg-3">
+
+                  <!-- الصورة الرئيسية -->
+                  <div class="col-lg-8" *ngIf="adDetails().photos.length">
+                    <div class="media main position-relative rounded-3" style="cursor: pointer">
+                      <img
+                        [src]="adDetails().photos[0]"
+                        [alt]="adDetails().title"
+                        class="w-100 h-100 rounded-3"
+                        data-bs-toggle="modal"
+                        data-bs-target="#imageModal"
+                        (click)="openPopup(adDetails().photos[0])"
+                      />
+
+                      <!-- أزرار الأكشن فوق الصورة (لن تفتح المودال) -->
+                      <div class="gallery-actions position-absolute top-0 end-0 p-2 d-flex gap-2">
+                        <button
+                          type="button"
+                          class="btn btn-light btn-icon"
+                          title="share"
+                          (pointerdown)="eat($event)"
+                          (click)="onShareFromImage($event)">
+                          <i class="pi pi-share-alt"></i>
+                        </button>
+
+                        <button
+                          type="button"
+                          class="btn btn-light btn-icon"
+                          title="favorite"
+                          (pointerdown)="eat($event)"
+                          (click)="onFavFromImage($event)">
+                          <i class="pi" [ngClass]="adDetails()?.isFavorite ? 'pi-heart-fill text-danger' : 'pi-heart'"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- الثمبنيلز -->
+                  <div class="col-lg-4">
+                    <div class="thumb-grid">
+                      <div
+                        class="media thumb rounded-3"
+                        *ngIf="adDetails().photos.length > 1"
+                        style="cursor: pointer">
+                        <img
+                          [src]="adDetails().photos[1]"
+                          alt="thumb 2"
+                          class="rounded-3"
+                          data-bs-toggle="modal"
+                          data-bs-target="#imageModal"
+                          (click)="openPopup(adDetails().photos[1])"
+                        />
+                      </div>
+
+                      <div
+                        class="media thumb position-relative rounded-3"
+                        *ngIf="adDetails().photos.length > 2"
+                        style="cursor: pointer">
+                        <img
+                          [src]="adDetails().photos[2]"
+                          alt="thumb 3"
+                          class="rounded-3"
+                          data-bs-toggle="modal"
+                          data-bs-target="#imageModal"
+                          (click)="openPopup(adDetails().photos[2])"
+                        />
+                        <div class="more-overlay rounded-3" *ngIf="adDetails().photos.length > 3">
+                          +{{ adDetails().photos.length - 3 }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- ===== Mobile Slider ===== -->
+              <div class="col-12 d-lg-none">
+                <div #mobileCarousel id="adMobileCarousel" class="carousel slide mobile-carousel" data-bs-ride="false">
+                  <div class="carousel-inner ratio-box">
+                    <div
+                      class="carousel-item"
+                      *ngFor="let p of adDetails().photos; index as i"
+                      [class.active]="i === 0">
+                      <img
+                        [src]="p"
+                        class="d-block w-100 h-100"
+                        [alt]="'Photo ' + (i + 1)"
+                        style="cursor: pointer"
+                        data-bs-toggle="modal"
+                        data-bs-target="#imageModal"
+                        (click)="openPopup(p)"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="carousel-indicators">
+                    <button
+                      *ngFor="let p of adDetails().photos; index as i"
+                      type="button"
+                      data-bs-target="#adMobileCarousel"
+                      [attr.data-bs-slide-to]="i"
+                      [class.active]="i === 0"
+                      [attr.aria-label]="'Slide ' + (i + 1)">
+                    </button>
+                  </div>
+
+                  <button class="carousel-control-prev" type="button" data-bs-target="#adMobileCarousel" data-bs-slide="prev" aria-label="Prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#adMobileCarousel" data-bs-slide="next" aria-label="Next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  </button>
+
+                  <div class="photo-counter rounded-pill">
+                    <i class="bi bi-camera me-1"></i>
+                    {{ currentSlide() + 1 }} / {{ adDetails().photos.length }}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          } @else {
+          <!-- Placeholder -->
+          <div class="ad-card p-3">
+            <div class="ratio ratio-16x9 bg-light d-flex align-items-center justify-content-center text-muted rounded-3">
+              <i class="bi bi-image fs-1 me-2"></i>
+              {{ "No Photos" | translate }}
+            </div>
+          </div>
+          }
+
+          <!-- ===== Modal (عرض الصور) ===== -->
+          <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+              <div class="modal-content">
+
+                <div class="modal-header align-items-center">
+                  <div class="row w-100 g-0">
+                    <div class="col d-flex align-items-center">
+                      <h5 class="modal-title m-0">{{ adDetails().title }}</h5>
+                    </div>
+                    <div class="col-auto d-flex align-items-center gap-2">
+                      <!-- أزرار مشاركة/قلب داخل المودال -->
+                      <button
+                        type="button"
+                        class="btn btn-light btn-icon"
+                        title="share"
+                        (pointerdown)="eat($event)"
+                        (click)="onShareFromImage($event)">
+                        <i class="pi pi-share-alt"></i>
+                      </button>
+
+                      <button
+                        type="button"
+                        class="btn btn-light btn-icon"
+                        title="favorite"
+                        (pointerdown)="eat($event)"
+                        (click)="onFavFromImage($event)">
+                        <i class="pi" [ngClass]="adDetails()?.isFavorite ? 'pi-heart-fill text-danger' : 'pi-heart'"></i>
+                      </button>
+
+                      <button type="button" class="btn-close ms-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="modal-body text-center">
+                  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" *ngIf="adDetails()?.photos?.length">
+                    <div class="carousel-indicators">
+                      <button
+                        *ngFor="let photo of adDetails().photos; index as i"
+                        type="button"
+                        data-bs-target="#carouselExampleIndicators"
+                        [attr.data-bs-slide-to]="i"
+                        [class.active]="i === 0"
+                        [attr.aria-label]="'Slide ' + (i + 1)">
+                      </button>
+                    </div>
+
+                    <div class="carousel-inner">
+                      <div
+                        *ngFor="let photo of adDetails().photos; index as i"
+                        class="carousel-item"
+                        [class.active]="i === 0">
+                        <img
+                          [src]="photo"
+                          class="d-block w-100"
+                          style="max-height: 80vh; object-fit: contain"
+                          [alt]="'Photo ' + i" />
+                      </div>
+                    </div>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== Price & Location + Share/Fav ===== -->
+          <div class="mt-3 ad-card p-3">
+            <div class="d-flex justify-content-between gap-2 align-items-center">
+              <strong class="fs-3 text-main-color">
+                {{ adDetails().price }} {{ "lira" | translate }}
+              </strong>
+
+              <div class="d-flex gap-3 fs-5 mt-3">
+                <button type="button" class="btn p-0 border-0" title="share" (click)="onShare()">
+                  <i class="pi pi-share-alt"></i>
+                </button>
+
+               
+
+              </div>
+            </div>
+
+            <h1 class="fs-5 mt-2">
+              {{ language() == "ar" ? adDetails().title : adDetails().title_L1 }}
+            </h1>
+
+            <!-- رقم الإعلان -->
+            @if (adDetails()?.adsNumber) {
+              <div class="text-muted small mt-1">
+                {{ currentLang === 'ar' ? '#رقم الإعلان' : 'Ad No.' }}: {{ adDetails().adsNumber }}
+              </div>
+            }
+
+            <div class="d-flex justify-content-between gap-2">
+              @if (adDetails().locationName) {
+                <p class="mb-0">
+                  <i class="pi pi-map-marker"></i> {{ adDetails().locationName }}
+                </p>
+              }
+            </div>
+          </div>
+
+          <!-- ===== Details ===== -->
+          @if (featuredDetails().length) {
+          <div class="mt-4 p-4 bg-white shadow-sm border">
+            <h3 class="fs-5 fw-bold mb-3">{{ "details" | translate }}</h3>
+            <div class="row gy-2">
+              @for (item of featuredDetails(); track $index) {
+              <div class="col-md-6">
+                <div class="d-flex justify-content-between bg-light p-2 field-item">
+                  <span class="text-muted">
+                    {{ language() === "ar" ? item.name : item.name_L1 || item.name }}
+                  </span>
+                  <span class="fw-semibold text-dark">
+                    {{
+                      language() === "ar"
+                        ? item.choiceName || item.valueString || "----"
+                        : item.choiceName_L1 || item.valueString || "----"
+                    }}
+                  </span>
+                </div>
+              </div>
+              }
+            </div>
+          </div>
+          }
+
+          <!-- ===== Featured specs (icons) ===== -->
+          @if (featuredSpecs().slice(2,6).length) {
+          <div class="mt-3 ad-card p-3">
+            <h2 class="fs-5 fw-bold">{{ "featured_specs" | translate }}</h2>
+            <div class="mt-3">
+              <div class="row gy-2 d-flex flex-wrap gap-4">
+                @for (item of featuredSpecs().slice(2, 6); track $index) {
+                <div style="width: 110px" class="p-2 text-center">
+                  <i [class]="getFeatureIcon(item.name) + ' fs-4 text-danger mb-1'"></i>
+                  <div class="text-muted" style="font-size: 13px">
+                    {{ language() === "ar" ? item.name : item.name_L1 || item.name }}
+                  </div>
+                  <div class="fw-semibold text-dark mt-1" style="font-size: 14px">
+                    {{
+                      language() == "ar"
+                        ? item.choiceName || item.valueString || item.valueNumber || "" || "----"
+                        : item.choiceName_L1 || item.valueString || item.valueNumber || "" || "----"
+                    }}
+                  </div>
+                </div>
+                }
+              </div>
+            </div>
+          </div>
+          }
+
+          <!-- ===== Extras ===== -->
+          @if (getExtras().length) {
+          <div class="mt-4 p-4 bg-white rounded shadow-sm border">
+            <h3 class="fs-5 fw-bold mb-3">{{ "extras" | translate }}</h3>
+            <div class="row gy-2">
+              @for (item of getExtras(); track $index) {
+              <div class="col-md-6">
+                <div class="d-flex align-items-center bg-light p-2 gap-2">
+                  <i class="me-2 fs-5 text-dark"
+                     [class]="getAmenityIcon(language() === 'ar' ? item.choiceName || item.name : item.choiceName_L1 || item.name_L1 || item.name)">
+                  </i>
+                  <span class="fw-semibold text-dark">
+                    {{ language() === "ar" ? item.choiceName || item.name : item.choiceName_L1 || item.name_L1 || item.name }}
+                  </span>
+                </div>
+              </div>
+              }
+            </div>
+          </div>
+          }
+
+          <!-- ===== Description ===== -->
+          <div class="mt-3 ad-card p-3">
+            <h3 class="fs-4">{{ "description" | translate }}</h3>
+            <p class="mb-0 mt-3" *ngFor="let line of (language() == 'ar' ? adDetails()?.description : adDetails()?.description_L1)?.split('\n')">
+              {{ line }}
+            </p>
+          </div>
+
+        </div>
+
+        <!-- ===================== Right column ===================== -->
+        <div class="col-md-4 mt-md-0 mt-3">
+          <div class="ad-card p-3">
+            <app-ad-owner-card
+              [user]="adOwnerUser"
+              (revealPhone)="onRevealPhone()"
+              (call)="callNumber()"
+              (whatsapp)="openWhatsApp()"
+              (chat)="onOpenChat()"
+            ></app-ad-owner-card>
+          </div>
+
+          <div class="ad-card p-3 mt-3 safety-box">
+            <h6 class="fs-5 m-0 d-flex align-items-center gap-2">
+              <i class="bi bi-ban text-danger fs-5"></i>
+              {{ 'safety.title' | translate }}
+            </h6>
+            <p class="mt-3 mb-2 text-muted">{{ 'safety.warning' | translate }}</p>
+            <ul class="list-unstyled m-0 safety-list">
+              <li class="d-flex align-items-start gap-2">
+                <i class="bi bi-dot text-danger fs-4 lh-1"></i>
+                <span>{{ 'safety.tip.verifyDetails' | translate }}</span>
+              </li>
+              <li class="d-flex align-items-start gap-2">
+                <i class="bi bi-dot text-danger fs-4 lh-1"></i>
+                <span>{{ 'safety.tip.noAdvancePayment' | translate }}</span>
+              </li>
+              <li class="d-flex align-items-start gap-2">
+                <i class="bi bi-dot text-danger fs-4 lh-1"></i>
+                <span>{{ 'safety.tip.noProxyOnly' | translate }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== Chat Modal ===================== -->
+<div #chatModalRef class="modal fade" id="chatModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ "chat" | translate }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <label class="form-label">{{ "message" | translate }}</label>
+        <textarea class="form-control" rows="4" [value]="chatMessage()" (input)="chatMessage.set($any($event.target).value)"></textarea>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" [disabled]="sendingChat()" (click)="sendChat()">
+          {{ sendingChat() ? ("sending" | translate) : ("send" | translate) }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

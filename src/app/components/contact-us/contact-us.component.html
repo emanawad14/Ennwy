@@ -1,0 +1,47 @@
+<div class="container py-4">
+  <h1 class="text-center fw-bold mb-4">{{ 'contactUs.title' | translate }}</h1>
+
+  <div class="d-flex flex-column gap-3">
+    <!-- Email -->
+    <div
+      class="p-3 border rounded d-flex justify-content-between align-items-center"
+      (click)="openEmail()"
+      style="cursor: pointer;">
+      <div>
+        <p class="fw-bold mb-1">{{ 'contactUs.emailTitle' | translate }}</p>
+        <p class="m-0 text-danger">info&#64;ennwy.com</p>
+      </div>
+      <i class="pi pi-envelope text-danger fs-4"></i>
+    </div>
+
+    <!-- Phone -->
+    <div
+      class="p-3 border rounded d-flex justify-content-between align-items-center"
+      (click)="callNumber()"
+      style="cursor: pointer;">
+      <div>
+        <p class="fw-bold mb-1">{{ 'contactUs.phoneTitle' | translate }}</p>
+        <p class="m-0 text-danger" dir="ltr">+00963 114390</p>
+      </div>
+      <i class="pi pi-phone text-danger fs-4"></i>
+    </div>
+
+    <!-- Working Hours -->
+    <div class="p-3 border rounded d-flex justify-content-between align-items-center">
+      <div>
+        <p class="fw-bold mb-1">{{ 'contactUs.hoursTitle' | translate }}</p>
+        <p class="m-0 text-danger">{{ 'contactUs.hoursValue' | translate }}</p>
+      </div>
+      <i class="pi pi-clock text-danger fs-4"></i>
+    </div>
+
+    <!-- Report a Problem -->
+    <div
+      class="p-3 border rounded d-flex justify-content-between align-items-center"
+      (click)="reportProblem()"
+      style="cursor: pointer;">
+      <p class="fw-bold mb-0">{{ 'contactUs.reportIssue' | translate }}</p>
+      <i class="pi pi-exclamation-circle text-danger fs-4"></i>
+    </div>
+  </div>
+</div>

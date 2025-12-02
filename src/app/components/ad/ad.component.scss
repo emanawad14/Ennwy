@@ -1,0 +1,135 @@
+.ad-details {
+  .ad-card {
+    box-shadow: var(--card-shadow, 0 6px 20px rgba(0,0,0,.06));
+    border-radius: var(--card-radius, 14px);
+    background: #fff;
+    overflow: hidden;
+  }
+
+  /* ===== Gallery عام ===== */
+  .gallery {
+    .media {
+      position: relative;
+      overflow: hidden;
+      background: #fafafa;
+
+      img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover; /* يمنع التكعيب */
+      }
+    }
+
+    /* Desktop main image ratio */
+    .main { aspect-ratio: 16 / 9; }
+  }
+
+  /* Desktop thumbs (يمين) */
+  .thumb-grid {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: .75rem;
+    height: 100%;
+  }
+  .thumb { aspect-ratio: 4 / 3; }
+
+  /* ===== Mobile carousel (زي dubizzle) ===== */
+  .mobile-carousel {
+    position: relative;
+
+    /* نسبة 4:3 للموبايل */
+    .ratio-box { aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden; }
+
+    .carousel-item img { object-fit: cover; }
+
+    /* نقاط المؤشر */
+    .carousel-indicators {
+      margin-bottom: .35rem;
+      button {
+        width: 6px; height: 6px; border-radius: 50%;
+        background-color: rgba(255,255,255,.85);
+        opacity: .6;
+      }
+      .active { opacity: 1; }
+    }
+
+    /* أسهم التنقل */
+    .carousel-control-prev,
+    .carousel-control-next {
+      width: 15%;
+      span { filter: drop-shadow(0 2px 6px rgba(0,0,0,.35)); }
+    }
+
+    /* العداد 📷 1/10 */
+    .photo-counter {
+      position: absolute;
+      right: .6rem;
+      bottom: .6rem;
+      z-index: 3;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(4px);
+      padding: .25rem .55rem;
+      font-size: .8rem;
+      font-weight: 600;
+      color: #111;
+      display: inline-flex;
+      align-items: center;
+    }
+  }
+
+  /* +X overlay (ديسكتوب) */
+  .more-overlay {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    font-size: clamp(18px, 3.5vw, 28px);
+    color: #fff;
+    background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.45));
+    pointer-events: none;
+  }
+
+  /* عناصر أخرى */
+  .pi-circle-fill { font-size: 0.3rem; }
+  .field-item { font-size: 13px; }
+
+  /* مودال الصور */
+  #imageModal {
+    .modal-content { background-color: #000; color: #fff; }
+    .btn-close { filter: invert(1); opacity: .9; }
+    .carousel-item img { max-height: 80vh; object-fit: contain; }
+  }
+}
+.force-ltr {
+  direction: ltr !important;
+  unicode-bidi: isolate; // أو plaintext لو مدعوم عندك
+  text-align: left;
+}
+.gallery-actions {
+  z-index: 3;
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.12);
+}
+
+.media.main img { display: block; }
+.thumb-grid .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.more-overlay {
+  position: absolute; inset: 0;
+  display:flex; align-items:center; justify-content:center;
+  background: rgba(0,0,0,.35); color:#fff; font-weight:700; font-size: 1.25rem;
+}
+.photo-counter {
+  position: absolute; bottom: .5rem; inset-inline-end: .5rem;
+  background: rgba(0,0,0,.5); color: #fff; padding: .25rem .5rem; font-size: .9rem;
+}

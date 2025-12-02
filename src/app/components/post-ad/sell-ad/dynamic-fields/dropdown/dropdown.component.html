@@ -1,0 +1,29 @@
+<div class="dropdown-wrapper">
+  <div class="dropdown-container" (click)="toggleDropdown()">
+    <div class="selected-value d-flex justify-content-between gap-2 w-100" [class.placeholder-label]="!selectedLabel">
+      <span class="text-truncate">
+        {{ selectedLabel || placeholder }}
+      </span>
+
+      <div class="d-flex gap-2 align-items-center">
+        @if(selectedValue){
+        <a (click)="clearSelection(); $event.stopPropagation()"> <i class="pi pi-times"></i></a>
+        }
+        <span class="arrow">
+          <i class="fs-6 pi pi-{{isOpen?'angle-up':'angle-down'}}"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="dropdown-panel" *ngIf="isOpen">
+    <input type="text" [(ngModel)]="filter" placeholder="{{'placeholder.search'|translate}}" class="mb-3 form-control"
+      (click)="$event.stopPropagation()" />
+    <ul class="dropdown-options">
+      <li *ngFor="let option of filteredOptions" (click)="selectOption(option); $event.stopPropagation()"
+        class="rounded" [class.selected]="selectedValue === option.value">
+        {{ option[key] }}
+      </li>
+    </ul>
+  </div>
+</div>

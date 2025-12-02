@@ -1,0 +1,40 @@
+<div class="container py-4">
+  <h1 class="text-center fw-bold mb-4">{{ 'report.title' | translate }}</h1>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column gap-3">
+
+    <!-- Phone Number Group -->
+    <div>
+      <label class="form-label fw-bold">{{ 'report.phone' | translate }}</label>
+      <div class="d-flex gap-2 flex-row-reverse">
+        <!-- Country Code Dropdown -->
+           <input formControlName="phone" type="tel" class="form-control" placeholder="{{ 'report.phonePlaceholder' | translate }}">
+     
+        <select class="form-select w-25" [(ngModel)]="selectedCountry" (ngModelChange)="onCountryChange()" name="countrySelect">
+          <option *ngFor="let country of countries" [ngValue]="country">
+            {{ country.name }} ({{ country.code }})
+          </option>
+        </select>
+
+        <!-- Phone Number Input -->
+       </div>
+    </div>
+
+    <!-- Title -->
+    <div>
+      <label class="form-label fw-bold">{{ 'report.titleLabel' | translate }}</label>
+      <input formControlName="title" type="text" class="form-control" placeholder="{{ 'report.titlePlaceholder' | translate }}">
+    </div>
+
+    <!-- Description -->
+    <div>
+      <label class="form-label fw-bold">{{ 'report.description' | translate }}</label>
+      <textarea formControlName="description" rows="4" class="form-control" placeholder="{{ 'report.descriptionPlaceholder' | translate }}"></textarea>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-danger w-100 fw-bold fs-5" [disabled]="form.invalid">
+      {{ 'report.submit' | translate }}
+    </button>
+  </form>
+</div>

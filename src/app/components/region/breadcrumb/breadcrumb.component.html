@@ -1,0 +1,10 @@
+<ul class="d-flex gap-2 align-items-center" style="margin-bottom: 0px;">
+  @for (item of items(); track $index) {
+  <li><a class="name">{{item?.name }}</a></li>
+   <!-- <li><a class="name">{{ language() === 'ar' ? item?.name_L1 : item?.name }}</a></li> -->
+  @if($index<items().length-1){ <li class="slash">
+    /
+    </li>
+    }
+    }
+</ul>

@@ -1,0 +1,27 @@
+.sort {
+  font-size: 0.9rem;
+}
+
+/* خليك متوافق مع ألوان bootstrap */
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: #f8f9fa;
+}
+
+/* تنسيق علامة الصح */
+.dropdown-item {
+  span {
+    width: 1rem;
+  }
+}
+
+/* مهم: علشان القايمة ما تتقصّش وتعدّي الـ header */
+.sort-ads {
+  position: relative;
+  overflow: visible !important; /* لو في أي أب عنده overflow مخليها تتقص */
+}
+
+/* ارفع فوق الـ header (header غالبًا z-index: 1030 في Bootstrap) */
+.sort-ads .dropdown-menu {
+  z-index: 2000;
+}

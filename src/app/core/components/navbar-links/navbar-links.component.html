@@ -1,0 +1,43 @@
+<nav *ngIf="!isMobile()" class="navbar-links py-1 pt-2" style="
+  padding-bottom: 1px;
+  box-shadow: 0 8px 16px -8px #00000024;
+">
+  <div class="container">
+    <ul class="d-flex justify-content-between gap-2 flex-wrap">
+      @defer (when !isLoading()) {
+        @for (item of categories(); track $index) {
+          @if($index<9){
+            <li>
+              <app-drop-menu
+                ngSkipHydration
+                [title]="language() == 'en' ? item?.name_L1 : item?.name"
+                [titleId]="item?.id ?? null"
+                [list]="item?.children"
+                [megaMenu]="(item?.children?.length ?? 0) > 9"
+                [width]="(item?.children?.length ?? 0) > 9 ? '34rem' : ''">
+              </app-drop-menu>
+            </li>
+          }
+        }
+
+        @if(categories().length > 9){
+          <li>
+            <app-more-category-drop-menu
+              [title]="'moreCategories' | translate"
+              [list]="categories()">
+            </app-more-category-drop-menu>
+          </li>
+        }
+
+      } @loading (minimum 100ms) {
+        <div class="d-flex justify-content-center gap-1 w-100">
+          @for (el of [1, 2, 3, 4]; track $index) {
+            <div class="spinner-grow text-secondary" role="status" style="width: 0.7rem; height: 0.7rem;">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          }
+        </div>
+      }
+    </ul>
+  </div>
+</nav>

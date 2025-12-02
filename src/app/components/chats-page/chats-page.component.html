@@ -1,0 +1,267 @@
+<div class="container py-4 chat-shell">
+  <h3 class="mb-3">{{ 'chats.title' | translate }}</h3>
+
+  <div *ngIf="loading()" class="alert alert-info">{{ 'loading' | translate }}</div>
+  <div *ngIf="error()" class="alert alert-danger">{{ error() }}</div>
+
+  <!-- ================= MOBILE ================= -->
+  <div class="d-lg-none">
+    <!-- قائمة -->
+    <div *ngIf="mobileMode()==='list'">
+      <div class="card d-flex flex-column">
+        <div class="card-header bg-white border-0 pb-2 sticky-top">
+          <input class="form-control"
+                 [placeholder]="'chats.search' | translate"
+                 [value]="query()"
+                 (input)="query.set(($any($event.target)).value)" />
+        </div>
+
+        <div class="list-group list-group-flush chat-list overflow-auto flex-grow-1">
+          <ng-container *ngIf="filtered().length; else emptyMobile">
+            <button type="button"
+                    class="list-group-item list-group-item-action d-flex align-items-center gap-2"
+                    *ngFor="let c of filtered(); trackBy: trackByIndex"
+                    (click)="pick(c)">
+              <img *ngIf="avatar(c); else noAvatarM"
+                   [src]="avatar(c)!" class="rounded-circle flex-shrink-0"
+                   alt="avatar" width="40" height="40" />
+              <ng-template #noAvatarM>
+                <div class="rounded-circle bg-secondary flex-shrink-0" style="width:40px;height:40px;"></div>
+              </ng-template>
+
+              <div class="w-100 text-start min-w-0">
+                <div class="d-flex justify-content-between align-items-center">
+                  <strong class="text-truncate">{{ contactName(c) }}</strong>
+                  <small class="text-muted ms-2 text-nowrap">{{ lastTime(c) }}</small>
+                </div>
+                <div class="small text-muted text-truncate">
+                  {{ lastMessage(c) || ('chats.noMessage' | translate) }}
+                </div>
+                <div class="small text-muted text-truncate">
+                  {{ c?.adTitle || c?.adTitile }}
+                </div>
+              </div>
+            </button>
+          </ng-container>
+
+          <ng-template #emptyMobile>
+            <div class="text-center text-muted py-4">
+              {{ 'chats.empty' | translate }}
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <!-- تفاصيل -->
+    <div *ngIf="mobileMode()==='detail'">
+      <div class="card chat-mobile-detail d-flex flex-column">
+        <!-- هيدر: رجوع + صورة + اسم + عنوان مُقصوص + زر الإعلان كأيقونة -->
+        <div class="card-header bg-white d-flex align-items-center gap-2">
+          <button class="btn btn-link px-0" (click)="backToList()" aria-label="Back">
+            <i class="bi" [ngClass]="dir==='rtl' ? 'bi-chevron-right' : 'bi-chevron-left'"></i>
+          </button>
+
+          <img *ngIf="avatar(selected()); else noAvatarBigM"
+               [src]="avatar(selected())!" class="rounded-circle"
+               width="40" height="40" alt="avatar" />
+          <ng-template #noAvatarBigM>
+            <div class="rounded-circle bg-secondary" style="width:40px;height:40px;"></div>
+          </ng-template>
+
+          <div class="min-w-0 flex-grow-1 chat-title">
+            <div class="fw-bold text-truncate">{{ contactName(selected()) }}</div>
+            <!-- ✂ عنوان الإعلان بسطر واحد فقط -->
+            <div class="text-muted small ad-title-clip">
+              {{ selected()?.adTitle || selected()?.adTitile }}
+            </div>
+          </div>
+
+          <!-- أيقونة تفتح الإعلان -->
+    <!-- زر عرض الإعلان (موبايل فقط: أيقونة) -->
+<a *ngIf="adId()"
+   class="btn btn-danger mobile-ad-link d-lg-none"
+   [routerLink]="['/ad', adId(), slug(adTitleForRoute())]"
+   [attr.title]="('chats.showads' | translate)"
+   [attr.aria-label]="('chats.showads' | translate)">
+  <i class="bi bi-box-arrow-up-right"></i>
+</a>
+
+
+        </div>
+
+        <div class="card-body d-flex flex-column">
+          <div *ngIf="chatLoading()" class="alert alert-info py-2 mb-2">{{ 'loading' | translate }}</div>
+          <div *ngIf="chatError()" class="alert alert-danger py-2 mb-2">{{ chatError() }}</div>
+
+          <div #messagesArea class="messages-area flex-grow-1 overflow-auto pe-1"
+               *ngIf="!chatLoading() && !chatError()">
+            <div *ngIf="messages().length === 0" class="text-muted text-center py-4">
+              {{ 'chats.noMessage' | translate }}
+            </div>
+
+            <div *ngFor="let m of messages(); trackBy: trackByIndex"
+                 class="msg-row" [class.mine]="isMine(m)" [class.their]="!isMine(m)">
+              <div class="msg-bubble">
+                <ng-container *ngIf="messageImage(m); else textOnlyM">
+                  <img [src]="messageImage(m)!" alt="image" class="msg-image" />
+                  <div class="small text-muted mt-1">{{ m?.timestamp || m?.time || '' }}</div>
+                </ng-container>
+                <ng-template #textOnlyM>
+                  <div class="msg-text">{{ messageText(m) }}</div>
+                  <div class="small text-muted mt-1 d-flex align-items-center gap-1">
+                    {{ m?.timestamp || m?.time || '' }}
+                    <ng-container *ngIf="isMine(m) && isRead(m)">
+                      <i class="bi bi-check2-all text-primary"></i>
+                    </ng-container>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-group mt-3">
+            <input type="text" class="form-control"
+                   [placeholder]="'chats.typeMessage' | translate"
+                   [ngModel]="newMessage()"
+                   (ngModelChange)="newMessage.set($event)"
+                   (focus)="scrollToBottom()"
+                   (keyup.enter)="sendMessage()" />
+            <button class="btn btn-danger" type="button" (click)="sendMessage()">
+              <i class="bi bi-send-fill"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ================= /MOBILE ================= -->
+
+  <!-- ================= DESKTOP ================= -->
+  <div class="chat-grid d-none d-lg-grid">
+    <!-- القائمة -->
+    <aside class="chat-sidebar card d-flex flex-column">
+      <div class="card-header bg-white border-0 pb-2 sticky-top">
+        <input class="form-control"
+               [placeholder]="'chats.search' | translate"
+               [value]="query()"
+               (input)="query.set(($any($event.target)).value)" />
+      </div>
+
+      <div class="list-group list-group-flush chat-list overflow-auto flex-grow-1">
+        <ng-container *ngIf="filtered().length; else emptyState">
+          <button type="button"
+                  class="list-group-item list-group-item-action d-flex align-items-center gap-2"
+                  *ngFor="let c of filtered(); trackBy: trackByIndex"
+                  [class.active]="selected() === c"
+                  (click)="pick(c)">
+            <img *ngIf="avatar(c); else noAvatar"
+                 [src]="avatar(c)!"
+                 class="rounded-circle flex-shrink-0" alt="avatar"
+                 width="40" height="40" />
+            <ng-template #noAvatar>
+              <div class="rounded-circle bg-secondary flex-shrink-0" style="width:40px;height:40px;"></div>
+            </ng-template>
+
+            <div class="w-100 text-start min-w-0">
+              <div class="d-flex justify-content-between align-items-center">
+                <strong class="text-truncate">{{ contactName(c) }}</strong>
+                <small class="text-muted ms-2 text-nowrap">{{ lastTime(c) }}</small>
+              </div>
+              <div class="small text-muted text-truncate">
+                {{ lastMessage(c) || ('chats.noMessage' | translate) }}
+              </div>
+              <div class="small text-muted text-truncate">
+                {{ c?.adTitle || c?.adTitile }}
+              </div>
+            </div>
+          </button>
+        </ng-container>
+
+        <ng-template #emptyState>
+          <div class="text-center text-muted py-4">
+            {{ 'chats.empty' | translate }}
+          </div>
+        </ng-template>
+      </div>
+    </aside>
+
+    <!-- التفاصيل -->
+    <section class="chat-main card d-flex flex-column">
+      <div class="card-body d-flex flex-column">
+        <ng-container *ngIf="selected(); else pickPrompt">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <img *ngIf="avatar(selected()); else noAvatarBig"
+                 [src]="avatar(selected())!" class="rounded-circle"
+                 alt="avatar" width="48" height="48" />
+            <ng-template #noAvatarBig>
+              <div class="rounded-circle bg-secondary" style="width:48px;height:48px;"></div>
+            </ng-template>
+            <div class="min-w-0">
+              <div class="fw-bold text-truncate">{{ contactName(selected()) }}</div>
+              <div class="text-muted small text-truncate">
+                {{ selected()?.adTitle || selected()?.adTitile }}
+              </div>
+            </div>
+          </div>
+
+          <!-- زر العرض على الديسكتوب كما هو -->
+          <div class="ad-link-fixed-left" *ngIf="adId()">
+            <a class="btn btn-danger"
+               [routerLink]="['/ad', adId(), slug(adTitleForRoute())]">
+              {{ 'chats.showads' | translate }}
+            </a>
+          </div>
+
+          <div *ngIf="chatLoading()" class="alert alert-info py-2 mb-2">{{ 'loading' | translate }}</div>
+          <div *ngIf="chatError()" class="alert alert-danger py-2 mb-2">{{ chatError() }}</div>
+
+          <div #messagesArea class="messages-area flex-grow-1 overflow-auto pe-1"
+               *ngIf="!chatLoading() && !chatError()">
+            <div *ngIf="messages().length === 0" class="text-muted text-center py-4">
+              {{ 'chats.noMessage' | translate }}
+            </div>
+
+            <div *ngFor="let m of messages(); trackBy: trackByIndex"
+                 class="msg-row" [class.mine]="isMine(m)" [class.their]="!isMine(m)">
+              <div class="msg-bubble">
+                <ng-container *ngIf="messageImage(m); else textOnly">
+                  <img [src]="messageImage(m)!" alt="image" class="msg-image" />
+                  <div class="small text-muted mt-1">{{ m?.timestamp || m?.time || '' }}</div>
+                </ng-container>
+                <ng-template #textOnly>
+                  <div class="msg-text">{{ messageText(m) }}</div>
+                  <div class="small text-muted mt-1 d-flex align-items-center gap-1">
+                    {{ m?.timestamp || m?.time || '' }}
+                    <ng-container *ngIf="isMine(m) && isRead(m)">
+                      <i class="bi bi-check2-all text-primary"></i>
+                    </ng-container>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-group mt-3">
+            <input class="form-control"
+                   [placeholder]="'chats.typeMessage' | translate"
+                   [ngModel]="newMessage()"
+                   (ngModelChange)="newMessage.set($event)"
+                   (focus)="scrollToBottom()"
+                   (keyup.enter)="sendMessage()" />
+            <button class="btn btn-danger" type="button" (click)="sendMessage()">
+              <i class="bi bi-send-fill"></i>
+            </button>
+          </div>
+        </ng-container>
+
+        <ng-template #pickPrompt>
+          <div class="p-4 text-center text-muted">
+            {{ 'chats.pick' | translate }}
+          </div>
+        </ng-template>
+      </div>
+    </section>
+  </div>
+  <!-- ================= /DESKTOP ================= -->
+</div>

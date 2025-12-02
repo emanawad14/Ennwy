@@ -1,0 +1,38 @@
+<!-- اخفي كل الدروب داون في الصفحة الرئيسية -->
+<div *ngIf="!isHidden" class="dropdown sort-ads">
+  <button
+    class="dropdown-toggle btn border-0 d-flex align-items-center gap-2 sort"
+    type="button"
+    data-bs-toggle="dropdown"
+    data-bs-display="static"
+    data-bs-offset="0,8"
+    data-bs-boundary="window"
+    aria-expanded="false"
+  >
+    <p class="m-0 text-uppercase fs-5 fw-bold">{{ 'sortBy' | translate }}</p>
+    <span class="fw-bold">{{ title() | translate }}</span>
+    <i class="pi pi-angle-down"></i>
+  </button>
+
+  <ul class="dropdown-menu border-0 shadow p-0 w-100">
+    <li>
+      <a class="dropdown-item p-3 d-flex gap-3 align-items-center w-100"
+         (click)="sort('newest','newlyListed')">
+        <span><i class="pi pi-check" [class.d-none]="checkType('newest')"></i></span>
+        {{ 'newlyListed' | translate }}
+      </a>
+
+      <a class="dropdown-item p-3 d-flex gap-3 align-items-center w-100"
+         (click)="sort('low_price','lowestPrice')">
+        <span><i class="pi pi-check" [class.d-none]="checkType('low_price')"></i></span>
+        {{ 'lowestPrice' | translate }}
+      </a>
+
+      <a class="dropdown-item p-3 d-flex gap-3 align-items-center w-100"
+         (click)="sort('high_price','highestPrice')">
+        <span><i class="pi pi-check" [class.d-none]="checkType('high_price')"></i></span>
+        {{ 'highestPrice' | translate }}
+      </a>
+    </li>
+  </ul>
+</div>

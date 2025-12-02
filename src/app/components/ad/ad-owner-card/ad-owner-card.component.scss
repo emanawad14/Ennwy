@@ -1,0 +1,28 @@
+.ad-owner {
+  .img-container {
+    width: 65px;
+    min-width: 65px;
+    height: 65px;
+    border: 1px solid var(--text-main-color);
+    background-color: #fef5f5;
+  }
+  .btn {
+    padding-block: 0.6rem;
+    border: 0;
+  }
+  .btn-main {
+    background-color: #fbe0e0;
+    &:hover {
+      background-color: #f08080;
+    }
+  }
+  .btn-green {
+    background-color: #e8f7e8;
+    &:hover {
+      background-color: #93d8b5;
+    }
+    .pi {
+      color: #137310;
+    }
+  }
+}

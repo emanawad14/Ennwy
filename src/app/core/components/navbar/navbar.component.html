@@ -1,0 +1,42 @@
+<nav class="pb-2 bg-white">
+  <div class="container">
+    <div class="d-flex align-items-center gap-4 flex-lg-nowrap flex-wrap">
+
+      <div class="row flex-grow-1 g-2">
+        <div class=" col-sm-5">
+          <app-location (changeCity)="onCityChanged($event)" ngSkipHydration></app-location>
+        </div>
+        <div class="col-lg-11 col-sm-7">
+          <app-search></app-search>
+        </div>
+      </div>
+
+      @if(language()=='ar'){
+        <a title="language" class="fw-bold" (click)="changeLanguage('en')">English</a>
+      }@else{
+        <a title="language" class="fw-bold" (click)="changeLanguage('ar')">العربية</a>
+      }
+
+      <a title="chat" href="/chats-page" (click)="onChatClick($event)">
+        <img src="images/navbar/chat.svg" alt="chat" loading="lazy">
+      </a>
+
+      <a title="notification" href="/notifications" (click)="onNotificationsClick($event)">
+        <img src="images/navbar/notifications.svg" alt="notifications" loading="lazy">
+      </a>
+
+      @if(userInfo()){
+        <app-user-info></app-user-info>
+      }@else {
+
+        <a title="login" class="fw-bold fs-6-1" (click)="goToLoginLink()">
+          {{ 'auth.login' | translate }}
+        </a>
+      }
+
+      <button type="button" class="btn btn-solid-main" (click)="onPostAdClick()">
+        {{ 'postAd' | translate }}
+      </button>
+    </div>
+  </div>
+</nav>

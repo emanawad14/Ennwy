@@ -1,0 +1,39 @@
+<h1 class="h5 mb-3">{{ 'auth.otpTitle' | translate : { default: 'Verify your phone' } }}</h1>
+<p class="text-muted">
+  {{ 'auth.otpSentTo' | translate : { default: 'We sent a code to' } }} {{ username() }}
+</p>
+
+<app-otp-input
+  [otpLength]="6"
+  [autoStartResend]="true"
+  [resendCooldownSeconds]="30"
+  [submitting]="isLoading()"
+  (otpSubmit)="verifyOtp($event)"
+  (resendRequest)="resendOtp()"
+></app-otp-input>
+
+<!-- لودينج بسيط (لو حابب تخليه غير SweetAlert) -->
+<div *ngIf="isLoading()" class="mt-3">
+  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  <span class="ms-2">{{ 'auth.loading' | translate : { default: 'Processing...' } }}</span>
+</div>
+
+<!-- Debug Panel (اختياري) -->
+<div *ngIf="debug()" class="mt-3">
+  <div class="card">
+    <div class="card-header">Debug Panel</div>
+    <div class="card-body">
+      <h6>Username</h6>
+      <pre class="mb-3">{{ username() }}</pre>
+
+      <h6>Return URL</h6>
+      <pre class="mb-3">{{ returnUrl() }}</pre>
+
+      <h6>Last Response</h6>
+      <pre class="mb-3">{{ lastResponse() | json }}</pre>
+
+      <h6>Last Error</h6>
+      <pre class="mb-0">{{ lastError() | json }}</pre>
+    </div>
+  </div>
+</div>

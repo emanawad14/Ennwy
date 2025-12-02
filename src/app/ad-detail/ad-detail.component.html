@@ -1,0 +1,26 @@
+<div *ngIf="loading">جاري تحميل الإعلان...</div>
+
+<div *ngIf="!loading && ad">
+  <h1>{{ ad.title }}</h1>
+  <p>{{ ad.description }}</p>
+
+  <p><b>الموقع:</b> {{ ad.locationName }}</p>
+  <p><b>البائع:</b> {{ ad.userDisplayName }}</p>
+
+  <div class="photos">
+    <img
+      *ngFor="let photo of ad.photos"
+      [src]="photo"
+      [alt]="ad.title"
+      width="200"
+    />
+  </div>
+
+  <h3>تفاصيل إضافية</h3>
+  <ul>
+    <li *ngFor="let field of ad.flatFields">
+      <b>{{ field.name }}:</b>
+      {{ field.choiceName || field.valueString || field.valueNumber }}
+    </li>
+  </ul>
+</div>

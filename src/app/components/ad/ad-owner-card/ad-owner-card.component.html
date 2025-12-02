@@ -1,0 +1,54 @@
+<div class="ad-owner">
+  <h6 class="fs-5">{{ 'privateUser' | translate }}</h6>
+
+  <div class="d-flex align-items-center gap-2 mt-4">
+    <div class="img-container rounded-circle fs-4 fw-bold d-flex justify-content-center align-items-center text-main-color">
+      @if (user?.userImageUrl) {
+        <img [src]="user.userImageUrl" alt="" class="w-100 h-100 rounded-circle">
+      } @else {
+        {{ firstLetter }}
+      }
+    </div>
+
+    <div>
+      <p class="fs-6-1 fw-medium m-0">{{ user?.fullName }}</p>
+      <small>
+        {{ 'memberSince' | translate }}
+        {{ formatCreateDate(user?.createDate) }}
+      </small>
+      <a class="fs-6-1 d-flex align-items-center gap-2 text-main-color mt-2 fw-medium"
+         [routerLink]="['/advertiser-profile', user?.id]">
+        <span>{{ 'seeProfile' | translate }}</span>
+        <i class="pi pi-angle-right"></i>
+      </a>
+    </div>
+  </div>
+
+  <div class="d-flex flex-column gap-2 mt-4">
+    <!-- الهاتف: أول ضغطة تعرض الرقم، والثانية تتصل -->
+    <button
+      class="btn fw-medium d-flex align-items-center justify-content-center gap-2 btn-main"
+      (click)="onPhoneClick()">
+      <i class="pi pi-phone text-main-color fs-5"></i>
+      @if (showNumber()) {
+        <span class="force-ltr" dir="ltr"><bdi>&lrm;{{ user?.phoneNumber }}</bdi></span>
+      } @else {
+        <span>{{ 'showPhoneNum' | translate }}</span>
+      }
+    </button>
+
+    <!-- دردشة: يفتح Dialog -->
+    <button class="btn fw-medium d-flex align-items-center justify-content-center gap-2 btn-main"
+            (click)="onChatClick()">
+      <i class="pi pi-comment text-main-color fs-5"></i>
+      <span>{{ 'chat' | translate }}</span>
+    </button>
+
+    <!-- واتساب -->
+    <a class="btn fw-medium d-flex align-items-center justify-content-center gap-2 btn-green"
+       (click)="onWhatsAppClick()">
+      <i class="pi pi-whatsapp fs-5"></i>
+      <span>{{ 'whatsApp' | translate }}</span>
+    </a>
+  </div>
+</div>

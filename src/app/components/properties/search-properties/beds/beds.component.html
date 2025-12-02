@@ -1,0 +1,45 @@
+<div class="dropdown">
+  <button class="form-control dropdown-toggle d-flex align-items-center justify-content-between gap-2" type="button"
+    data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+    @if(bedsValue().length||bathsValue().length){
+    <span>{{bedsValue().join(',')}} Beds / {{bathsValue().join(',')}} Baths</span>
+    }@else {
+    <span class="placeholder-label">{{placeholder()}}</span>
+    }
+    <i class="pi pi-angle-down fs-5"></i>
+  </button>
+  <div class="dropdown-menu border-0 shadow p-3" #dropdownToggle>
+    <div class="beds">
+      <h6>Beds</h6>
+      <div class="d-flex gap-2 flex-wrap">
+        @for (item of beds(); track $index) {
+        <div>
+          <input type="checkbox" [id]="'checkbox-' + $index" [value]="item" [checked]="bedsValue().includes(item)"
+            (change)="onBedChange($event, item)" hidden>
+          <label class="num rounded-pill d-flex align-items-center gap-1" for="checkbox-{{$index}}">
+            <i class="pi pi-check text-main-color d-none"></i>
+            {{item}}</label>
+        </div>
+        }
+      </div>
+    </div>
+    <div class="baths mt-3">
+      <h6>Baths</h6>
+      <div class="d-flex gap-2 flex-wrap">
+        @for (item of baths(); track $index) {
+        <div>
+          <input type="checkbox" [id]="'bath-checkbox-' + $index" [value]="item" [checked]="bathsValue().includes(item)"
+            (change)="onBathChange($event, item)" hidden>
+          <label class="num rounded-pill d-flex align-items-center gap-1" for="bath-checkbox-{{$index}}">
+            <i class="pi pi-check text-main-color d-none"></i>
+            {{item}}</label>
+        </div>
+        }
+      </div>
+    </div>
+    <div class="d-flex gap-2 mt-4">
+      <button class="btn btn-outline-danger" (click)="onReset()">Reset</button>
+      <button class="btn btn-danger" (click)="onApply()">Apply</button>
+    </div>
+  </div>
+</div>

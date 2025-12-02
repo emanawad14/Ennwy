@@ -1,0 +1,22 @@
+.properties {
+  .properties-bg {
+    background-image: url("../../../../public/images/dummy/properties.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 80vh;
+    border-radius: 15px;
+    .overlay {
+      z-index: 1;
+      background-color: #11111167;
+    }
+    .content {
+      z-index: 2;
+    }
+  }
+}
+
+
+.py-4 {
+    padding-top: .5rem !important;
+    padding-bottom: 1.5rem !important;
+}

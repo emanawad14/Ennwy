@@ -1,0 +1,48 @@
+@if(shouldRender()){
+  <header class="site-header bg-white mb-2">
+    <div class="position-sticky top-0 bg-white navbar-content ">
+      <!-- Desktop -->
+      <div class="d-none d-md-block">
+        <div class="container">
+          <div class="d-flex align-items-center justify-content-between gap-3 header-row">
+            <div class="header-logo-wrap flex-shrink-0">
+              <app-header></app-header>
+            </div>
+            @if(shouldNavbar()){
+              <div class="header-actions-wrap flex-grow-1">
+                <app-navbar></app-navbar>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile -->
+      <div class="d-block d-md-none border-bottom">
+        <app-mobile-navbar></app-mobile-navbar>
+      </div>
+    </div>
+
+    @if(shouldNavbar()){
+      <app-navbar-links class="links-bar bg-white border-bottom"></app-navbar-links>
+    }
+  </header>
+}
+
+<main class="page-content">
+  <router-outlet></router-outlet>
+</main>
+
+@if(shouldRender()){
+  <footer>
+    <app-footer></app-footer>
+  </footer>
+}
+
+<!-- ✅ Loader Overlay (blocks clicks while busy) -->
+@if (isNavigating()) {
+  <div class="global-loader" role="alert" aria-live="polite" aria-busy="true">
+    <div class="ring-loader" title="loading"></div>
+    <div class="loader-text fw-medium mt-2"></div>
+  </div>
+}

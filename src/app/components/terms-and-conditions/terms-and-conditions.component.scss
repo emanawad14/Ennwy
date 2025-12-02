@@ -1,0 +1,43 @@
+.terms-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.9;
+
+  .terms-title {
+    font-size: 1.75rem;
+    color: #212529;
+  }
+
+  .terms-section {
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+    color: #d80027; // اللون الأحمر
+    border-inline-start: 4px solid #d80027;
+    padding-inline-start: 12px;
+  }
+
+  .section-content {
+    list-style: disc;
+    color: #333;
+    padding-inline-start: 1.5rem;
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .terms-title {
+      font-size: 1.5rem;
+    }
+
+    .section-title {
+      font-size: 1rem;
+    }
+  }
+}

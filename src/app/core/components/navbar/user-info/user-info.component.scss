@@ -1,0 +1,56 @@
+/* ✨ شكل نظيف من غير دايرة */
+.dropdown {
+  .dropdown-toggle { &:after { display: none; } } // شِيل pseudo-arrow تبع Bootstrap
+
+  .user-toggle {
+    color: #222;
+    font-weight: 500;
+    line-height: 1;
+    padding: .375rem .5rem; /* منطقة نقر مريحة */
+    border-radius: .375rem;
+    transition: background-color .15s ease;
+
+    &:hover,
+    &:focus {
+      background-color: rgba(0,0,0,.04);
+      text-decoration: none;
+      box-shadow: none;
+      outline: 0;
+    }
+
+    .user-label {
+      /* ألغِ أي ستايل قديم للدوائر */
+      width: auto;
+      min-width: 0;
+      height: auto;
+      padding: 0;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      color: inherit;
+      font-size: .95rem;
+      white-space: nowrap;
+    }
+
+    .chev {
+      opacity: .75;
+      transition: transform .2s ease, opacity .2s ease;
+    }
+  }
+
+  /* لفّ السهم عند فتح القائمة */
+  &.show .user-toggle .chev { transform: rotate(180deg); opacity: 1; }
+}
+
+/* لو كنت مستخدم القاعدة القديمة، عطّلها بالكامل */
+// .dropdown-toggle {
+//   span {
+//     width: 2.5rem;
+//     min-width: 2.5rem;
+//     height: 2.5rem;
+//     background-color: #fef5f5;
+//     border: 1px solid #dc143c4c;
+//     color: #dc143c;
+//   }
+//   &:after { display: none; }
+// }

@@ -1,0 +1,131 @@
+<div class="ad-card overflow-hidden"
+     role="link"
+     tabindex="0"
+     (click)="onCardClick($event)"
+     (keydown.enter)="onCardClick($event)">
+  <div class="row m-0">
+    <div class="col-md-4 p-0 position-relative">
+      <div class="image-wrap">
+        <!-- صورة الإعلان -->
+        <img
+          [attr.src]="photoUrl()"
+          alt="ad"
+          class="ad-image"
+          loading="lazy"
+          (load)="onImgLoad()"
+          (error)="onImgError($event)"
+          [class.show]="imgLoaded()"
+        />
+
+        <!-- لودر فوق الصورة لحد ما تحمل -->
+        <div class="img-loader" *ngIf="!imgLoaded()">
+          <div class="spinner"></div>
+        </div>
+      </div>
+
+      <small class="position-absolute featured px-2 py-1 rounded fw-medium">
+        {{ ad().purpose | translate }}
+      </small>
+    </div>
+
+    <div class="col-md-8">
+      <div class="p-md-2 p-3">
+        <div class="d-flex justify-content-between align-items-center gap-2">
+          <!-- عنوان/سعر بدون routerLink لأن الكارد نفسه مسؤول عن التنقّل -->
+          <span class="text-decoration-none fw-medium fs-4 text-main-color mb-1">
+            {{ ad()?.price ? ad()?.price : ad()?.priceInUSD }}
+            {{ ad()?.price ? ("lira" | translate) : ("dollar" | translate) }}
+          </span>
+
+          <!-- المفضلة: نمنع فتح التفاصيل -->
+          <a
+            *ngIf="isLoggedIn"
+            title="favorite"
+            (click)="$event.stopPropagation(); toggleFavorite()"
+            style="cursor: pointer"
+          >
+            <i
+              class="pi {{
+                ad().isFavorite ? 'pi-heart-fill' : 'pi-heart'
+              }} fs-5 text-danger"
+            ></i>
+          </a>
+        </div>
+
+        <p class="fs-5">
+          {{ language() == "ar" ? ad().title : ad().title_L1 }}
+        </p>
+
+        <div class="mt-2">
+          <small class="m-0 text-muted">
+            {{ language() == "ar" ? ad().locationName : ad().locationName_L1 }}
+            · {{ __UtilityService.timeAgoFun(displayDate) }}
+          </small>
+
+          <!-- CTA -->
+          <div class="row g-2 mt-2 cta-wrap">
+            <div class="col-6 col-md-auto">
+              <button
+                class="btn btn-cta w-100 px-3"
+                (click)="$event.stopPropagation(); onCall()"
+                [disabled]="calling"
+              >
+                <i class="pi pi-phone text-main-color"></i>
+                <span class="ms-2">
+                  {{ calling ? ("loading" | translate) : ("CALL" | translate) }}
+                </span>
+              </button>
+            </div>
+            <div class="col-6 col-md-auto">
+              <button class="btn btn-cta w-100 px-3"
+                      (click)="$event.stopPropagation(); onOpenChat()">
+                <i class="pi pi-comment text-main-color"></i>
+                <span class="ms-2">{{ "CHAT" | translate }}</span>
+              </button>
+            </div>
+          </div>
+          <!-- /CTA -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== Chat Modal ===================== -->
+<div #chatModalRef class="modal fade" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ "chat" | translate }}</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <label class="form-label">{{ "message" | translate }}</label>
+        <textarea
+          class="form-control"
+          rows="4"
+          [value]="chatMessage()"
+          (input)="chatMessage.set($any($event.target).value)"
+          placeholder="{{ 'Type your message...' | translate }}"
+        ></textarea>
+      </div>
+
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-danger"
+          [disabled]="sendingChat || !chatMessage().trim()"
+          (click)="sendChat()"
+        >
+          {{ sendingChat ? ("sending" | translate) : ("send" | translate) }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

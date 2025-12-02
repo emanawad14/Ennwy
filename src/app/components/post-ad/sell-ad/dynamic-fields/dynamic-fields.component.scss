@@ -1,0 +1,124 @@
+label {
+  margin-bottom: 0.4rem !important;
+}
+input {
+  accent-color: var(--text-main-color);
+}
+.required:after {
+  content: "*";
+  margin-inline: 0.2rem;
+  color: var(--text-main-color);
+}
+.range-slider-container {
+  position: relative;
+  width: 100%;
+  height: 50px;
+}
+
+.range-slider {
+  width: 100%;
+  margin: 0;
+}
+
+.slider-thumb-value {
+  position: absolute;
+  top: -30px;
+  transform: translateX(-50%);
+  background: #007bff;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  pointer-events: none;
+}
+
+:host::ng-deep {
+  .ng-select {
+    box-shadow: none !important;
+  }
+  .ng-dropdown-panel {
+    background-color: #fff;
+    box-shadow: var(--card-shadow);
+    border-radius: var(--card-radius);
+    padding: 5px;
+    border: 0;
+    .ng-dropdown-panel-items .ng-option {
+      margin-inline: 5px;
+      margin-bottom: 7px;
+      padding: 5px;
+      font-size: 0.9rem;
+      border-radius: 5px;
+      &.ng-option-marked,
+      &.ng-option-selected {
+        background-color: #fbe0e0;
+      }
+    }
+  }
+  .ng-select-focused {
+    .ng-select-container {
+      box-shadow: none !important;
+      border-color: #dee2e6 !important;
+    }
+  }
+  .ng-select-container {
+    border: 1px solid #dee2e6;
+    box-shadow: none;
+
+    &:hover {
+      box-shadow: none;
+    }
+  }
+  .ng-value-container {
+    padding-inline: 3px !important;
+  }
+  .ng-select.ng-select-multiple
+    .ng-select-container
+    .ng-value-container
+    .ng-value {
+    background-color: #eee;
+    .ng-value-icon.left {
+      border-color: #fbe0e0;
+    }
+  }
+}
+
+
+/* ✅ Red Range Slider Styling */
+.red-slider {
+  accent-color: #dc3545; /* Modern browsers */
+}
+
+/* Fallback custom styles for older or specific browsers */
+
+/* Chrome, Edge, Safari */
+.red-slider::-webkit-slider-thumb {
+  background: #dc3545;
+  border: 2px solid #dc3545;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  margin-top: -6px; /* Align thumb */
+  cursor: pointer;
+}
+
+.red-slider::-webkit-slider-runnable-track {
+  background: #f8d7da; /* Light red track */
+  height: 4px;
+  border-radius: 4px;
+}
+
+/* Firefox */
+.red-slider::-moz-range-thumb {
+  background: #dc3545;
+  border: 2px solid #dc3545;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.red-slider::-moz-range-track {
+  background: #f8d7da;
+  height: 4px;
+  border-radius: 4px;
+}

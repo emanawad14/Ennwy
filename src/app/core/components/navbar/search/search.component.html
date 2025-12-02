@@ -1,0 +1,59 @@
+<div #wrap class="search-wrapper">
+  <div class="input-group form-control p-0 group-{{language()}}">
+    <input
+      type="text"
+      class="form-control border-0"
+      name="search"
+      placeholder="{{ 'find' | translate }}"
+      #search
+      (input)="onSearchInput($event)"
+      (keydown.enter)="onSearch(search.value)" />
+
+    <a
+      class="search-icon d-flex justify-content-center align-items-center rounded-end"
+      (click)="onSearch(search.value)">
+      <i class="pi pi-search"></i>
+    </a>
+  </div>
+
+  <!-- القائمة المنسدلة (ثابتة – تظهر في أي صفحة) -->
+  <div class="search-dd shadow" *ngIf="open()" [ngStyle]="ddStyle()">
+    <div class="px-3 py-2 small d-flex align-items-center gap-2" *ngIf="loading()">
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      <span class="text-muted">{{ 'loading' | translate }}</span>
+    </div>
+
+    <ng-container *ngIf="!loading()">
+      <div class="sg-group" *ngFor="let g of groups(); trackBy: trackByGroup">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="text-danger fw-bold">
+            {{ language()==='ar' ? 'اجمالى' : 'Total' }} : {{ g.total }}
+          </div>
+          <div class="fw-bold">
+            {{ language()==='ar' ? (g.categoryNameAr || '—') : (g.categoryNameEn || g.categoryNameAr || '—') }}
+          </div>
+        </div>
+        <hr class="my-2"/>
+        <div class="text-muted small mb-2">
+          {{ language()==='ar' ? 'عمليات البحث المشابهة' : 'Similar searches' }} :
+        </div>
+
+        <div class="sg-items">
+          <div
+            class="sg-item d-flex align-items-center px-2 py-2"
+            *ngFor="let it of g.items; trackBy: trackByItem"
+            (click)="onPick(g, it)">
+            <span class="badge rounded-pill bg-success-subtle text-success-emphasis border-0 me-2"
+                  style="min-width:36px; text-align:center;">{{ it.frequency }}</span>
+            <span class="text flex-fill text-truncate">{{ it.text }}</span>
+            <i class="pi pi-search opacity-50 ms-2"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-3 py-2 text-muted small" *ngIf="!groups().length && lastQuery()">
+        {{ 'noResults' | translate }}
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,187 @@
+<div class="filter-ads" #filterContainer>
+  <div class="categories p-3 mt-3 d-none d-lg-block">
+    <h5 class="fs-6">{{ 'choices' | translate }}</h5>
+  </div>
+
+  <!-- المدن -->
+  <div class="filter-card p-3">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h5 class="fs-6 m-0">{{ 'city' | translate }}</h5>
+      <button type="button"
+              class="btn btn-sm btn-link text-danger p-0"
+              (click)="clearCity()"
+              *ngIf="selectedCityId()">
+        {{ 'Clear' | translate }}
+      </button>
+    </div>
+
+    <label class="form-label small mb-1 d-none">{{ 'city' | translate }}</label>
+    <select class="form-select"
+            [disabled]="citiesLoading()"
+            [ngModel]="selectedCityId()"
+            (ngModelChange)="onSelectCity($event || null)">
+      <option [ngValue]="null">-- {{ 'all' | translate }} --</option>
+      <option *ngFor="let c of cities()" [ngValue]="c.id">
+        {{ language()=='ar' ? (c.nameAr || '---') : (c.nameEn || '---') }}
+      </option>
+    </select>
+  </div>
+
+  <!-- قسم الفئات الفرعية - تم التعديل لجمع جميع المستويات -->
+  <div class="filter-card p-3 mt-3" *ngIf="id() && subcategories().length">
+    <div class="d-flex align-items-center justify-content-between mb-2">
+      <h5 class="fs-6 m-0">{{ language()=='ar' ? 'الفئات الفرعية' : 'Subcategories' }}</h5>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+      @for (sc of subcategories().slice(0, visibleSubcatsCount()); track sc.id) {
+        <button type="button"
+                class="btn btn-sm btn-outline-secondary"
+                (click)="goToSubcategory(sc?.id)">
+          {{ catLabel(sc) || '—' }}
+        </button>
+      }
+    </div>
+
+    @if (visibleSubcatsCount() < subcategories().length) {
+      <div class="mt-2">
+        <button type="button"
+                class="btn btn-link p-0 text-main-color fs-6-1"
+                (click)="visibleSubcatsCount.set(visibleSubcatsCount()+10)">
+          {{ 'showMore' | translate }}
+        </button>
+      </div>
+    }
+  </div>
+
+  <div class="filter-card p-3">
+    <h5 class="fs-6 mb-3">{{ language()=='ar' ? 'السعر' : 'Price' }}</h5>
+    <div class="row g-2">
+      <div class="col-6">
+        <label class="form-label small mb-1">{{ language()=='ar' ? 'حد أدنى' : 'Min' }}</label>
+        <input type="number" class="form-control"
+               [ngModel]="priceMin()" (ngModelChange)="setMin($event)"
+               inputmode="numeric" min="0" />
+      </div>
+      <div class="col-6">
+        <label class="form-label small mb-1">{{ language()=='ar' ? 'حد أقصى' : 'Max' }}</label>
+        <input type="number" class="form-control"
+               [ngModel]="priceMax()" (ngModelChange)="setMax($event)"
+               inputmode="numeric" min="0" />
+      </div>
+    </div>
+    @if (priceError()) {
+      <small class="text-danger d-block mt-2">{{ priceError() }}</small>
+    }
+  </div>
+
+  <!-- الـ Dynamic Fields تظهر فقط لو في category id حقيقي -->
+  @if (hasCategoryId()) {
+    @if (isLoading()) {
+      <div class="p-3">
+        <div class="d-flex align-items-center gap-2 text-muted">
+          <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div>
+          <small>{{ 'loading' | translate }}</small>
+        </div>
+      </div>
+    }
+
+    @if (!isLoading() && flatFields().length) {
+      @for (field of flatFields(); track $index) {
+
+        @if (isNumericField(field)) {
+          <div class="filter-card p-3 mt-3">
+            <h5 class="fs-6 mb-2">{{ language()=='ar' ? field?.name : (field?.name_L1 || field?.name || '----') }}</h5>
+            <div class="row g-2">
+              <div class="col-6">
+                <label class="form-label small mb-1">{{ language()=='ar' ? 'حد أدنى' : 'Min' }}</label>
+                <input type="number" class="form-control"
+                       [ngModel]="rangeValues()[field.attribute]?.start ?? null"
+                       (ngModelChange)="onRangeChange(field.attribute, 'start', $event)"
+                       inputmode="decimal" />
+              </div>
+              <div class="col-6">
+                <label class="form-label small mb-1">{{ language()=='ar' ? 'حد أقصى' : 'Max' }}</label>
+                <input type="number" class="form-control"
+                       [ngModel]="rangeValues()[field.attribute]?.end ?? null"
+                       (ngModelChange)="onRangeChange(field.attribute, 'end', $event)"
+                       inputmode="decimal" />
+              </div>
+            </div>
+          </div>
+        }
+
+        @else if (isListField(field)) {
+          <div class="filter-card p-3 mt-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="fs-6 m-0">
+                {{ language()=='ar' ? field?.name : (field?.name_L1 || field?.name || '----') }}
+                @if (field?.isDependent && field?.dependentAttr) {
+                  <small class="text-muted ms-1">({{ language()=='ar' ? 'تابع لـ' : 'Depends on' }}: {{ field?.dependentAttrLabel }})</small>
+                }
+              </h5>
+              <button class="btn btn-sm btn-link text-danger p-0"
+                      (click)="clearChoices(field.attribute)"> {{ 'Clear' | translate }}</button>
+            </div>
+
+            <div
+              [class.opacity-50]="field?.isDependent && !hasParentSelection(field)"
+              [class.pointer-events-none]="field?.isDependent && !hasParentSelection(field)"
+            >
+              @for (choice of getChoicesFor(field).slice(0, getVisibleCount(field.attribute)); track $index) {
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    [id]="field.attribute + '_' + (choice?.id ?? choice?.attribute)"
+                    [checked]="(choiceValues()[field.attribute] || []).includes(choiceIdOf(choice))"
+                    (change)="onToggleChoice(field.attribute, choiceIdOf(choice), $any($event.target).checked)" />
+                  <label class="form-check-label" [for]="field.attribute + '_' + (choice?.id ?? choice?.attribute)">
+                    <small>{{ labelOf(choice) || '----' }}</small>
+                  </label>
+                </div>
+              }
+            </div>
+
+            @if (getVisibleCount(field.attribute) < getChoicesFor(field).length) {
+              <button type="button" class="btn btn-link p-0 mt-2 text-main-color fs-6-1"
+                      (click)="showMore(field.attribute, getChoicesFor(field).length)">
+                {{ 'showMore' | translate }}
+              </button>
+            }
+          </div>
+        }
+
+        @else {
+          <div class="filter-card p-3 mt-3">
+            <h5 class="fs-6 mb-2">{{ language()=='ar' ? field?.name : (field?.name_L1 || field?.name || '----') }}</h5>
+            <input type="text" class="form-control"
+                   [ngModel]="textValues()[field.attribute] || ''"
+                   (ngModelChange)="onTextChange(field.attribute, $event)" 
+                   (keyup.enter)="applyAllFilters()"
+                   />
+          </div>
+        }
+      }
+    }
+  }
+
+  <!-- زر تطبيق الفلاتر -->
+  <div class="filter-actions p-3 mt-3 border-top bg-light sticky-bottom">
+    <button class="btn btn-primary w-100 mb-2" 
+            (click)="applyAllFilters()"
+            [disabled]="isApplyingFilters()"
+            [class.btn-loading]="isApplyingFilters()">
+      <span *ngIf="!isApplyingFilters()"> {{ 'apply' | translate }}</span>
+      <span *ngIf="isApplyingFilters()" class="d-flex align-items-center justify-content-center gap-2">
+        <div class="spinner-border spinner-border-sm" role="status"></div>
+      </span>
+    </button>
+    
+    <button class="btn btn-outline-secondary w-100" 
+            (click)="clearAll()"
+            [disabled]="isApplyingFilters()">
+      {{ 'Clear' | translate }}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+.carousel-indicators {
+  margin-bottom: 0;
+  [data-bs-target] {
+    height: 2.5px;
+    background-color: #fff;
+  }
+}
+.carousel-item {
+  transition: opacity 1s ease-in-out;
+
+  img {
+    height: 260px;
+    transition: opacity 1s ease-in-out;
+  }
+}

@@ -1,0 +1,107 @@
+<div class="notif-wrapper" [attr.dir]="lang === 'ar' ? 'rtl' : 'ltr'">
+  <header class="notif-header container">
+    <button class="icon-btn" (click)="back()" aria-label="Back">‹</button>
+    <h1 class="title">{{ titleText() }}</h1>
+    <span class="spacer"></span>
+  </header>
+
+  <div class="container">
+    <div class="grid">
+      <!-- Sidebar (desktop only, optional) -->
+      <aside class="sidebar d-none d-lg-block">
+        <div class="card p-3">
+          <h2 class="fs-6 mb-3">{{ lang === 'ar' ? 'التصفية' : 'Filters' }}</h2>
+          <p class="muted">{{ lang === 'ar' ? 'قريباً…' : 'Coming soon…' }}</p>
+        </div>
+      </aside>
+
+      <!-- List -->
+      <main class="list-area">
+        <ng-container *ngIf="notifications.length; else emptyState">
+          <div
+            class="notif-card"
+            *ngFor="let n of notifications; trackBy: trackById"
+            (click)="markAsRead(n)"
+            [class.unread]="!n.isRead"
+            role="button"
+            tabindex="0"
+          >
+            <!-- dot -->
+            <span class="dot" *ngIf="!n.isRead"></span>
+
+            <!-- content -->
+            <div class="left">
+              <div class="text">
+                <div class="title-row">
+                  <span class="title">{{ n.title }}</span>
+                </div>
+                <div class="body">{{ n.body }}</div>
+                <time class="date">
+                  {{ n.createdAt | date:(lang === 'ar' ? 'dd-MM-yyyy' : 'MMM d, y') }}
+                </time>
+              </div>
+            </div>
+
+            <!-- bell -->
+            <div class="right">
+              <span class="bell-badge">
+                <img src="images/navbar/notifications.svg" alt="bell" />
+              </span>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #emptyState>
+          <div class="center mt-3 muted">
+            {{ lang==='ar' ? 'لا توجد إشعارات حالياً' : 'No notifications yet' }}
+          </div>
+        </ng-template>
+
+        <!-- ===== Paginator ===== -->
+       <!-- ===== Paginator ===== -->
+<div class="paginator compact" *ngIf="totalCount > 0">
+  <!-- نخفي الميتا في وضع compact -->
+  <div class="meta">
+    <span>
+      {{ lang === 'ar' ? 'عرض' : 'Showing' }}
+      {{ fromItem }}–{{ toItem }}
+      {{ lang === 'ar' ? 'من' : 'of' }}
+      {{ totalCount }}
+    </span>
+
+    <label class="psize">
+      <span>{{ lang === 'ar' ? 'حجم الصفحة:' : 'Page size:' }}</span>
+      <select [ngModel]="pageSize" (ngModelChange)="changePageSize($event)">
+        <option *ngFor="let s of pageSizeOptions" [value]="s">{{ s }}</option>
+      </select>
+    </label>
+  </div>
+
+  <nav class="pages" aria-label="Notifications pagination">
+    <button class="pg-btn" (click)="goToPage(1)" [disabled]="pageNumber === 1">«</button>
+    <button class="pg-btn" (click)="goToPage(pageNumber - 1)" [disabled]="pageNumber === 1">‹</button>
+
+    <button
+      class="pg-btn"
+      *ngFor="let p of visiblePages"
+      [class.active]="p === pageNumber"
+      (click)="goToPage(p)">
+      {{ p }}
+    </button>
+
+    <button class="pg-btn" (click)="goToPage(pageNumber + 1)" [disabled]="pageNumber === totalPages">›</button>
+    <button class="pg-btn" (click)="goToPage(totalPages)" [disabled]="pageNumber === totalPages">»</button>
+  </nav>
+</div>
+
+
+        <!-- Loading -->
+        <div class="center mt-3" *ngIf="isLoading">
+          <span class="spinner"></span>
+        </div>
+
+        <!-- (تم حذف مرساة الـ IO لأنها لم تعد مطلوبة مع الباجينتر) -->
+      </main>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<div class="d-flex gap-3 justify-content-between">
+  <span>{{min}}</span>
+  <div class="range-slider-container">
+    <input type="range" class="range-slider" [min]="min" [max]="max" [step]="step" [value]="value"
+      (input)="onInput($event)" />
+    <div class="slider-thumb-value" [style.left.%]="thumbPosition">
+      {{ value }}
+    </div>
+  </div>
+  <span>{{max}}</span>
+</div>

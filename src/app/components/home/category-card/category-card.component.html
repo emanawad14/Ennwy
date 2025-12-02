@@ -1,0 +1,89 @@
+<!-- موبايل -->
+<div class="categories-mobile d-md-none">
+  <div class="d-flex flex-column align-items-center text-center category-mobile">
+    <a role="button"
+       href="javascript:void(0)"
+       [attr.data-bs-target]="'#' + offcanvasId"
+       [attr.aria-controls]="offcanvasId"
+       (click)="openOffcanvas($event)"
+       style="cursor: pointer;">
+      <img [src]="icon()" width="40" height="40" [alt]="title()" />
+      <h2 class="m-0 fs-6 fw-bold mt-2">{{ title() }}</h2>
+    </a>
+  </div>
+</div>
+
+<!-- ديسكتوب -->
+<div class="d-none d-md-block category-card">
+  <div class="d-flex gap-2 align-items-center mb-2">
+    <img *ngIf="showIcon()" [src]="icon()" width="20" [alt]="title()" />
+    <h5 class="m-0 title fw-bold fs-5">{{ title() }}</h5>
+  </div>
+
+  <ul class="d-flex flex-column gap-1 cat-content ps-0 mb-2">
+    @for (item of items(); track $index) {
+      @if ($index > 0 && $index < 3) {
+        <li>
+          <a class="text-dark small"
+             [routerLink]="['/ads', item?.id, label(item)]">
+            {{ label(item) }}
+          </a>
+        </li>
+      }
+    }
+  </ul>
+
+  <!-- رابط "الكل في …" -->
+  <a class="text-danger d-flex align-items-center fw-bold small"
+     [routerLink]="allInRoute()">
+    <i class="pi pi-angle-left me-1"></i>
+    {{ allInLabel() }}
+  </a>
+</div>
+
+<!-- Offcanvas (للموبايل) -->
+<div #offcanvasRef class="offcanvas offcanvas-end" tabindex="-1"
+     [id]="offcanvasId" aria-labelledby="offcanvasLabel"
+     data-bs-scroll="true" data-bs-backdrop="true">
+  <div class="offcanvas-header">
+    <div class="d-flex align-items-center gap-2">
+      <button *ngIf="depth > 0" type="button" class="btn btn-sm btn-outline-secondary" (click)="goBack()">
+        ‹
+      </button>
+      <h5 class="offcanvas-title m-0" id="offcanvasLabel">
+        {{ currentTitle() }}
+      </h5>
+    </div>
+
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
+  </div>
+
+  <div class="offcanvas-body p-0">
+    <!-- "الكل في ..." للمستوى الحالي -->
+    <div *ngIf="currentAllInRoute() as allRoute" class="border-bottom">
+      <a class="d-block py-3 px-3 fw-medium text-main-color" [routerLink]="allRoute" data-bs-dismiss="offcanvas">
+        {{ currentAllInLabel() }}
+      </a>
+    </div>
+
+    <!-- لستة المستوى الحالي -->
+    <ul class="list-unstyled m-0">
+      <li *ngFor="let item of currentList(); trackBy: trackById" class="border-bottom">
+        <a *ngIf="!hasChildren(item)"
+           class="d-flex justify-content-between align-items-center py-3 px-3"
+           [routerLink]="['/ads', item?.id, label(item)]"
+           data-bs-dismiss="offcanvas">
+          <span>{{ label(item) }}</span>
+        </a>
+
+        <a *ngIf="hasChildren(item)"
+           class="d-flex justify-content-between align-items-center py-3 px-3"
+           href="javascript:void(0)"
+           (click)="goDeeper(item)">
+          <span>{{ label(item) }}</span>
+          <span class="small opacity-75">›</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

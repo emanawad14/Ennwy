@@ -1,0 +1,150 @@
+/* ============ Card & Basics ============ */
+.sell-card {
+  box-shadow: rgba(0, 0, 0, 0.05) 0 0 0 1px;
+  border-radius: 10px;
+  background: #fff;
+
+  .cat-img {
+    width: 3rem;
+    min-width: 3rem;
+    height: 3rem;
+    background-color: #fef5f5;
+    border-radius: .5rem;
+  }
+
+  hr { border-color: #969696 !important; }
+
+  small { font-size: .8rem; }
+}
+
+/* ============ Required star ============ */
+.required::after {
+  content: "*";
+  margin-inline: .2rem;
+  color: var(--text-main-color);
+}
+
+/* ============ Inputs ============ */
+textarea { min-height: 8rem; }
+
+.form-control {
+  padding-block: .6rem;
+
+  &::placeholder {
+    color: #8e8e8e !important;
+    font-size: .95rem;
+  }
+}
+
+/* Price input group */
+.price-group {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  border: 1px solid #edeeee;
+  border-radius: 8px;
+  padding: .35rem .6rem;
+  background: #fff;
+
+  .currency { color: #333; font-weight: 500; }
+  .separator { opacity: .4; }
+
+  &.is-invalid { border-color: #dc3545; }
+}
+
+/* ============ Radio pills ============ */
+.sell-card {
+  input:checked ~ .radio-label {
+    background-color: #fbe0e0;
+    border-color: #f08080;
+  }
+  .radio-label {
+    border: 1px solid #edeeee;
+    border-radius: 20px;
+    padding: .2rem .9rem;
+    cursor: pointer;
+    user-select: none;
+  }
+}
+
+/* ============ Checkboxes ============ */
+.checkbox { scale: 1.4; }
+
+/* ============ Primary button ============ */
+.btn-solid-main {
+  background-color: var(--text-main-color);
+  padding-inline: 1.2rem;
+  color: #fff;
+  font-weight: 500;
+  border-radius: .6rem;
+}
+
+/* ============ Upload grid ============ */
+.upload { background-color: #fef5f5; }
+
+.upload-img {
+  /* Grid مرن على كل المقاسات، ممتاز للموبايل */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: .6rem;
+}
+
+.photo, .upload {
+  width: 84px;            /* مربعات متناظرة 84x84 */
+  min-width: 84px;
+  height: 84px;
+  border: 1px solid #edeeee;
+  border-radius: .5rem;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.upload {
+  display: grid;
+  place-items: center;
+}
+
+/* صورة الرفع */
+.photo {
+  position: relative;
+  box-shadow: 0 0 4px rgba(0,0,0,.1);
+  background: #fff;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* زر الحذف (X) */
+  button {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 28px; height: 28px;
+    font-size: 20px; font-weight: bold;
+    color: #fff;
+    background-color: #ff0000;
+    border: 0; border-radius: 50%;
+    display: grid; place-items: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,.4);
+    cursor: pointer; z-index: 10;
+    transition: transform .2s ease, background-color .2s ease;
+
+    &::before { content: 'X'; font-size: 16px; font-weight: bold; line-height: 1; }
+    &:hover { background-color: #cc0000; transform: scale(1.15); }
+  }
+}
+
+/* ============ Label spacing ============ */
+label { margin-bottom: .4rem !important; }
+
+/* ============ Mobile tweaks ============ */
+@media (max-width: 576px) {
+  .sell-card { padding: 1rem !important; }
+  .price-group { padding: .45rem .65rem; }
+  .btn-solid-main { width: 100%; padding-block: .7rem; }
+  .upload-img { grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); gap: .55rem; }
+  .photo, .upload { width: 78px; min-width: 78px; height: 78px; }
+}

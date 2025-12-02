@@ -1,0 +1,83 @@
+.ad-categories {
+  --divider: #edeeee;
+
+  /* العنصر/الصف في كل عمود */
+  .td {
+    display: flex;
+    width: 100%;
+    padding: 0.75rem 0.65rem;
+    border-bottom: 1px solid var(--divider);
+    text-decoration: none;
+    color: inherit;
+
+    &:last-child { border-bottom: 0; }
+
+    &.active {
+      background-color: #fafafa;
+    }
+
+    /* لمسة تفاعل بسيطة */
+    &:hover { background-color: #fbfbfb; }
+  }
+
+  /* صورة الأيقونة */
+  .cat-img {
+    width: 36px;
+    height: 36px;
+    background: #f7f7f7;
+  }
+
+  /* قصّ النص الطويل (مفيد على الموبايل) */
+  .ellipsis {
+    max-width: 70vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ===== دِسكتوب: حدود جانبية بين الأعمدة (يبقى كما هو) ===== */
+  @media (min-width: 768px) {
+    .border-col {
+      border-inline-start: 1px solid var(--divider); /* يضبط تلقائيًا RTL/LTR */
+    }
+
+    /* لو حابب تجبر اتجاه الحد في العربي */
+    .categories-ar .border-col {
+      border-inline-start: 0;
+      border-inline-end: 1px solid var(--divider);
+    }
+  }
+
+  /* ===== موبايل: الأعمدة تتكدّس + فاصل علوي بين كل عمود ===== */
+  @media (max-width: 767.98px) {
+    .row { display: block; }  /* يمنع ضغط الأعمدة الثلاثة بجانب بعض */
+
+    .col-12, .col-md-4, .col-4 {
+      width: 100%;
+      max-width: 100%;
+      flex: 0 0 100%;
+    }
+
+    .border-col {
+      border: 0 !important;                 /* ألغِ الحدود الجانبية */
+      border-top: 8px solid #f6f6f6;        /* فاصل علوي واضح بين الأقسام */
+    }
+    .border-col:first-of-type { border-top: 0; }
+
+    .td { padding: 0.8rem 0.75rem; }        /* لمس مريح */
+    .cat-img { width: 34px; height: 34px; }
+
+    /* قصّ العناوين الطويلة بأمان */
+    .ellipsis { max-width: 100%; }
+  }
+}
+
+/* لو كنت تستخدم الكلاس القديم لهذا الغرض */
+.categories-ar {
+  @media (min-width: 768px) {
+    .border-start-0 {
+      border-right: 0 !important;
+      border-left: 1px solid #edeeee !important;
+    }
+  }
+}

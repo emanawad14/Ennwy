@@ -1,0 +1,48 @@
+<div class="dropdown more-cats">
+  <a class="dropdown-toggle fw-bold" data-bs-toggle="dropdown" aria-expanded="false">
+    {{ title() }}
+  </a>
+
+  @if (remainingList().length > 0) {
+    <ul class="dropdown-menu">
+      <div class="mc-wrap">
+        <!-- القائمة الرئيسية (يسار) -->
+        <ul class="mc-main">
+          @for (item of remainingList(); track $index) {
+            <li>
+              <button
+                type="button"
+                class="mc-main-item"
+                [class.active]="$index === activeNum()"
+                (mouseover)="hoverMain($index, item)"
+                (focus)="hoverMain($index, item)"
+                (click)="!hasChildren(item) && goToCategory(item?.id, item?.name, item?.name_L1, $event)"
+              >
+                {{ language() === 'en' ? item?.name_L1 : item?.name }}
+              </button>
+            </li>
+          }
+        </ul>
+
+        <!-- sublist (يمين) تُعرض فقط لو selectedItem له أطفال -->
+        <div class="mc-sub" *ngIf="(selectedItem()?.children?.length ?? 0) > 0">
+          <ul class="mc-sub-list">
+            @for (child of selectedItem()?.children; track $index) {
+              @if (child?.id != null) {
+                <li>
+                  <a
+                    class="mc-sub-link"
+                    [routerLink]="['/ads', child.id, language() === 'ar' ? child.name : child.name_L1]"
+                    (click)="goToCategory(child.id, child?.name, child?.name_L1, $event)"
+                  >
+                    {{ language() === 'ar' ? child?.name : child?.name_L1 }}
+                  </a>
+                </li>
+              }
+            }
+          </ul>
+        </div>
+      </div>
+    </ul>
+  }
+</div>

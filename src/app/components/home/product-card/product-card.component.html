@@ -1,0 +1,93 @@
+<div class="product-card overflow-hidden h-100"
+  [routerLink]="['/ad',product()?.id,]">
+  <img [src]="getPhotoUrl()" 
+     alt="product" 
+     class="w-100 prd-image"
+     (error)="onImageError($event)" />
+
+  <div class="p-3">
+    <div class="d-flex justify-content-between gap-2">
+      <div class="d-flex align-content-center gap-2 flex-wrap">
+      <strong class="m-0 fs-5-2 text-main-color">
+      {{ product()?.price ? product()?.price : product()?.priceInUSD }}
+      {{ product()?.price ? ('lira' | translate) : ('dollar' | translate) }}
+      </strong>
+
+        
+      </div>
+<a title="favorite">
+  <i class="pi fs-5"
+     [ngClass]="{
+       'pi-heart-fill text-danger': isFavoritePage() && product()?.isFavorite,
+       'pi-heart': !isFavoritePage() || !product()?.isFavorite
+     }"></i>
+</a>
+
+
+    </div>
+    <p class="m-0 fs-5-2 description">
+      {{language()=='ar'?product()?.title:product()?.title_L1}}
+    </p>
+    <div class="mt-2">
+      @if(isNew()&&false){
+      <div class="d-flex align-items-center gap-1 text-muted fs-6-1">
+        <span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="icon icon-tabler icons-tabler-outline icon-tabler-dashboard">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M12 13m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+            <path d="M13.45 11.55l2.05 -2.05" />
+            <path d="M6.4 20a9 9 0 1 1 11.2 0z" />
+          </svg></span>
+        <small class="fw-medium">New . 2025</small>
+      </div>
+      }@else if(isVillas()&&false) {
+      <div class="d-flex align-items-center gap-2 flex-wrap text-muted fs-6-1">
+        <div class="d-flex align-items-center gap-1">
+          <span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="icon icon-tabler icons-tabler-outline icon-tabler-bed">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M7 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+              <path d="M22 17v-3h-20" />
+              <path d="M2 8v9" />
+              <path d="M12 14h10v-2a3 3 0 0 0 -3 -3h-7v5z" />
+            </svg>
+          </span>
+          <small class="fw-medium">4</small>
+        </div>
+        <div class="d-flex align-items-center gap-1">
+          <span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="icon icon-tabler icons-tabler-outline icon-tabler-bath">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M4 12h16a1 1 0 0 1 1 1v3a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-3a1 1 0 0 1 1 -1z" />
+              <path d="M6 12v-7a2 2 0 0 1 2 -2h3v2.25" />
+              <path d="M4 21l1 -1.5" />
+              <path d="M20 21l-1 -1.5" />
+            </svg></span>
+          <small class="fw-medium">2</small>
+        </div>
+        <div class="d-flex align-items-center gap-1">
+          <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="icon icon-tabler icons-tabler-outline icon-tabler-table-share">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M12 21h-7a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v8" />
+              <path d="M3 10h18" />
+              <path d="M10 3v18" />
+              <path d="M16 22l5 -5" />
+              <path d="M21 21.5v-4.5h-4.5" />
+            </svg></span>
+          <small class="fw-medium">200 sqm</small>
+        </div>
+      </div>
+      }
+      <small class="text-muted">
+        {{(language()=='ar'?product()?.locationName:product()?.locationName_L1)||'---'}}
+      </small>
+   
+    </div>
+  </div>
+</div>

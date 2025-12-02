@@ -1,0 +1,105 @@
+<div class="ads">
+  <div class="container">
+    <div id="ads-top" #topRef></div>
+
+    <div class="ads-toolbar row align-items-center g-2 gy-2">
+
+      <div class="col-12 col-lg-4 order-2 order-lg-1">
+        <app-breadcrumb [items]="breadcrumbList()"></app-breadcrumb>
+      </div>
+
+
+
+    </div>
+
+    <div class="d-lg-none mb-3">
+      <div class="mobile-filter-bar d-flex align-items-center gap-2 flex-nowrap overflow-auto">
+        <button class="btn btn-light border rounded-pill d-flex align-items-center gap-2 px-3 py-2 flex-shrink-0"
+          type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileFilters" aria-controls="mobileFilters">
+          <i class="bi bi-sliders"></i>
+          <span class="fw-semibold">{{ 'filters' | translate }}</span>
+        </button>
+
+        @for (chip of chips(); track chip.key) {
+        <span
+          class="badge rounded-pill bg-white border text-dark d-inline-flex align-items-center gap-2 px-3 py-2 flex-shrink-0"
+          role="button" (click)="removeChip(chip)">
+          <span class="chip-text">{{ chip.label }}</span>
+          <i class="bi bi-x-lg small"></i>
+        </span>
+        }
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <!-- العمود الجانبي (الفلاتر) -->
+      @if (!isMobile()) {
+      <aside class="col-12 col-lg-3">
+        <app-filter-ads (filtersChange)="onFiltersChange($event)" (chipsChange)="onChipsChange($event)">
+        </app-filter-ads>
+      </aside>
+      }
+
+      <!-- المحتوى -->
+      <main class="col-12 col-lg-9">
+
+        <div class="d-flex flex-column gap-3 ">
+
+
+          <div style="
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+">
+            <div class=" ">
+              <h6 class=" d-inline align-middle m-0">{{ title() }}</h6>
+              <span class="badge fw-bold text-dark align-middle ms-2">
+                {{ totalAds() }} {{ 'ads' | translate }}
+              </span>
+            </div>
+            <div class="">
+              <app-sort-ads (sortHandler)="sort($event)"></app-sort-ads>
+            </div>
+          </div>
+
+
+          @for (item of ads(); track $index) {
+          <app-ad-card [ad]="item"></app-ad-card>
+          }
+        </div>
+
+        @if (ads()?.length) {
+        <div class="d-flex justify-content-center mt-4">
+          <app-paginator [totalRecords]="totalAds()" [pageLinkSize]="3" (pageChange)="onPageChange($event)">
+          </app-paginator>
+        </div>
+        }
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- Offcanvas: فلاتر الموبايل -->
+<div class="offcanvas offcanvas-end offcanvas-mobile-filters" tabindex="-1" id="mobileFilters"
+  aria-labelledby="mobileFiltersLabel" data-bs-scroll="true">
+  <div class="offcanvas-header border-bottom">
+    <h5 class="offcanvas-title" id="mobileFiltersLabel">{{ 'filters' | translate }}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+
+  <div class="offcanvas-body p-0">
+    @if (isMobile()) {
+    <app-filter-ads (filtersChange)="onFiltersChange($event)" (chipsChange)="onChipsChange($event)">
+    </app-filter-ads>
+    }
+  </div>
+
+  <div class="offcanvas-footer border-top p-2 d-flex gap-2">
+    <button class="btn btn-outline-secondary flex-fill" data-bs-dismiss="offcanvas">
+      {{ 'back' | translate }}
+    </button>
+    <button class="btn btn-danger flex-fill" data-bs-dismiss="offcanvas">
+      {{ 'apply' | translate }}
+    </button>
+  </div>
+</div>

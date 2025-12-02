@@ -1,0 +1,20 @@
+/* خلي الـ nav جزء من الهيدر الأبيض */
+:host {
+  display: block;
+  background: #fff;
+}
+
+.btn-solid-main,
+.btn-solid-main:active {
+  background-color: #dc143c;
+  padding-inline: 1.2rem;
+  color: #fff;
+  font-weight: 500;
+}
+
+:host::ng-deep {
+  .dialog-header {
+    border-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}

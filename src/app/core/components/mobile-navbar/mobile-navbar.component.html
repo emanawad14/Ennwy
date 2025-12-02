@@ -1,0 +1,88 @@
+<nav class="app-mobile-navbar px-3 py-1" [attr.dir]="language() === 'ar' ? 'rtl' : 'ltr'">
+  <div class="d-flex justify-content-between align-items-center gap-2">
+    <div class="d-flex align-items-center gap-2">
+      <a routerLink="/" aria-label="Home">
+        <img src="images/logos/logo.jfif" width="55" alt="ennwy" loading="lazy" />
+      </a>
+    </div>
+
+    <div class="nav-actions d-flex align-items-center gap-3 fs-5">
+      <!-- Language -->
+      @if (language() === 'ar') {
+        <a title="language" (click)="changeLanguage('en')" aria-label="Change language to English">
+          <i class="bi bi-translate"></i>
+        </a>
+      } @else {
+        <a title="language" (click)="changeLanguage('ar')" aria-label="تغيير اللغة إلى العربية">
+          <i class="bi bi-translate"></i>
+        </a>
+      }
+
+      <!-- Chat (يتطلب تسجيل دخول) -->
+      <a title="chat" href="" (click)="onChatClick($event)" aria-label="Chat">
+        <i class="bi bi-chat-dots"></i>
+      </a>
+
+      <!-- Notifications (يتطلب تسجيل دخول) -->
+      <a title="notification" href="" (click)="onNotificationsClick($event)" aria-label="Notifications">
+        <i class="bi bi-bell"></i>
+      </a>
+
+      <!-- Post Ad (يتطلب تسجيل دخول) -->
+      <a title="post-ad" href="" (click)="onPostAdClick($event)" aria-label="Post Ad">
+        <i class="bi bi-plus-circle"></i>
+      </a>
+
+      <!-- Login/User -->
+      @if (userInfo()) {
+        <div class="dropdown">
+          <a
+            class="dropdown-toggle d-flex justify-content-center align-items-center gap-2 p-0"
+            data-bs-toggle="dropdown"
+            data-bs-display="static"
+            aria-expanded="false"
+            [attr.aria-label]="'profile.menu' | translate"
+            title="{{ 'profile.menu' | translate }}"
+          >
+            <span class="avatar-initial rounded-circle d-flex justify-content-center align-items-center fs-6">
+              {{ firstNameInitial() }}
+            </span>
+            <i class="bi bi-chevron-down"></i>
+          </a>
+
+          <ul class="dropdown-menu border-0 shadow">
+            <li>
+              <a class="dropdown-item fs-6 text-start" [routerLink]="['/profile']">
+                {{ 'profile.publicProfile' | translate }}
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item fs-6 text-start" [routerLink]="['/profile-ads']">
+                {{ 'profile.myAds' | translate }}
+              </a>
+            </li>
+            <li>
+              <button type="button" class="dropdown-item fs-6 text-start" (click)="logout()">
+                {{ 'profile.logOut' | translate }}
+              </button>
+            </li>
+          </ul>
+        </div>
+      } @else {
+        <!-- تسجيل الدخول: مباشرة لصفحة اللوجن بدون Dialog -->
+        <a title="login" href="" (click)="goToLogin($event)" aria-label="Login">
+          <i class="bi bi-box-arrow-in-right"></i>
+        </a>
+      }
+    </div>
+  </div>
+
+  <!-- مسافة صغيرة وثابتة بين الصف الأول وباقي العناصر -->
+  <div class="between-block">
+    <app-search></app-search>
+  </div>
+
+  <div class="between-block">
+    <app-location></app-location>
+  </div>
+</nav>

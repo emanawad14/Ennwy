@@ -1,0 +1,23 @@
+<div class="dropdown">
+  <a
+    class="dropdown-toggle user-toggle d-flex align-items-center gap-2 p-0"
+    data-bs-toggle="dropdown"
+    aria-expanded="false"
+  >
+    <span class="user-label">{{ 'profile.publicProfile' | translate }}</span>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+         class="chev icon icon-tabler icons-tabler-outline icon-tabler-chevron-down">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M6 9l6 6l6 -6" />
+    </svg>
+  </a>
+
+  <ul class="dropdown-menu border-0 shadow">
+    <li><a class="dropdown-item fs-6-1 text-start" [routerLink]="['/profile']">{{ 'profile.publicProfile' | translate }}</a></li>
+    <li><a class="dropdown-item fs-6-1 text-start" [routerLink]="['/profile-ads']">{{ 'profile.myAds' | translate }}</a></li>
+    <li><a class="dropdown-item fs-6-1 text-start" (click)="logout()">{{ 'profile.logOut' | translate }}</a></li>
+  </ul>
+</div>

@@ -1,0 +1,110 @@
+<div [formGroup]="form" class="dynamic-fields-form">
+  <div *ngFor="let attr of fields(); trackBy: trackById" class="row mt-4">
+
+    <!-- Label -->
+    <div class="col-lg-4">
+      <label [for]="attr.attribute" class="m-0 fw-medium" [ngClass]="{'required': attr.isMandatory}">
+        {{ attr.name }}
+        <span *ngIf="attr.isMandatory" class="text-danger"></span>
+      </label>
+    </div>
+
+    <!-- Input Field -->
+    <div class="col-lg-8">
+
+      <!-- String Field -->
+      <input *ngIf="attr.valueType === 'string'"
+             type="text"
+             class="form-control"
+             [formControlName]="attr.attribute"
+             [id]="attr.attribute"
+             placeholder="اكتب هنا..." />
+
+      <!-- Number Field -->
+      <input *ngIf="(attr.valueType === 'float' || attr.valueType === 'integer') && (!attr.choices || attr.choices.length === 0)"
+             type="number"
+             class="form-control"
+             [formControlName]="attr.attribute"
+             [id]="attr.attribute"
+             (input)="updateValue($event)"
+             [min]="attr.minValue ?? null"
+             [max]="attr.maxValue ?? null"
+             [step]="attr.valueType === 'integer' ? 1 : '0.01'"
+             placeholder="أدخل رقمًا..." />
+
+      <!-- Enum (Single Select) -->
+      <ng-select *ngIf="attr.valueType === 'enum' && attr.filteredChoices?.length"
+                 [items]="attr.filteredChoices"
+                 bindLabel="label"
+                 bindValue="id"
+                 [compareWith]="compareIds"
+                 [searchable]="true"
+                 [searchFn]="searchFn"
+                 [formControlName]="attr.attribute"
+                 placeholder="اختر قيمة"
+                 class="w-100">
+        <ng-template ng-notfound-tmp>
+          <div class="px-2 py-1 text-muted small">لا توجد نتائج مطابقة</div>
+        </ng-template>
+      </ng-select>
+
+      <!-- Enum Multiple -->
+      <ng-select
+                 *ngIf="attr.valueType === 'enum_multiple' && attr.filteredChoices?.length"
+                 [items]="attr.filteredChoices"
+                 bindLabel="label"
+                 bindValue="id"
+                 [compareWith]="compareIds"
+                 [formControlName]="attr.attribute"
+                 [multiple]="true"
+                 [closeOnSelect]="false"
+                 [hideSelected]="true"
+                 [searchable]="true"
+                 [searchFn]="searchFn"
+                 [clearable]="true"
+                 [virtualScroll]="true"
+                 placeholder="اختر عدة قيم"
+                 class="w-100">
+
+        <!-- هيدر: أزرار مباشرة -->
+        <ng-template ng-header-tmp>
+          <div class="d-flex justify-content-between align-items-center px-2 py-1">
+            <!-- يختار كل المتاح (بعد أي تبعية) دفعة واحدة -->
+           
+
+            <button type="button" class="btn btn-sm btn-link text-danger p-0" (click)="clearAll(attr)">
+            {{ 'ClearAll' | translate }}
+            </button>
+          </div>
+          <hr class="my-1" />
+        </ng-template>
+
+        <!-- عنصر بقلبه تشيك بوكس -->
+        <ng-template ng-option-tmp let-item="item" let-selected="selected">
+          <div class="d-flex align-items-center gap-2">
+            <input type="checkbox" [checked]="selected" />
+            <span [innerHTML]="item.label || item.name || ('#' + item.id)"></span>
+          </div>
+        </ng-template>
+
+        <!-- فوتر: عدّاد -->
+        <ng-template ng-footer-tmp>
+          <div class="px-2 py-1 text-muted small">
+            مختار: {{ (form.get(attr.attribute)?.value?.length || 0) }} / {{ attr.filteredChoices.length }}
+          </div>
+        </ng-template>
+
+        <!-- لا توجد نتائج -->
+        <ng-template ng-notfound-tmp>
+          <div class="px-2 py-1 text-muted small">لا توجد نتائج مطابقة</div>
+        </ng-template>
+      </ng-select>
+
+      <!-- Validation -->
+      <div *ngIf="form.get(attr.attribute)?.invalid && form.get(attr.attribute)?.touched" class="mt-1">
+        <small class="text-danger">هذا الحقل مطلوب.</small>
+      </div>
+
+    </div>
+  </div>
+</div>

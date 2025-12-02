@@ -1,0 +1,58 @@
+@defer (when !isLoading()) {
+  <div #carousel
+       id="carouselExampleDark"
+       class="carousel carousel-dark slide carousel-fade"
+       data-bs-ride="carousel"
+       data-bs-interval="3000"
+       data-bs-touch="true">
+
+    <!-- المؤشرات -->
+    <div class="carousel-indicators">
+      @for (item of banners(); track $index) {
+        <button type="button"
+                data-bs-target="#carouselExampleDark"
+                [attr.data-bs-slide-to]="$index"
+                [class.active]="$index === 0"
+                [attr.aria-current]="$index === 0 ? 'true' : null"
+                [attr.aria-label]="item?.image?.name || ('Slide ' + ($index + 1))">
+        </button>
+      }
+    </div>
+
+    <!-- الشرائح -->
+    <div class="carousel-inner">
+      @for (item of banners(); track $index) {
+        <div class="carousel-item" [class.active]="$index === 0">
+          <a class="d-block w-100"
+             [attr.href]="getHref(item) || 'javascript:void(0)'"
+             [attr.target]="isExternal(getHref(item)) ? '_blank' : null"
+             rel="noopener noreferrer"
+             (click)="onBannerClick($event, item)">
+            <img [src]="item?.image?.fullLink"
+                 class="d-block w-100"
+                 [alt]="item?.image?.name || 'Banner Image'">
+          </a>
+        </div>
+      }
+    </div>
+
+    <!-- أزرار التقليب (اختيارية) -->
+    <button class="carousel-control-prev" type="button"
+            data-bs-target="#carouselExampleDark" data-bs-slide="prev"
+            aria-label="Previous">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+
+    <button class="carousel-control-next" type="button"
+            data-bs-target="#carouselExampleDark" data-bs-slide="next"
+            aria-label="Next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+} @loading (minimum 100ms) {
+  <div class="placeholder-glow">
+    <div class="placeholder col-12 rounded" [style.height]="'260px'"></div>
+  </div>
+}

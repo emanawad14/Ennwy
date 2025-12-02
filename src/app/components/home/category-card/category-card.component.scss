@@ -1,0 +1,86 @@
+.category-card {
+  .title { font-size: 1.25rem; }
+  .link { color: #dc143c; } /* زي ما هي */
+  .fs-6-1 { font-size: 1rem; }
+  text-align: start;
+  overflow: visible; /* مهم لو فيه عناصر منبثقة */
+
+  @media (max-width: 767.98px) {
+    text-align: center;
+
+    .title { font-size: 14px; }
+    img { margin: auto; }
+    ul, .link { display: none; }
+  }
+}
+
+.allPro { font-size: 1rem; }
+
+/* موبايل فقط */
+@media (max-width: 767.98px) {
+  /* حزّم العناصر بدون مسافات إضافية */
+  .categories-mobile {
+    display: flex;
+    flex-wrap: wrap;          /* لف سطور */
+    gap: 8px 12px;            /* المسافة الوحيدة بين العناصر */
+    justify-content: center;  /* وسّط الكتلة كلها */
+    align-content: flex-start;
+  }
+
+  .category-mobile {
+    margin: 0;                /* امنع أي هامش زائد */
+  }
+
+  .category-mobile a {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    width: max-content;       /* على قد المحتوى (الأيقونة + العنوان) */
+    text-align: center;
+  }
+
+  .category-mobile img {
+    width: 40px;
+    height: 40px;
+    display: block;           /* يمنع مسافات سطرية */
+    object-fit: contain;
+  }
+
+  .category-mobile h2 {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.2;
+    white-space: normal;
+    max-width: 90px;          /* اختياري */
+  }
+}
+
+.offcanvas-title { font-weight: bold; }
+
+.offcanvas-body {
+  -webkit-overflow-scrolling: touch; /* نعومة سكرول في iOS */
+  overscroll-behavior: contain;      /* مايسحبش الصفحة وراه */
+}
+.offcanvas-body a {
+  display: block;
+  font-size: 16px;
+  color: #333;
+}
+
+/* ارفع الـz-index وثبّت الـposition لتفادي تغطية sticky headers في Safari/iOS */
+.offcanvas {
+  z-index: 2000 !important;
+  position: fixed !important;
+}
+
+/* دعم إضافي لأجهزة iOS الحديثة */
+@supports (-webkit-touch-callout: none) {
+  .offcanvas { z-index: 2000 !important; }
+}
+
+/* (اختياري) تحسين التركيز بلوحة المفاتيح */
+.category-mobile a:focus-visible {
+  outline: 2px solid #dc143c;
+  outline-offset: 2px;
+}

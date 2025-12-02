@@ -1,0 +1,34 @@
+<div class="otp-container d-flex gap-3 justify-content-center" dir="ltr" lang="en" (paste)="onPaste($event)">
+  <input
+    *ngFor="let ctrl of otpControls; index as i"
+    type="text"
+    maxlength="1"
+    class="form-control text-center otp-cell"
+    [formControl]="ctrl"
+    (keyup)="onKeyUp($event, i)"
+    inputmode="numeric"
+    pattern="[0-9]*"
+    autocomplete="one-time-code"
+    autocapitalize="off"
+    dir="ltr"
+    lang="en"
+    [disabled]="submitting"
+    [attr.aria-label]="'OTP digit ' + (i + 1)"
+  />
+</div>
+
+<button class="btn btn-main-color w-100 mt-5" (click)="submitOtp()" [disabled]="submitting">
+  {{ 'auth.verify' | translate : { default: 'Verify OTP' } }}
+</button>
+
+<div class="mt-2 d-flex justify-content-end">
+  <button
+    class="btn btn-link text-main-color p-0 resend-btn"
+    [disabled]="resendDisabled || submitting"
+    (click)="onResend()"
+    type="button"
+  >
+    {{ 'auth.resendOtp' | translate : { default: 'Resend OTP' } }}
+    <span *ngIf="resendDisabled"> ({{ resendCountdown }}s)</span>
+  </button>
+</div>

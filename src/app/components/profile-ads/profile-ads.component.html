@@ -1,0 +1,60 @@
+<div class="advertiser-profile py-4">
+  <div class="container">
+
+    <div class="mt-4">
+
+      <!-- Tabs: حالات الإعلان -->
+      <div class="mt-4">
+        <div class="d-flex flex-wrap justify-content-between gap-2">
+          <button
+            *ngFor="let tab of statusTabs"
+            class="btn flex-fill status-tab"
+            [ngClass]="{
+              'btn-danger text-white fw-bold': tab.value === advertisementStatus(),
+              'btn-outline-danger': tab.value !== advertisementStatus()
+            }"
+            (click)="filterByStatus(tab.value)">
+            {{ tab.label | translate }}
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        @if(ads()?.length){
+          <p class="fs-6-1 m-0">
+            {{ 'showing' | translate }}
+            {{ getStartIndex() }} - {{ getEndIndex() }}
+            {{ 'outOf' | translate }} {{ totalAds() }} {{ 'ads' | translate }}
+          </p>
+        }
+
+        <!-- Cards -->
+        <div class="row mt-2 mx-0">
+          @for (item of ads(); track $index) {
+            <div class="col-lg-4 col-md-6 mb-4">
+              <app-product-card
+                [isVillas]="true"
+                [product]="item">
+              </app-product-card>
+            </div>
+          } @empty {
+            <p class="text-center m-0 py-5 fs-5 border rounded">No Ads</p>
+          }
+        </div>
+
+        <!-- ✅ Paginator: يشتغل على نفس pageSize = 6 -->
+        @if(totalAds() > pageSize()){
+          <div class="d-flex justify-content-center">
+            <app-paginator
+              [totalRecords]="totalAds()"
+              [pageSize]="pageSize()"
+              [pageLinkSize]="3"
+              (pageChange)="onPageChange($event)">
+            </app-paginator>
+          </div>
+        }
+      </div>
+
+    </div>
+  </div>
+</div>

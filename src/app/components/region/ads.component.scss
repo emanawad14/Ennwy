@@ -1,0 +1,47 @@
+.ads {
+  .badge {
+    background-color: #fbe0e0;
+  }
+  .save {
+    border: 1px solid var(--text-main-color);
+  }
+  .checkbox {
+    scale: 1.4;
+  }
+}
+/* لإزالة الفراغ الأبيض بين قائمة التصنيفات العلوية ومحتوى ads */
+.ads {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* في حال قائمة التصنيفات تأتي قبل breadcrumb */
+app-breadcrumb {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* افترض أن العنصر قبل ads هو قائمة تصنيفات */
+.categories-bar,
+.category-menu,
+.category-navbar,
+.category-tabs,
+app-category-navbar {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+  height: auto !important;
+  min-height: unset !important;
+}
+
+/* لو في div فاصل بينهم */
+app-category-navbar + div,
+.categories-bar + div {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+
+
+.mobile-filter-bar { scrollbar-width: thin; }
+.mobile-filter-bar .badge .btn-close { filter: invert(0.5); opacity: .6; }
+.mobile-filter-bar .badge .btn-close:hover { opacity: 1; }

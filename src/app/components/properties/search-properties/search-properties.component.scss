@@ -1,0 +1,15 @@
+label {
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+.btn-solid-main {
+  background-color: var(--text-main-color);
+  padding-inline: 1.2rem;
+  color: #fff;
+  font-weight: 500;
+}
+:host::ng-deep {
+  .dropdown-toggle {
+    min-height: 38px;
+  }
+}

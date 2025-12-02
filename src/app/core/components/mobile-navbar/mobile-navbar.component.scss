@@ -1,0 +1,64 @@
+.username {
+  font-size: 0.9rem;
+}
+
+/* لون موحّد للأيقونات في النافبار */
+.app-mobile-navbar {
+  --nav-icon: var(--bs-danger, #dc3545);
+}
+
+/* أيقونات الخط (Bootstrap Icons) وأي SVG */
+.app-mobile-navbar i,
+.app-mobile-navbar svg {
+  color: var(--nav-icon) !important;
+  stroke: currentColor !important;
+  fill: currentColor !important;
+}
+
+/* سهم الـ dropdown */
+.app-mobile-navbar .dropdown-toggle::after {
+  border-top-color: var(--nav-icon) !important;
+}
+
+/* ثبات اللون مع hover/focus */
+.app-mobile-navbar a:hover i,
+.app-mobile-navbar a:hover svg,
+.app-mobile-navbar a:focus i,
+.app-mobile-navbar a:focus svg {
+  color: var(--nav-icon) !important;
+}
+
+/* ===== التحكم في المسافات فعلياً ===== */
+/* قلّلنا padding بتاع الـ navbar بـ py-1 في الـ HTML، وبرضه نثبت بـ !important */
+.app-mobile-navbar {
+  padding-top: .25rem !important;   /* ≈ py-1 */
+  padding-bottom: .25rem !important;
+}
+
+/* مسافة رأسية صغيرة فقط بين البلوكات تحت صف اللوجو */
+.app-mobile-navbar .between-block {
+  margin-top: .25rem !important;    /* صغيييرة */
+}
+
+/* مهم: صفّر أي margin-top جوّه app-search / app-location لأن عندهم ستايلات داخلية */
+/* ملاحظة: ::ng-deep ضروري عشان View Encapsulation */
+:host ::ng-deep app-search > *:first-child,
+:host ::ng-deep app-location > *:first-child {
+  margin-top: 0 !important;
+}
+
+/* لو فيه كلاسات جاهزة زي mt-2/mt-3 جوّا المكوّنات، قلّلها */
+:host ::ng-deep app-search .mt-1,
+:host ::ng-deep app-search .mt-2,
+:host ::ng-deep app-search .mt-3,
+:host ::ng-deep app-location .mt-1,
+:host ::ng-deep app-location .mt-2,
+:host ::ng-deep app-location .mt-3 {
+  margin-top: .25rem !important;
+}
+
+/* على الشاشات الصغيرة خليه أنحف كمان */
+@media (max-width: 576px) {
+  .app-mobile-navbar { padding-top: .2rem !important; padding-bottom: .2rem !important; }
+  .app-mobile-navbar .between-block { margin-top: .2rem !important; }
+}

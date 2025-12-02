@@ -1,0 +1,28 @@
+.product-card {
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+  border-radius: 10px;
+  cursor: pointer;
+  .prd-image {
+    height: 10rem;
+    object-fit: cover;
+  }
+  .fs-5-2 {
+    font-size: 1.05rem;
+  }
+  .fs-6-1 {
+    font-size: 0.9rem;
+  }
+  .description {
+    font-size: 0.9rem;
+    font-weight: 500;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+  .days {
+    font-size: 0.75rem;
+  }
+}
+.product-card {
+  width: 335px;
+}

@@ -1,0 +1,17 @@
+<section class="mt-4">
+  <div class="d-flex justify-content-between gap-2 mb-2">
+    <h1 class="fs-5 fw-bold">{{ title() }}</h1>
+
+    <a [routerLink]="['/ads', categoryId(), title()]" title="view more"
+       class="fw-medium d-flex align-items-center view">
+      <span class="d-none d-sm-inline">{{ 'viewMore' | translate }}</span>
+      <i class="pi pi-angle-right ps-1"></i>
+    </a>
+  </div>
+
+  <div class="ads-scroll-wrapper">
+    <div class="scroll-content">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</section>

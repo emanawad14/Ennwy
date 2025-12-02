@@ -1,0 +1,22 @@
+.btn {
+  width: 50%;
+}
+.dropdown-menu {
+  width: 17rem;
+}
+.placeholder-label,
+.pi-angle-down {
+  color: #8e8e8e;
+  font-size: 0.95rem;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}

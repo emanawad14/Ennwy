@@ -1,0 +1,112 @@
+<div class="edit-profile py-4">
+  <div class="container">
+    <h1 class="fs-4 mb-4">{{ 'edit_profile.title' | translate }}</h1>
+
+    <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+      <!-- رسالة خطأ من الـ API -->
+      <div *ngIf="apiError()" class="alert alert-danger">{{ apiError() }}</div>
+
+      <!-- رقم الهاتف -->
+      <div class="row mb-4">
+        <div class="col-lg-4"><label class="fw-medium">{{ 'edit_profile.phone' | translate }}</label></div>
+        <div class="col-lg-8">
+          <input type="text" formControlName="phoneNumber" class="form-control"
+                 placeholder="{{ 'edit_profile.phone_placeholder' | translate }}">
+        </div>
+      </div>
+
+      <!-- الهاتف الثاني -->
+      <div class="row mb-4">
+        <div class="col-lg-4"><label class="fw-medium">{{ 'edit_profile.other_phone' | translate }}</label></div>
+        <div class="col-lg-8">
+          <input type="text" formControlName="otherPhoneNumber" class="form-control"
+                 placeholder="{{ 'edit_profile.other_phone_placeholder' | translate }}">
+        </div>
+      </div>
+
+      <!-- الاسم (مطلوب) -->
+      <div class="row mb-1">
+        <div class="col-lg-4">
+          <label class="fw-medium">
+            {{ 'edit_profile.full_name' | translate }} <span class="text-danger">*</span>
+          </label>
+        </div>
+        <div class="col-lg-8">
+          <input type="text"
+                 formControlName="fullName"
+                 class="form-control"
+                 required
+                 [class.is-invalid]="fullNameCtrl?.touched && fullNameCtrl?.invalid">
+
+          <div class="invalid-feedback"
+               *ngIf="fullNameCtrl?.touched && fullNameCtrl?.hasError('required')">
+            هذا الحقل مطلوب
+          </div>
+
+          <div class="invalid-feedback"
+               *ngIf="fullNameCtrl?.touched && fullNameCtrl?.hasError('minlength')">
+            يجب ألا يقل الاسم عن حرفين
+          </div>
+        </div>
+      </div>
+      <div class="row mb-3"></div>
+
+      <!-- العنوان -->
+      <div class="row mb-4">
+        <div class="col-lg-4"><label class="fw-medium">{{ 'edit_profile.address' | translate }}</label></div>
+        <div class="col-lg-8">
+          <input type="text" formControlName="address" class="form-control"
+                 placeholder="{{ 'edit_profile.address_placeholder' | translate }}">
+        </div>
+      </div>
+
+      <!-- الجنس -->
+      <div class="row mb-4">
+        <div class="col-lg-4"><label class="fw-medium">{{ 'edit_profile.gender' | translate }}</label></div>
+        <div class="col-lg-8 d-flex flex-column gap-2">
+          <div>
+            <input type="radio" name="gender" [value]="0"
+                   [checked]="profileForm.value.gender === 0"
+                   (change)="onGenderChange(0)">
+            <label class="ms-1">{{ 'edit_profile.male' | translate }}</label>
+          </div>
+          <div>
+            <input type="radio" name="gender" [value]="1"
+                   [checked]="profileForm.value.gender === 1"
+                   (change)="onGenderChange(1)">
+            <label class="ms-1">{{ 'edit_profile.female' | translate }}</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- نوع المستخدم -->
+      <div class="row mb-4">
+        <div class="col-lg-4"><label class="fw-medium">{{ 'edit_profile.user_type' | translate }}</label></div>
+        <div class="col-lg-8 d-flex flex-column gap-2">
+          <div>
+            <input type="radio" name="userType" [value]="'Person'"
+                   [checked]="profileForm.value.userType === 'Person'"
+                   (change)="onUserTypeChange('Person')">
+            <label class="ms-1">{{ 'edit_profile.user_person' | translate }}</label>
+          </div>
+          <div>
+            <input type="radio" name="userType" [value]="'Store'"
+                   [checked]="profileForm.value.userType === 'Store'"
+                   (change)="onUserTypeChange('Store')">
+            <label class="ms-1">{{ 'edit_profile.user_store' | translate }}</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-danger px-4" type="submit" [disabled]="saving()">
+          <span *ngIf="!saving(); else savingTpl">{{ 'edit_profile.save_btn' | translate }}</span>
+          <ng-template #savingTpl>
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            {{ 'loading' | translate }}
+          </ng-template>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

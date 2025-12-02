@@ -1,0 +1,12 @@
+.bg-form {
+  // background-image: url(../../assets/image/form/form-bg.png);
+  background-size: cover;
+  position: sticky !important;
+  top: 0;
+  width: inherit;
+  z-index: 1;
+  .logo {
+    width: 55px;
+    height: 55px;
+  }
+}

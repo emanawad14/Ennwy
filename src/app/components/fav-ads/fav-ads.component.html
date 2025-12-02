@@ -1,0 +1,42 @@
+<div class="advertiser-profile py-4">
+  <div class="container">
+    <div class="border-bottom pb-4">
+      <h1 class="fs-2 fw-bold m-0 text-capitalize">{{ profileDetails().fullName }}</h1>
+    </div>
+
+ 
+
+    <div class="mt-4">
+      @if(ads()?.length){
+        <p class="fs-6-1 m-0">
+          {{ 'showing' | translate }} 1 - {{ getCount() }} {{ 'outOf' | translate }} {{ totalAds() }} {{ 'ads' | translate }}
+        </p>
+      }
+
+      <div class="row mt-2 mx-0">
+        @for (item of ads(); track $index) {
+          <div class="col-lg-4 col-md-6 mb-4">
+            <app-product-card
+  [isVillas]="true"
+  [product]="item"
+  [isFavoritePage]="true">
+</app-product-card>
+
+          </div>
+        } @empty {
+          <p class="text-center m-0 py-5 fs-5 border rounded"> {{ 'No Ads' | translate }}</p>
+        }
+      </div>
+
+      @if(ads()?.length){
+        <div class="d-flex justify-content-center">
+          <app-paginator
+            [totalRecords]="totalAds()"
+            [pageLinkSize]="3"
+            (pageChange)="onPageChange($event)">
+          </app-paginator>
+        </div>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+/* إخفاء سهم البوتستراب */
+.dropdown-toggle:after { display: none; }
+
+.fs-6-1 { font-size: 0.9rem; }
+
+/* الليست تكون Scroll */
+.ads {
+  max-height: 200px;
+  overflow: auto;
+}
+
+/* تموضع المنيو بشكل صحيح تحت الزر وبنفس العرض */
+.dropdown.position-relative .dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px); /* تحت الزر بشوية */
+  left: 0;
+  right: 0;              /* ياخد نفس العرض */
+  transform: none !important; /* يلغي ترجمات Popper */
+  width: 100%;
+  max-height: 360px;
+  overflow: auto;
+  z-index: 1050;
+}
+
+/* لو داخل الهيدر */
+:host-context(.site-header) .dropdown-menu {
+  width: 100%;
+  max-height: 360px;
+  overflow: auto;
+}
+
+/* تأكيد أن العنصر يشتغل كبلوك داخل الحاويات */
+:host {
+  display: block;
+}

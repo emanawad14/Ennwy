@@ -1,0 +1,47 @@
+<div class="properties pt-4">
+  <div class="container-fluid">
+    <div class="properties-bg d-flex justify-content-center align-items-center p-4 position-relative overflow-hidden">
+      <div class="overlay position-absolute h-100 w-100 inset-0"></div>
+      <div class="text-white w-100 content">
+        <h1 class="text-center">Your next property is here</h1>
+        <p class="fs-5 text-center">Let's find a home that's perfect for you</p>
+        <div class="row justify-content-center mt-4">
+          <div class="col-lg-8">
+            <app-search-properties></app-search-properties>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-5">
+    <div class="container">
+      <div class="d-flex justify-content-between gap-2">
+        <h2 class="fs-4">Check our Premium Listings</h2>
+        <a class="text-main-color fw-medium">Explore More <i class="pi pi-angle-right"></i></a>
+      </div>
+      <div class="row mt-4">
+        @for (item of listing(); track $index) {
+        <div class="col-lg-4 col-md-6">
+          <app-product-card [product]="item"></app-product-card>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <div class="container">
+      <app-carousel [items]="products" [autoplay]="true" [autoplay]="true" [interval]="4000" [loop]="true"
+        [numVisibleDefault]="3">
+        <ng-template let-product>
+          <div class="card shadow-sm p-3">
+            <img [src]="product.image" class="img-fluid mb-2" />
+            <h6>{{ product.name }}</h6>
+            <small class="text-muted">{{ product.price }}</small>
+          </div>
+        </ng-template>
+      </app-carousel>
+
+    </div>
+  </div>
+</div>

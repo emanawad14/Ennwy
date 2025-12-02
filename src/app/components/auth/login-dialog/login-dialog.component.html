@@ -1,0 +1,35 @@
+<div class="login-dialog d-flex align-items-center gap-2 flex-column">
+  <img src="images/logos/logo.jfif" width="100px" alt="ennwy" lazy>
+  <h1 class="text-center fs-5 fw-bold">{{'auth.loginInto'|translate}}</h1>
+  <div class="mt-4">
+    <button class="btn fw-medium d-flex align-items-center justify-content-center gap-2 btn-main w-100 p-2 px-3 fs-6"
+      (click)="login('phone')">
+      <i class="pi pi-phone text-main-color fs-5"></i>
+      <span>{{'auth.loginPhone'|translate}}</span>
+    </button>
+
+    <button
+      class="btn fw-medium d-flex align-items-center justify-content-center gap-2 btn-main w-100 p-2 px-3 mt-3 fs-6"
+      (click)="login('email')">
+      <i class="pi pi-envelope text-main-color fs-5"></i>
+      <span>{{'auth.loginEmail'|translate}}</span>
+    </button>
+
+    <div class="text-center py-2">{{ 'or' | translate }}</div>
+    <button
+  class="btn fw-medium d-flex align-items-center justify-content-center gap-2 btn-main w-100 p-2 px-3 mt-3 fs-6"
+ >
+  <i class="pi pi-google text-main-color fs-5"></i>
+  <span>{{ 'auth.loginGoogle' | translate }}</span>
+</button>
+    <button
+  class="btn fw-medium d-flex align-items-center justify-content-center gap-2 btn-main w-100 p-2 px-3 mt-3 fs-6"
+ >
+  <i class="pi pi-facebook text-main-color fs-5"></i>
+  <span>{{ 'auth.loginFacebook' | translate }}</span>
+</button>
+    <div class="mt-3 text-center">
+      <a class="text-main-color fs-6-1" (click)="register()">{{'auth.newAccount'|translate}}</a>
+    </div>
+  </div>
+</div>

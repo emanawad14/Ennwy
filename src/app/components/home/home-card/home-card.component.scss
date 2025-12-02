@@ -1,0 +1,38 @@
+.view {
+  color: #dc143c;
+}
+
+.ads-scroll-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-inline: 12px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.scroll-content {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 16px;
+
+  @media (min-width: 768px) {
+    flex-wrap: nowrap; // مهم عدم الالتفاف
+    gap: 20px;
+  }
+}
+
+.card-wrapper {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+  width: 90vw;
+  max-width: 320px;
+
+  @media (min-width: 992px) {
+    width: 20%;       // 5 in row for large screens
+    max-width: 260px;
+  }
+}

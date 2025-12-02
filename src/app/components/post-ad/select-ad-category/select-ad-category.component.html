@@ -1,0 +1,18 @@
+<div class="select-ad-category">
+  <div class="row gy-3">
+    @for (item of categories(); track $index) {
+    <div class="col-lg-4 col-sm-6">
+      <a class="d-flex justify-content-between align-items-center gap-2 cat-card p-3 h-100"
+        (click)="selectCategory(item)">
+        <div class="d-flex align-items-center gap-3">
+          <div class="cat-img d-flex justify-content-center align-items-center rounded">
+            <img [src]="item?.image" width="25" [alt]="item?.name_L1" lazy>
+          </div>
+          <p class="m-0 fs-6-1">{{language()=='ar'?item?.name:item?.name_L1}}</p>
+        </div>
+        <i class="pi pi-angle-right fs-2"></i>
+      </a>
+    </div>
+    }
+  </div>
+</div>

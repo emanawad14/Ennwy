@@ -1,0 +1,19 @@
+<div class="carousel-wrapper">
+  <button class="nav prev" (click)="slideLeft()" [disabled]="currentIndex() === 0">‹</button>
+
+  <div class="carousel">
+    <div class="carousel-track" [style.transform]="getTransform()" [style.--visible]="numVisible()">
+      <div class="carousel-item" *ngFor="let item of items">
+        <ng-container *ngIf="itemTemplate; else defaultTemplate">
+          <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <button class="nav next" (click)="slideRight()" [disabled]="currentIndex() >= items.length - numVisible()">›</button>
+</div>
+
+<ng-template #defaultTemplate let-item>
+  <div class="default-item">{{ item }}</div>
+</ng-template>

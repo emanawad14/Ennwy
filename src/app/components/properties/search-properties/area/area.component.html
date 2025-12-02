@@ -1,0 +1,28 @@
+<div class="dropdown">
+  <button class="form-control dropdown-toggle d-flex align-items-center justify-content-between gap-2" type="button"
+    data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+    @if(min()||max()){
+    <span>{{min()}} - {{max()}} {{valueType()}}</span>
+    }@else {
+    <span class="placeholder-label">{{placeholder()}}</span>
+    }
+    <i class="pi pi-angle-down fs-5"></i>
+  </button>
+  <div class="dropdown-menu border-0 shadow p-3" #dropdownToggle>
+    <div class="row gy-3">
+      <div class="col-6">
+        <label for="min" class="fs-6-1 mb-1">Minimum</label>
+        <input type="number" class="form-control" placeholder="0" [(ngModel)]="min" [min]="0">
+      </div>
+      <div class="col-6">
+        <label for="min" class="fs-6-1 mb-1">Maximum</label>
+        <input type="number" class="form-control" placeholder="Any" [(ngModel)]="max">
+      </div>
+    </div>
+
+    <div class="d-flex gap-2 mt-4">
+      <button class="btn btn-outline-danger" (click)="onReset()">Reset</button>
+      <button class="btn btn-danger" (click)="onApply()">Apply</button>
+    </div>
+  </div>
+</div>

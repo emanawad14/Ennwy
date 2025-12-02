@@ -1,0 +1,117 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <form [formGroup]="loginForm" aria-label="Login Form" (ngSubmit)="login()">
+      <div class="mb-4">
+        <label for="username" class="mb-2 required fw-medium">
+          {{ (type() === 'phone' ? 'label.phone' : 'auth.usernameLabel') | translate }}
+        </label>
+
+        <div
+          class="form-control p-0 d-flex align-items-center"
+          [class.is-invalid]="formControls?.email?.invalid && (formControls?.email?.dirty || formControls?.email?.touched)">
+
+
+
+          <input
+            type="{{ type()==='phone' ? 'tel' : 'text' }}"
+            id="username"
+            class="form-control border-0"
+            formControlName="email"
+            autocomplete="tel"
+            [disabled]="isLoading()"
+            (input)="clearValidationErrors(formControls?.email)"
+            placeholder="{{ (type() === 'phone' ? 'placeholder.phoneNumber' : 'auth.usernamePlaceholder') | translate }}">
+
+
+              @if (type()==='phone') {
+            <!-- العلم خارج ng-select -->
+
+
+            <ng-select
+              formControlName="code"
+              class="dial-select"
+              [items]="countriesPhoneCode()"
+              [clearable]="false"
+              [searchable]="true"
+              [labelForId]="'code'"
+              [bindLabel]="'code'">
+            </ng-select>
+
+
+             <img
+              class="flag-static"
+              [src]="currentFlag()"
+              alt=""
+              aria-hidden="true"
+              [attr.width]="22"
+              [attr.height]="16"
+            />
+          }
+        </div>
+
+        @if (formControls?.email?.invalid && (formControls?.email?.dirty || formControls?.email?.touched)) {
+          <div class="mt-1">
+            @if (formControls?.email?.errors?.['required']) {
+              <small class="text-danger fs-8">
+                {{ (type() === 'phone' ? 'validation.phoneNumber' : 'auth.usernameRequired') | translate }}
+              </small>
+            }
+            @if (formControls?.email?.errors?.['phoneLength']) {
+              <small class="text-danger fs-8 d-block">
+                {{ 'رقم الهاتف غير صحيح. ' }}
+                {{ formControls?.email?.errors?.['phoneLength']?.required }}
+              </small>
+            }
+            @if (formControls?.email?.errors?.['digitsOnly']) {
+              <small class="text-danger fs-8 d-block">
+                {{ 'من فضلك أدخل أرقام فقط' }}
+              </small>
+            }
+          </div>
+        }
+      </div>
+
+      <div>
+        <label for="password" class="mb-2 required fw-medium">
+          {{ 'auth.passwordLabel' | translate }}
+        </label>
+        <input
+          type="password"
+          id="password"
+          class="form-control"
+          formControlName="password"
+          autocomplete="current-password"
+          [disabled]="isLoading()"
+          (input)="clearValidationErrors(formControls?.password)"
+          [class.is-invalid]="formControls?.password?.invalid && (formControls?.password?.dirty || formControls?.password?.touched)"
+          placeholder="{{ 'auth.passwordPlaceholder' | translate }}">
+      </div>
+
+      <div *ngIf="otpSent()" class="mt-4">
+        <label for="otp" class="mb-2 required fw-medium">
+          {{ 'auth.otpLabel' | translate }}
+        </label>
+        <input type="text" id="otp" class="form-control" formControlName="otp" placeholder="123456" maxlength="6">
+      </div>
+
+      <div class="d-flex justify-content-end mt-2 fs-6-1">
+        <a [routerLink]="['/auth/forget-password']" class="text-main-color">
+          {{ 'auth.forgetPassword' | translate }}
+        </a>
+      </div>
+
+      <button class="btn btn-main-color w-100 mt-5" [disabled]="isLoading()">
+        {{ 'auth.submitButton' | translate }}
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-main-color btn-register w-100 mt-3"
+        [routerLink]="['/auth/register']"
+        [disabled]="isLoading()"
+        [attr.aria-label]="'auth.register' | translate">
+        {{ 'auth.register' | translate }}
+      </button>
+    </form>
+  </div>
+</div>

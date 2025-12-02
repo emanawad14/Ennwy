@@ -1,0 +1,38 @@
+<div class="dropdown-wrapper">
+  <div class="dropdown-label gap-3" (click)="toggleDropdown()" [class.placeholder-label]="!selectedLabels">
+    <span class="text-truncate">
+      {{ selectedLabels || placeholder }}
+    </span>
+    <div class="d-flex gap-2 align-items-center">
+      @if(selectedLabels){
+      <a (click)="clearAll()"> <i class="pi pi-times"></i></a>
+      }
+      <span class="arrow">
+        <i class="fs-6 pi pi-{{isOpen?'angle-up':'angle-down'}}"></i>
+      </span>
+    </div>
+  </div>
+
+  <div class="dropdown-panel" *ngIf="isOpen">
+    <input type="text" class="dropdown-search form-control" [(ngModel)]="filter"
+      placeholder="{{'placeholder.search'|translate}}" />
+
+    <div class="dropdown-actions">
+      <button type="button" (click)="selectAll()">{{'selectAll'|translate}}</button>
+      <!-- <button type="button" >Clear</button> -->
+    </div>
+    <ul class="dropdown-items m-0">
+      @for (option of filteredOptions; track $index) {
+      <li class="dropdown-item">
+        <input type="checkbox" [checked]="isSelected(option)" (change)="onCheckboxChange(option, $event)"
+          [id]="option[key]" />
+        <label [for]="option[key]">{{ option[key] }}</label>
+      </li>
+      }
+    </ul>
+
+    <div *ngIf="filteredOptions.length === 0" class="no-results">
+      No results found
+    </div>
+  </div>
+</div>

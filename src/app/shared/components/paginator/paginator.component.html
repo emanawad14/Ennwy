@@ -1,0 +1,37 @@
+<div class="paginator">
+  @if(showOptions){
+  <label>
+    Rows per page:
+    <select (change)="changePageSize(+$event)">
+      <option *ngFor="let option of rowsPerPageOptions" [value]="option" [selected]="option === pageSize">
+        {{ option }}
+      </option>
+    </select>
+  </label>
+  }
+
+  <button (click)="goToPage(1)" [disabled]="currentPage() === 1">
+    <i class="pi pi-angle-double-left"></i>
+
+  </button>
+  <button (click)="goToPage(currentPage() - 1)" [disabled]="currentPage() === 1">
+    <i class="pi pi-angle-left"></i>
+  </button>
+
+  <button *ngFor="let page of visiblePageLinks" (click)="goToPage(page)" [class.active]="page === currentPage()">
+    {{ page }}
+  </button>
+
+  <button (click)="goToPage(currentPage() + 1)" [disabled]="currentPage() === totalPages">
+    <i class="pi pi-angle-right"></i>
+
+  </button>
+  <button (click)="goToPage(totalPages)" [disabled]="currentPage() === totalPages">
+    <i class="pi pi-angle-double-right"></i>
+
+  </button>
+
+  <!-- <span *ngIf="totalRecords > 0">
+    {{ startItem }} - {{ endItem }} of {{ totalRecords }}
+  </span> -->
+</div>

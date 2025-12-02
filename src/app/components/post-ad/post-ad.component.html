@@ -1,0 +1,22 @@
+<div class="post-ad py-4">
+  <div class="container">
+    <h1 class="fs-4"> إضافة إعلان +</h1>
+    <p class="mt-4 fs-6 fw-medium">{{'post_ad.chooseCategory'|translate}}</p>
+    <div class="mt-3">
+      @if(categoryId()){
+      <app-ad-categories [categories]="activeCategories()" [selectedCategoryId]="+categoryId()"></app-ad-categories>
+      }@else {
+      @defer (when !isLoading()) {
+      <app-select-ad-category [categories]="activeCategories()"
+        (onSelectCategory)="selectCategory($event)"></app-select-ad-category>
+      } @placeholder {
+      
+      } @loading (minimum 100ms) {
+      <div>Loading categories component...</div>
+      } @error {
+      <div>Failed to load ad category selector.</div>
+      }
+      }
+    </div>
+  </div>
+</div>

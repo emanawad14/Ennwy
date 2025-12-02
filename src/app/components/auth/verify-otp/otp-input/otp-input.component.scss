@@ -1,0 +1,25 @@
+.btn-main-color,
+.btn-main-color:active {
+  padding-block: 0.6rem;
+  border: 1px solid var(--text-main-color);
+  color: #fff;
+  background-color: var(--text-main-color);
+}
+.form-control {
+  width: 3.5rem;
+  min-width: 3.5rem;
+  height: 3.5rem;
+  font-size: 2rem;
+}
+.otp-container {
+  direction: ltr !important;
+}
+
+.otp-cell {
+  width: 48px;
+  height: 48px;
+  text-align: center;
+  direction: ltr !important;
+  unicode-bidi: plaintext;
+  font-variant-numeric: tabular-nums; // ثبات عرض الأرقام
+}

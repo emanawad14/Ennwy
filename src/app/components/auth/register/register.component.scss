@@ -1,0 +1,52 @@
+/* زرار رئيسي */
+.btn-main-color,
+.btn-main-color:active {
+  padding-block: 0.6rem;
+  border: 1px solid var(--text-main-color);
+  color: #fff;
+  background-color: var(--text-main-color);
+}
+
+/* مدخلات */
+.form-control {
+  padding-block: 0.6rem;
+  &::placeholder { color: #8e8e8e !important; }
+}
+
+/* required نجمة */
+.required:after {
+  content: "*";
+  margin-inline: 0.2rem;
+  color: var(--text-main-color);
+}
+
+/* ==== سطر الهاتف (input + ng-select + العلم) ==== */
+.form-control.p-0.d-flex.align-items-center{
+  height:48px;
+  padding-inline:.4rem !important;
+  border-radius:12px;
+  display:flex; gap:.5rem; align-items:center;
+}
+.form-control.p-0.d-flex.align-items-center > .form-control.border-0{
+  flex:1 1 auto !important;
+  min-inline-size:0 !important;
+  height:46px;
+  background:transparent; border:0 !important; box-shadow:none !important;
+}
+
+/* ng-select نفس اللوجن */
+:host ::ng-deep ng-select.dial-select.ng-select,
+:host ::ng-deep .dial-select.ng-select{
+  width:112px !important; min-width:88px !important; max-width:140px !important;
+  display:inline-block !important;
+}
+:host ::ng-deep .dial-select .ng-select-container{
+  min-height:32px !important; border:0 !important; box-shadow:none !important; padding-inline:4px !important;
+}
+
+/* العلم */
+.flag-static{
+  width:20px !important; height:15px !important;
+  inline-size:20px !important; block-size:15px !important;
+  object-fit:cover; border-radius:3px; flex:0 0 auto; margin-inline: .25rem;
+}

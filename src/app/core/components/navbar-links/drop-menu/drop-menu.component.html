@@ -1,0 +1,84 @@
+<div class="dropdown no-horizontal-scroll" 
+     (mouseenter)="toggleDropdown()" 
+     (mouseleave)="toggleDropdown()"
+     dir="rtl">
+  
+  <a class="dropdown-toggle fw-bold"
+     [routerLink]="getHeaderRoute()"
+     (click)="handleHeaderClick($event)"
+     aria-expanded="false">
+    {{ title() }}
+  </a>
+
+  @if(list()?.length > 0 && showChildDropdown()){
+  <ul class="dropdown-menu border-0 shadow py-1 show">
+    <div class="row g-0">
+      @for (item of list(); track $index) {
+      <li [ngClass]="{'col-6': megaMenu()}"
+          class="dropdown-item-container"
+          (mouseenter)="setHoveredItem(item?.id)"
+          (mouseleave)="setHoveredItem(null)">
+
+        <a class="dropdown-item px-2 d-flex justify-content-between align-items-center w-100"
+           [class.no-children]="!hasChildren(item)"
+           [class.has-children]="hasChildren(item)"
+           (click)="handleItemClick($event, title(), list(), item, true)"
+           [routerLink]="getAdsRoute(item, true)"
+           [attr.aria-haspopup]="hasChildren(item)"
+           [attr.aria-expanded]="hoveredItemId() === item?.id">
+
+          <span class="item-text">{{ getItemName(item) }}</span>
+
+          @if(hasChildren(item)){
+          <div class="d-flex align-items-center position-relative">
+            <i class="pi pi-angle-right ms-1 rtl-icon"></i>
+            <ul class="position-absolute child-menu border-0 shadow py-1 rounded"
+                [class.d-none]="hoveredItemId() !== item?.id"
+                [class.d-block]="hoveredItemId() === item?.id">
+
+              @for (child of item?.children; track $index) {
+              <li class="child-item"
+                  (mouseenter)="setHoveredItem(item?.id)"
+                  (mouseleave)="setHoveredItem(null)">
+
+                <a class="dropdown-item px-2 d-flex justify-content-between align-items-center w-100"
+                   [class.no-children]="!hasChildren(child)"
+                   [class.has-children]="hasChildren(child)"
+                   (click)="handleItemClick($event, title(), list(), child, false)"
+                   [routerLink]="getAdsRoute(child, false)">
+
+                  <span class="item-text">{{ getItemName(child) }}</span>
+
+                  @if(hasChildren(child)){
+                  <div class="d-flex align-items-center position-relative">
+                    <i class="pi pi-angle-right ms-1 rtl-icon"></i>
+                    <ul class="position-absolute child-menu border-0 shadow py-1 rounded"
+                        [class.d-none]="hoveredItemId() !== item?.id"
+                        [class.d-block]="hoveredItemId() === item?.id">
+
+                      @for (grandChild of child?.children; track $index) {
+                      <li class="grandchild-item">
+                        <a class="dropdown-item px-2 d-flex justify-content-between align-items-center w-100 no-children"
+                           (click)="handleItemClick($event, title(), list(), grandChild, false)"
+                           [routerLink]="getAdsRoute(grandChild, false)">
+
+                          <span class="item-text">{{ getItemName(grandChild) }}</span>
+                        </a>
+                      </li>
+                      }
+                    </ul>
+                  </div>
+                  }
+                </a>
+              </li>
+              }
+            </ul>
+          </div>
+          }
+        </a>
+      </li>
+      }
+    </div>
+  </ul>
+  }
+</div>

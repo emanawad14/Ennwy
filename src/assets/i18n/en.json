@@ -1,0 +1,360 @@
+{
+"motors":"Motors",
+"properties":"Properties",
+"Save":"save",
+"backTo":"Back to",
+"useLocation":"Use current location",
+"chooseLocation":"Choose location",
+"seeAds":"See ads in all",
+"searchLocation":"Search for location",
+"find":"Find Cars, Mobile Phones and more..........",
+"allIn":"All in",
+"postAd":"Post Your Ad",
+"popularCategories":"Popular Categories",
+  "sortBy": "Sort by:",
+  "newlyListed": "Newly listed",
+  "for-rent": "For Rent",
+  "for-sale": "For Sale",
+  "showMore": "show More",
+  "Clear": "Clear",
+  "showVerifiedAccountsFirst": "Show Verified Accounts first",
+ "FEATURED_ADS": "Featured Ads",
+  "CHAT": "Chat",
+  "CALL": "Call",
+   "MAPS_ERROR": "Google Maps Platform rejected your request. Invalid request. Invalid 'center' parameter.",
+  "saveSearch": "Save Search",
+  "mostRelevant": "Most relevant",
+  "lowestPrice": "Lowest price",
+  "highestPrice": "Highest price",
+  "verifiedAccounts": "Verified accounts",
+"lira":"Lira Syria",
+"dollar": "USD",
+"description":"Description",
+"location":"Location",
+"details":"Details",
+"privateUser":"Listed by private user",
+"memberSince":"Member Since",
+"seeProfile":"See Profile",
+"chat":"Chat",
+"whatsApp":"WhatsApp",
+"showPhoneNum":"Show Phone Number",
+"safety":"Your safety matters to us!",
+"OnlyMeetInPublic": "Only meet in public or crowded places such as metro stations and malls.",
+  "NeverGoAlone": "Never go alone to meet a buyer or seller; always take someone with you.",
+  "CheckProduct": "Check and inspect the product properly before purchasing it.",
+  "NeverPayInAdvance": "Never pay anything in advance or transfer money before inspecting the product.",
+
+"home":"Home",
+"moreCategories":"More Categories","allCategories": "All categories",
+  "vehicles": "Vehicles",
+  "carsForSale": "Cars for Sale",
+  "carsForRent": "Cars for Rent",
+  "tyresAccessories": "Tyres, Batteries, Oils, & Accessories",
+  "spareParts": "Car Spare Parts",
+  "motorcycles": "Motorcycles & Accessories",
+  "boats": "Boats - Watercraft",
+  "heavyVehicles": "Heavy Trucks, Buses & Other Vehicles",
+
+"categories":"Categories",
+ "shareProfile": "Share user profile",
+  "reportUser": "Report User",
+  "blockUser": "Block User",
+  "filterBy": "Filter by",
+  "publishedAds": "Published ads",
+  "showing": "Showing",
+  "outOf": "out of",
+  "ads": "Ads",
+  "yearsAgo": "years ago",
+  "monthsAgo": "months ago",
+  "daysAgo": "days ago",
+  "hoursAgo": "hours ago",
+  "minutesAgo": "minutes ago",
+  "secondsAgo": "seconds ago",
+  "viewMore":"View more",
+  "selectAll":"Select All",
+   "featured_specs": "Featured Specifications",
+    "extras": "Extras",
+    "addition":"Addition",
+    "noData":"No Data",
+  "auth":{
+    "loginInto":"Login into your Ennwy account",
+    "loginPhone":"Login with Phone",
+    "loginEmail":"Login with Email",
+    "newAccount":"New to Ennwy? Create an account",
+    "loginGoogle": "Log in with Google",
+    "loginFacebook": "Log in with Facebook",
+  "login":"Login",
+
+  "backHome":"Back To Home",
+  "usernameLabel": "Username",
+  "usernamePlaceholder": "Enter Username",
+  "usernameRequired": "Username is required",
+  "passwordLabel": "Password",
+  "passwordPlaceholder": "Enter Password",
+  "passwordRequired": "Password is required",
+  "submitButton": "Submit",
+    "notMember": "Not a member?",
+  "register": "Register",
+  "haveAccount":"You Have Account?",
+  "forgetPassword":"Forget Password ?"
+},
+"post_ad":{
+  "postAd":"Post your ad",
+  "chooseCategory":"Choose Category",
+  "sellAd":"Sell Your ad",
+  "category":"Category",
+  "change":"Change",
+  "upload":"Upload Images",
+  "cover":"For the cover picture we recommend using the landscape mode.",
+  "used":"Used",
+  "new":"New",
+  "postNow":"Post Now"
+},
+"label":{
+  "condition":"Condition",
+  "type":"Type",
+    "otpLabel": "Otp",
+  "adTitle":"Ad title",
+  "description":"Description",
+  "location":"Location",
+  "city":"City",
+  "price":"Price",
+  "name":"Name",
+  "phoneNumber":"Mobile Phone Number",
+  "contactMethod":"Contact Method",
+"phone":"Phone Number",
+"chat":"Ennwy Chat",
+"both":"Both",
+"negotiable":"Negotiable",
+"exchange":"Exchange",
+"free":"Free",
+"email":"Email Address",
+"fullName":"Full Name",
+"newPassword":"New Password",
+"confirmNewPassword":"Confirm New Password"
+},
+ "or": "or",
+"placeholder":{
+  "type":"Enter Type",
+  "title":"Enter Title",
+  "description":"Enter Description",
+  "location":"Location",
+  "price":"Enter Price",
+  "name":"Enter Name",
+  "phoneNumber":"Enter Mobile Phone Number",
+  "select":"Select",
+  "search":"Search...",
+"email":"Enter Email Address",
+"fullName":"Enter Full Name",
+"newPassword":"Enter New Password",
+"confirmNewPassword":"Enter Confirm New Password"
+},
+"validation":{
+  "required":"This Field is required",
+  "title":"Ad Title is required",
+  "minTitle":"Ad Title must be at least 5 characters",
+  "description":"Description is required",
+  "minDescription":"Description must be at least 10 characters",
+  "location":"Location is required",
+  "price":"Price is required",
+  "name":"Name is required",
+  "phoneNumber":"Mobile Phone Number is required",
+  "contactMethod":"Contact Method is required",
+  "passwordPattern":" Confirm password must be 8 or more characters, contains upper & lower case letters, numbers, and at least one special character (!%*?&|@...)",
+  "confirmPassword":"Confirm password not match with password"
+},
+"profile":{
+"publicProfile":"Public Profile",
+"myAds":"My Ads",
+"logOut":"LogOut"
+},
+  "footer": {
+    "title": "Find amazing deals on the go.",
+    "download": "Download the app now!",
+    "about_us": "About Us",
+    "about_group": "About Ennwy Group",
+    "careers": "Careers",
+    "contact_us": "Contact Us",
+    "business": "Ennwy for Businesses",
+    "ennwy": "Ennwy",
+    "blog": "Blog",
+    "help": "Help",
+    "sitemap": "Sitemap",
+    "terms": "Terms of use",
+    "privacy": "Privacy Policy",
+    "countries": "Countries",
+    "follow_us": "Follow us",
+    "Syria": "Syria",
+    "Qatar": "Qatar",
+    "kuwait": "Kuwait",
+    "United Arab Emirates": "United Arab Emirates",
+
+"for_rent": "For Rent",
+  "for_sale": "For Sale",
+
+    "copyright": "Classifieds in Syria",
+    "rights": "© 2025 Ennwy"
+
+  }
+,
+
+
+"purpose":{
+"for_rent": "للايجار",
+  "for-sale": "للبيع"
+}
+,
+
+ "edit_profile": {
+    "title": "Edit Profile",
+    "phone": "Phone Number",
+    "phone_placeholder": "+2010xxxxxxx",
+    "other_phone": "Other Phone (optional)",
+    "other_phone_placeholder": "Other phone number",
+    "full_name": "Full Name",
+    "address": "Address (optional)",
+    "address_placeholder": "Address",
+    "gender": "Gender (optional)",
+    "male": "Male",
+    "female": "Female",
+    "user_type": "User Type (optional)",
+    "user_person": "Individual User",
+    "user_store": "Store Owner",
+    "save_btn": "Update Profile"
+  }
+  ,
+
+    "edit": "Edit Profile",
+    "changePassword": "Change Password",
+    "notifications": "Notifications",
+    "favorites": "Favorites",
+    "interaction": "Interaction",
+    "terms": "Terms & Conditions",
+    "contact": "Contact Us",
+    "support": "Help & Support",
+    "invite": "Invite Friends",
+
+
+  "currentPassword": "Current Password",
+  "newPassword": "New Password",
+  "confirmNewPassword": "Confirm New Password",
+ 
+    "status": {
+      "all": "All",
+      "new": "New",
+      "inReview": "In Review",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "paused": "Paused",
+      "expired": "Expired",
+      "deleted": "Deleted"
+    }
+  ,
+  
+  "title": "Terms and Conditions - Ennwy App",
+  "lastUpdated": "Last updated: April 18, 2025",
+  "sections": {
+    "accept": {
+      "title": "1. Acceptance of Terms",
+      "content": [
+        "By using the Ennwy app, you agree to abide by these terms. If you do not agree, please do not use the app."
+      ]
+    },
+    "account": {
+      "title": "2. Account Creation",
+      "content": [
+        "You must be 16 years of age or older.",
+        "You must provide accurate and truthful information.",
+        "You are responsible for the security of your account."
+      ]
+    },
+    "usage": {
+      "title": "3. App Usage",
+      "content": [
+        "Using the app for illegal or unethical purposes is prohibited.",
+        "Posting misleading or fake advertisements is prohibited.",
+        "The app respects laws and intellectual property rights.",
+        "Ennwy does not guarantee the accuracy or validity of content.",
+        "The app reserves the right to delete, block, or restrict content."
+      ]
+    },
+    "content": {
+      "title": "4. Content",
+      "content": [
+        "The user is responsible for the content they publish. Ennwy administration has the right to edit or delete content."
+      ]
+    },
+    "interactions": {
+      "title": "5. User Interactions",
+      "content": [
+        "Ennwy is merely a platform and is not involved in any buying or selling transactions."
+      ]
+    },
+    "privacy": {
+      "title": "6. Privacy",
+      "content": [
+        "We are committed to our privacy policy in how we handle data."
+      ]
+    },
+    "modifications": {
+      "title": "7. Modifications",
+      "content": [
+        "We reserve the right to modify these terms at any time. You will be notified via the app or email."
+      ]
+    },
+    "termination": {
+      "title": "8. Service Termination",
+      "content": [
+        "Ennwy administration has the right to terminate or suspend your account if the terms are violated."
+      ]
+    },
+    "law": {
+      "title": "9. Governing Law",
+      "content": [
+        "These terms are governed by the laws of the Syrian Arab Republic, and any disputes shall be resolved in its courts."
+      ]
+    }
+  }
+,"report": {
+  "title": "Report a Problem",
+  "email": "Email",
+  "emailPlaceholder": "Enter your email",
+  "fullName": "Full Name",
+  "fullNamePlaceholder": "Enter your full name",
+  "phone": "Country Code",
+  "phonePlaceholder": "Enter your phone number",
+  "titleLabel": "Message Title",
+  "titlePlaceholder": "Enter a title for the issue",
+  "description": "Description",
+  "descriptionPlaceholder": "Add a description of the issue you're facing",
+  "submit": "Submit"
+}
+  ,
+    "contactUs": {
+    "title": "Contact Us",
+    "emailTitle": "Email",
+    "phoneTitle": "Call Us",
+    "hoursTitle": "Working Hours",
+    "hoursValue": "Sunday - Thursday, 09:00 - 17:00",
+    "reportIssue": "Report a Problem"
+  }
+,
+  "message": "Message",
+  "send": "Send",
+  "sending": "Sending...",
+  "filters": "filters",
+  "close": "Close",
+    "back": "back",
+  "apply": "apply",
+"loading": "Loading...",
+  "chats": {
+    "title": "Chats",
+    "search": "Search chats",
+    "noMessage": "No messages yet",
+    "pick": "Pick a chat to view details",
+    "typeMessage": "Type a message",
+    "empty": "No chats found",
+    "showads": "Show Ad"
+  }
+  
+}

@@ -1,0 +1,74 @@
+<!-- ✅ Cards Grid with Translations -->
+<div class="row g-3 mt-3">
+  <div class="col-lg-4 col-md-6 col-12">
+    <div class="card p-3 h-100 d-flex justify-content-between align-items-center flex-row cursor-pointer"
+         [routerLink]="['/edit-profile']">
+      <span class="fw-semibold">{{ 'edit' | translate }}</span>
+      <i class="pi pi-pencil text-danger fs-5"></i>
+    </div>
+  </div>
+
+  <div class="col-lg-4 col-md-6 col-12">
+    <div class="card p-3 h-100 d-flex justify-content-between align-items-center flex-row cursor-pointer"
+         [routerLink]="['/changepassword']">
+      <span class="fw-semibold">{{ 'changePassword' | translate }}</span>
+      <i class="pi pi-key text-danger fs-5"></i>
+    </div>
+  </div>
+
+  <div class="col-lg-4 col-md-6 col-12">
+    <div class="card p-3 h-100 d-flex justify-content-between align-items-center flex-row cursor-pointer"
+         [routerLink]="['/notifications']">
+      <span class="fw-semibold">{{ 'notifications' | translate }}</span>
+      <i class="pi pi-bell text-danger fs-5"></i>
+    </div>
+  </div>
+
+  <div class="col-lg-4 col-md-6 col-12">
+    <div class="card p-3 h-100 d-flex justify-content-between align-items-center flex-row cursor-pointer"
+         [routerLink]="['/fav-ads']">
+      <span class="fw-semibold">{{ 'favorites' | translate }}</span>
+      <i class="pi pi-heart text-danger fs-5"></i>
+    </div>
+  </div>
+
+  <div class="col-lg-4 col-md-6 col-12">
+    <div class="card p-3 h-100 d-flex justify-content-between align-items-center flex-row cursor-pointer"
+         [routerLink]="['/interaction']">
+      <span class="fw-semibold">{{ 'interaction' | translate }}</span>
+      <i class="pi pi-volume-up text-danger fs-5"></i>
+    </div>
+  </div>
+
+  <div class="col-lg-4 col-md-6 col-12">
+    <div class="card p-3 h-100 d-flex justify-content-between align-items-center flex-row cursor-pointer"
+         [routerLink]="['/terms-and-conditions']">
+      <span class="fw-semibold">{{ 'terms' | translate }}</span>
+      <i class="pi pi-file text-danger fs-5"></i>
+    </div>
+  </div>
+
+  <div class="col-lg-4 col-md-6 col-12">
+    <div class="card p-3 h-100 d-flex justify-content-between align-items-center flex-row cursor-pointer"
+         [routerLink]="['/contact-us']">
+      <span class="fw-semibold">{{ 'contact' | translate }}</span>
+      <i class="pi pi-envelope text-danger fs-5"></i>
+    </div>
+  </div>
+
+  <div class="col-lg-4 col-md-6 col-12">
+    <div class="card p-3 h-100 d-flex justify-content-between align-items-center flex-row cursor-pointer"
+         [routerLink]="['/helpsupport']">
+      <span class="fw-semibold">{{ 'support' | translate }}</span>
+      <i class="pi pi-question-circle text-danger fs-5"></i>
+    </div>
+  </div>
+
+  <div class="col-lg-4 col-md-6 col-12">
+    <div class="card p-3 h-100 d-flex justify-content-between align-items-center flex-row cursor-pointer"
+         [routerLink]="['/advertiserpage']">
+      <span class="fw-semibold">{{ 'invite' | translate }}</span>
+      <i class="pi pi-share-alt text-danger fs-5"></i>
+    </div>
+  </div>
+</div>

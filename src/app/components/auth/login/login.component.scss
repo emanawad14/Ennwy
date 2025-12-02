@@ -1,0 +1,115 @@
+/* ====== ألوان العلامة (مطابقة للصورة) ====== */
+:root {
+  --text-main-color: #D91021;        /* الأحمر الأساسي من الشعار */
+  --brand-main: #D91021;             /* للزر الرئيسي */
+  --brand-main-hover: #BE0E1D;       /* 12% أغمق */
+  --brand-main-active: #A90C19;      /* 22% أغمق */
+  --brand-contrast: #FFFFFF;
+
+  --brand-soft: #E5B8C0;             /* الوردي الفاتح (زر التسجيل) */
+  --brand-soft-hover: #CEA5AC;       /* أغمق شوية */
+  --brand-soft-active: #B79399;      /* أغمق أكتر */
+}
+
+/* لون نص مساعد لو بتستخدم الكلاس ده في الروابط */
+.text-main-color { color: var(--text-main-color) !important; }
+
+/* ====== الأزرار بنفس ألوان الصورة ====== */
+.btn.btn-main-color,
+.btn-main-color {
+  background-color: var(--brand-main) !important;
+  border-color: var(--brand-main) !important;
+  color: var(--brand-contrast) !important;
+  padding-block: .6rem;
+}
+.btn.btn-main-color:hover,
+.btn.btn-main-color:focus,
+.btn-main-color:hover,
+.btn-main-color:focus {
+  background-color: var(--brand-main-hover) !important;
+  border-color: var(--brand-main-hover) !important;
+  color: var(--brand-contrast) !important;
+  outline: none;
+}
+.btn.btn-main-color:active,
+.btn-main-color:active {
+  background-color: var(--brand-main-active) !important;
+  border-color: var(--brand-main-active) !important;
+  color: var(--brand-contrast) !important;
+}
+.btn.btn-main-color:disabled,
+.btn-main-color[disabled] { opacity:.65; cursor:not-allowed; }
+
+/* زر التسجيل بدرجات وردي باستيل */
+.btn.btn-register,
+.btn-register {
+  background-color: var(--brand-soft) !important;
+  border-color: var(--brand-soft) !important;
+  color: #212529 !important;
+}
+.btn.btn-register:hover,
+.btn.btn-register:focus,
+.btn-register:hover,
+.btn-register:focus {
+  background-color: var(--brand-soft-hover) !important;
+  border-color: var(--brand-soft-hover) !important;
+  color: #212529 !important;
+  outline: none;
+}
+.btn.btn-register:active,
+.btn-register:active {
+  background-color: var(--brand-soft-active) !important;
+  border-color: var(--brand-soft-active) !important;
+  color: #212529 !important;
+}
+.btn:focus-visible {
+  box-shadow: 0 0 0 .2rem rgba(217,16,33,.35) !important; /* رِنج تركيز من نفس الأحمر */
+}
+
+/* ====== (إعادة تأكيد) FIX القوي للعلم و ng-select ====== */
+/* سيب الكود ده زي ما هو عندك — مكرر هنا علشان يتطبق بأعلى أسبقية */
+.flag-static {
+  width: 20px !important;
+  height: 15px !important;
+  inline-size: 20px !important;
+  block-size: 15px !important;
+  object-fit: cover;
+  border-radius: 3px;
+  flex: 0 0 auto;
+  margin-inline: .25rem;
+  display: inline-block;
+}
+:host ::ng-deep ng-select.dial-select.ng-select,
+:host ::ng-deep .dial-select.ng-select {
+  width: 112px !important;
+  min-width: 88px !important;
+  max-width: 140px !important;
+  display: inline-block !important;
+}
+:host ::ng-deep .dial-select .ng-select-container {
+  min-height: 32px !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding-inline: 4px !important;
+}
+.form-control.p-0.d-flex.align-items-center {
+  gap: .5rem;
+  padding-inline: .4rem !important;
+}
+.form-control .form-control.border-0 {
+  flex: 1 1 auto !important;
+  min-inline-size: 0 !important;
+}
+:host ::ng-deep .ng-dropdown-panel {
+  max-inline-size: min(92vw, 420px) !important;
+  border: 0 !important;
+  box-shadow: var(--card-shadow, 0 8px 30px rgba(0,0,0,.06)) !important;
+  border-radius: var(--card-radius, 12px) !important;
+  padding: 5px !important;
+}
+@media (max-width: 576px) {
+  :host ::ng-deep ng-select.dial-select.ng-select,
+  :host ::ng-deep .dial-select.ng-select { width: 92px !important; }
+}
+form .btn.btn-main-color { background-color:#D91021 !important; border-color:#D91021 !important; }
+form .btn.btn-register  { background-color:#E5B8C0 !important; border-color:#E5B8C0 !important; color:#212529 !important; }
