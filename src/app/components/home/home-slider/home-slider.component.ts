@@ -80,16 +80,24 @@ export class HomeSliderComponent implements AfterViewInit {
     return href || null;
   }
 
-  onBannerClick(ev: Event, item: any): void {
-    const href = this.extractLink(item);
-    if (!href) {
-      ev.preventDefault();
-      console.warn('No link found for banner item:', item);
-      return;
-    }
-    if (!this.isExternal(href)) {
-      ev.preventDefault();
-      this.__router.navigate([href]);
-    }
+ onBannerClick(ev: Event, item: any): void {
+  // لا تمنع الحدث حتى نحدد الرابط
+  const identifier = item?.identifier?.trim();
+  const advertiserId = item?.advertiserId?.trim();
+
+  if (identifier) {
+    // فتح الرابط الخارجي
+    ev.preventDefault();
+    window.open(identifier, '_blank', 'noopener,noreferrer');
+  } else if (!identifier && advertiserId) {
+    // التوجيه لصفحة داخلية
+    ev.preventDefault();
+    this.__router.navigate(['/advertiser-profile', advertiserId]);
+  } else {
+    // لا يوجد رابط أو advertiserId
+    ev.preventDefault();
+    console.warn('No valid link or advertiserId found for banner item:', item);
   }
+}
+
 }
