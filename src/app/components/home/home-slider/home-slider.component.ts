@@ -1,16 +1,14 @@
 import { HomeService } from '../../../services/home.service';
 import { Component, signal, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router'; // ⬅️ أضف RouterModule
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SearchComponent } from '../../../core/components/navbar/search/search.component';
-
 
 declare const bootstrap: any;
 
 @Component({
   selector: 'app-home-slider',
   standalone: true,
-  // ⬅️ اضف الـ imports هنا
   imports: [CommonModule, RouterModule, SearchComponent],
   templateUrl: './home-slider.component.html',
   styleUrls: ['./home-slider.component.scss']
@@ -80,24 +78,48 @@ export class HomeSliderComponent implements AfterViewInit {
     return href || null;
   }
 
- onBannerClick(ev: Event, item: any): void {
-  // لا تمنع الحدث حتى نحدد الرابط
-  const identifier = item?.identifier?.trim();
-  const advertiserId = item?.advertiserId?.trim();
+  // -----------------------------
+  //        تعديل دالة الضغط
+  // -----------------------------
+  onBannerClick(ev: Event, item: any): void {
+    ev.preventDefault();
 
-  if (identifier) {
-    // فتح الرابط الخارجي
-    ev.preventDefault();
-    window.open(identifier, '_blank', 'noopener,noreferrer');
-  } else if (!identifier && advertiserId) {
-    // التوجيه لصفحة داخلية
-    ev.preventDefault();
-    this.__router.navigate(['/advertiser-profile', advertiserId]);
-  } else {
-    // لا يوجد رابط أو advertiserId
-    ev.preventDefault();
-    console.warn('No valid link or advertiserId found for banner item:', item);
+    const action = item?.action?.trim()?.toLowerCase();
+    const identifier = item?.identifier?.trim();
+    const advertiserId = item?.advertiserId?.trim();
+    const adId = item?.adId || item?.advertisementId;
+
+    // 1️⃣ لو الأكشن إعلان → روح لصفحة الإعلان
+    if (action === 'ad' && adId) {
+
+      this.__router.navigate(['/ad', adId]);
+      return;
+    }
+
+    // 2️⃣ لو فيه advertiserId → صفحة المعلن
+    if (advertiserId) {
+      this.__router.navigate(['/advertiser-profile', advertiserId]);
+      return;
+    }
+
+    // 3️⃣ لو فيه لينك خارجي → افتح في تبويب جديد
+    if (identifier && /^https?:\/\//i.test(identifier)) {
+      window.open(identifier, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    console.warn('No valid action or link found for banner:', item);
   }
-}
 
+  // -----------------------------
+  //           slug
+  // -----------------------------
+  slug(v?: string | null): string {
+    if (!v) return '';
+    return String(v)
+      .normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-zA-Z0-9\u0600-\u06FF\s-]/g, '')
+      .trim().replace(/\s+/g, '-')
+      .toLowerCase();
+  }
 }
