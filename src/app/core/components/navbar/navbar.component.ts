@@ -4,11 +4,16 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 
+import { Location } from '@angular/common';
+
+
+
 import { LanguageService } from '../../../services/generic/language.service';
 import { UtilityService } from '../../../services/generic/utility.service';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { LocationComponent } from './location/location.component';
 import { SearchComponent } from './search/search.component';
+import { HeaderComponent } from "../header/header.component";
 
 const STORAGE_USER_KEY = 'EnnwyUserInfo'; // <-- المفتاح المطلوب
 
@@ -17,12 +22,13 @@ const STORAGE_USER_KEY = 'EnnwyUserInfo'; // <-- المفتاح المطلوب
   standalone: true,
   imports: [
     CommonModule,
-    LocationComponent,
+    
     SearchComponent,
     UserInfoComponent,
     RouterModule,
-    TranslateModule
-  ],
+    TranslateModule,
+    HeaderComponent
+],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
@@ -34,6 +40,7 @@ export class NavbarComponent {
     private readonly __LanguageService: LanguageService,
     private readonly __UtilityService: UtilityService,
     private readonly __Router: Router,
+    private loc: Location, private router: Router,
     private readonly zone: NgZone // مهم للتنقل بعد SweetAlert
   ) {}
 
@@ -164,4 +171,15 @@ export class NavbarComponent {
     if (!(await this.requireLoginGuard('/notifications'))) return;
     this.__Router.navigate(['/notifications']);
   }
+
+
+
+
+
+
+
+ 
+
+  
+  
 }

@@ -16,6 +16,7 @@ import { LanguageService } from './services/generic/language.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { filter, Subscription } from 'rxjs';
 import { UtilityService } from './services/generic/utility.service';
+import { HomeSliderComponent } from "./components/home/home-slider/home-slider.component";
 
 @Component({
   selector: 'app-root',
@@ -28,7 +29,8 @@ import { UtilityService } from './services/generic/utility.service';
     NavbarComponent,
     FooterComponent,
     TranslateModule,
-  ],
+    HomeSliderComponent
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

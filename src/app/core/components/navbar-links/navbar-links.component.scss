@@ -1,3 +1,61 @@
+
+.categories-icons-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+
+
+/* كل عنصر = أيقونة فوق + اسم */
+.category-with-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  min-width: 70px;
+}
+
+
+/* الأيقونة */
+.category-icon {
+  font-size: 22px;
+  color: #1fb9ed;
+}
+
+@media (max-width: 768px) {
+  .category-icon {
+    font-size: 20px;
+  }
+}
+
+.category-with-icon app-drop-menu {
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+@media (min-width: 1200px) {
+  .categories-icons-bar {
+    grid-template-columns: repeat(10, 1fr);
+  }
+}
+@media (max-width: 1199px) {
+  .categories-icons-bar {
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+@media (max-width: 576px) {
+  .categories-icons-bar {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .category-icon {
+    font-size: 18px;
+  }
+}
+
+/* spinner */
 .spinner-grow {
   width: 0.7rem;
   height: 0.7rem;

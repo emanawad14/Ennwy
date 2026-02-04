@@ -1,13 +1,18 @@
-<nav *ngIf="!isMobile()" class="navbar-links py-1 pt-2" style="
-  padding-bottom: 1px;
-  box-shadow: 0 8px 16px -8px #00000024;
-">
+<nav *ngIf="!isMobile()" class="navbar-links py-6 my-6 pt-2"
+     style="padding-bottom:1px; box-shadow:0 8px 16px -8px #00000024;">
+
   <div class="container">
-    <ul class="d-flex justify-content-between gap-2 flex-wrap">
+    <ul class="d-flex justify-content-between gap-1 flex-wrap categories-icons-bar">
+
       @defer (when !isLoading()) {
         @for (item of categories(); track $index) {
-          @if($index<9){
-            <li>
+          @if ($index < 9) {
+            <li class="category-with-icon">
+
+              <!-- الأيقونة (static) -->
+              <i class="pi pi-car category-icon"></i>
+
+              <!-- نفس الـ component زي ما هو -->
               <app-drop-menu
                 ngSkipHydration
                 [title]="language() == 'en' ? item?.name_L1 : item?.name"
@@ -16,28 +21,30 @@
                 [megaMenu]="(item?.children?.length ?? 0) > 9"
                 [width]="(item?.children?.length ?? 0) > 9 ? '34rem' : ''">
               </app-drop-menu>
+
             </li>
           }
         }
 
-        @if(categories().length > 9){
-          <li>
+        @if (categories().length > 9) {
+          <li class="category-with-icon">
+
+            <i class="pi pi-ellipsis-h category-icon"></i>
+
             <app-more-category-drop-menu
               [title]="'moreCategories' | translate"
               [list]="categories()">
             </app-more-category-drop-menu>
+
           </li>
         }
 
-      } @loading (minimum 100ms) {
+      } @loading {
         <div class="d-flex justify-content-center gap-1 w-100">
-          @for (el of [1, 2, 3, 4]; track $index) {
-            <div class="spinner-grow text-secondary" role="status" style="width: 0.7rem; height: 0.7rem;">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-          }
+          <div class="spinner-grow text-secondary"></div>
         </div>
       }
+
     </ul>
   </div>
 </nav>

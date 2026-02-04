@@ -1,20 +1,85 @@
-/* خلي الـ nav جزء من الهيدر الأبيض */
-:host {
-  display: block;
-  background: #fff;
+
+// :host {
+//   display: block;
+//   background: #fff;
+// }
+
+// .btn-solid-main,
+// .btn-solid-main:active {
+//   background-color: #1fb9ed;
+//   padding-inline: 1.2rem;
+//   color: #fff;
+//   font-weight: 500;
+// }
+
+// :host::ng-deep {
+//   .dialog-header {
+//     border-bottom: 0 !important;
+//     padding-bottom: 0 !important;
+//   }
+// }
+
+// .nav-search {
+//   width: 100%;
+//   margin-top: 40px;
+// }
+
+
+// .nav-search .search-wrapper,
+// .nav-search .input-group {
+//   width: 100%;
+//    margin-top: 40px;
+// }
+
+
+// .search-icon {
+//   width: 3rem;
+// }
+
+
+// .search-dd {
+//   width: 100%;
+// }
+
+.nav-top {
+  width: 100%;
 }
 
-.btn-solid-main,
-.btn-solid-main:active {
-  background-color: #1fb9ed;
-  padding-inline: 1.2rem;
-  color: #fff;
-  font-weight: 500;
+.app-header {
+  flex: 0 0 auto;
 }
 
-:host::ng-deep {
-  .dialog-header {
-    border-bottom: 0 !important;
-    padding-bottom: 0 !important;
-  }
+.nav-actions {
+  flex: 0 0 auto;
+}
+
+.nav-search {
+  width: 100%;
+}
+
+/* RTL دعم العربي */
+:host-context([dir="rtl"]) .app-header {
+  flex-direction: row-reverse;
+}
+
+:host-context([dir="rtl"]) .back-btn svg {
+  transform: scaleX(-1);
+}
+
+
+
+.nav-actions > * {
+  position: relative;
+  padding-inline: 0.75rem; 
+}
+
+.nav-actions > *:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  inset-inline-end: 0; 
+  width: 3px;
+  height: 30px;
+  background-color: #ddd; 
 }

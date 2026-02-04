@@ -1,15 +1,17 @@
 @if(shouldRender()){
   <header class="site-header bg-white mb-2">
-    <div class="position-sticky top-0 bg-white navbar-content ">
+    <div class="  bg-white navbar-content ">
       <!-- Desktop -->
       <div class="d-none d-md-block">
-        <div class="container">
+        <div class="layout-wrapper">
+
           <div class="d-flex align-items-center justify-content-between gap-3 header-row">
-            <div class="header-logo-wrap flex-shrink-0">
-              <app-header></app-header>
-            </div>
+             
+            
+           
+            
             @if(shouldNavbar()){
-              <div class="header-actions-wrap flex-grow-1">
+              <div class="header-actions-wrap  flex-grow-1">
                 <app-navbar></app-navbar>
               </div>
             }
@@ -21,6 +23,9 @@
       <div class="d-block d-md-none border-bottom">
         <app-mobile-navbar></app-mobile-navbar>
       </div>
+    </div>
+    <div class="layout-wrapper slide">
+      <app-home-slider></app-home-slider>
     </div>
 
     @if(shouldNavbar()){

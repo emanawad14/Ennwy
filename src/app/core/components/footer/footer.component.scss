@@ -1,106 +1,104 @@
+
 .footer {
+  width: 100%;
   background-color: #f6f6f6;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
+  padding: 10px ;
+  margin-top: 15px;
 
-  .download {
-    color: crimson;
-    text-decoration: none;
-  }
+}
 
-  .copy-right {
-    background-color: #edeeee;
-  }
+.footer-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 
-  .section-title {
-    font-size: clamp(0.9rem, 0.85rem + 0.2vw, 1rem);
-    margin-bottom: 0.75rem;
-  }
 
-  .footer-link {
-    font-size: 0.95rem;
-    color: #464c55;
-    text-decoration: none;
-    display: inline-block;
-    padding: 0.15rem 0;
+.footer-left h6 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+  display: inline-block;
+  margin-right: 10px;
+}
 
-    &:hover {
-      color: #222;
-      text-decoration: underline;
-    }
-  }
+.download-btn {
+  display: inline-block;
+  font-size: 13px;
+  color: #c00;
+  border: 1px solid #c00;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
 
-  /* Store badges */
-  .store-badge {
-    width: 130px;
-    height: auto;
-  }
-  .store-badge-sm {
-    width: 90px;
-    height: auto;
-  }
+.download-btn:hover {
+  background-color: #c00;
+  color: #fff;
+}
 
-  /* Social icons */
-  .icon {
-    width: 2.4rem;
-    min-width: 2.4rem;
-    height: 2.4rem;
-    color: crimson;
-    border: 1px solid crimson;
-    transition: all 0.2s ease-in-out;
 
-    i {
-      font-size: 1.1rem;
-      line-height: 1;
-    }
+.footer-badges {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
 
-    &:hover {
-      background-color: crimson;
-      color: #fff;
-    }
-  }
+.store-badge {
+  width: 80px;
+  height: auto;
+  display: block;
+}
 
-  /* Top area tweaks */
-  .footer-top {
-    &__left {
-      .download {
-        font-size: clamp(1rem, 0.9rem + 0.4vw, 1.25rem);
-      }
-    }
-  }
 
-  /* Responsive */
-  @media (max-width: 576px) {
-    .footer-top {
-      flex-direction: column;
-      align-items: center !important;
-      text-align: center;
+.footer-social {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
 
-      &__left {
-        margin-bottom: 0.75rem;
-      }
-    }
+.social-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid #c00;
+  border-radius: 50%;
+  color: #c00;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  font-size: 14px;
+}
 
-    .footer-badges {
-      justify-content: center;
-      gap: 0.75rem;
-    }
+.social-icon:hover {
+  background-color: #c00;
+  color: #fff;
+}
 
-    .store-badge {
-      width: 120px;
-    }
 
-    .social {
-      justify-content: center;
-    }
+.copy-right {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 12px;
+  color: #666;
+}
 
-    .copy-right small {
-      text-align: center !important;
-      display: block;
-    }
-  }
 
-  @media (min-width: 577px) and (max-width: 991.98px) {
-    .store-badge {
-      width: 120px;
-    }
+@media (max-width: 576px) {
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
   }
 }

@@ -7,11 +7,12 @@ import { HomeService } from '../../../services/home.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { ILink } from '../../interfaces/nav';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-navbar-links',
   standalone: true,
-  imports: [DropMenuComponent, TranslateModule, MoreCategoryDropMenuComponent,CommonModule],
+  imports: [DropMenuComponent, TranslateModule, MoreCategoryDropMenuComponent,CommonModule,RouterLink],
   templateUrl: './navbar-links.component.html',
   styleUrl: './navbar-links.component.scss'
 })

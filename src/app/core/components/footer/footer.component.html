@@ -1,92 +1,40 @@
-<footer class="footer pt-5">
-  <div class="container">
-    <!-- Top: Title + Download + Badges -->
-    <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap flex-md-nowrap footer-top">
-      <div class="footer-top__left text-center text-md-start">
-        <h5 class="fs-4 mb-2">{{ 'footer.title' | translate }}</h5>
+<footer class="footer">
+  <div class="footer-container">
 
-        <!-- زر تنزيل يفتح متجر النظام حسب رغبة المستخدم (اتركه رابطًا عامًا أو وجّه لنفس روابط المتاجر) -->
-        <a
-          title="download"
-          class="fs-5 fw-medium download d-inline-block"
-          href="https://play.google.com/store/apps/details?id=com.ennwy.app&hl=en"
-          target="_blank" rel="noopener noreferrer">
-          {{ 'footer.download' | translate }}
-        </a>
-      </div>
-
-      <!-- Badges (روابط حقيقية) -->
-      <div class="d-flex gap-3 flex-wrap align-items-center justify-content-center footer-badges">
-        <a
-          title="AppStore"
-          href="https://apps.apple.com/us/app/ennwy-%D8%A7%D9%86%D9%88%D9%8A/id6743961218"
-          target="_blank" rel="noopener noreferrer">
-          <img src="images/footer/AppStore.svg" alt="AppStore" class="store-badge" loading="lazy">
-        </a>
-
-        <a
-          title="GooglePlay"
-          href="https://play.google.com/store/apps/details?id=com.ennwy.app&hl=en"
-          target="_blank" rel="noopener noreferrer">
-          <img src="images/footer/GooglePlay.svg" alt="GooglePlay" class="store-badge" loading="lazy">
-        </a>
-      </div>
+    <!-- Left: Title + Download -->
+    <div class="footer-left">
+      <h6>{{ 'footer.title' | translate }}</h6>
+      <a href="https://play.google.com/store/apps/details?id=com.ennwy.app&hl=en" target="_blank" rel="noopener noreferrer" class="download-btn">
+        {{ 'footer.download' | translate }}
+      </a>
     </div>
-  </div>
 
-  <hr class="my-4">
-
-  <!-- Social only (حذفنا أي روابط تانية) -->
-  <div class="container">
-    <div class="row gy-4">
-      <div class="col-lg-8"></div>
-      <div class="col-lg-4 col-sm-12">
-        <h6 class="fw-bold text-uppercase section-title">
-          {{ 'footer.follow_us' | translate }}
-        </h6>
-
-        <!-- Social icons (روابط حقيقية) -->
-        <div class="d-flex gap-2 flex-wrap mt-3 social">
-          <a class="icon d-flex justify-content-center align-items-center rounded-circle"
-             href="https://www.facebook.com/share/1DLrkv5ibE/?mibextid=wwXIfr"
-             aria-label="Facebook" target="_blank" rel="noopener noreferrer">
-            <i class="bi bi-facebook"></i>
-          </a>
-
-          <a class="icon d-flex justify-content-center align-items-center rounded-circle"
-             href="https://www.instagram.com/ennwy_app?igsh=MTJxdmlpOTBsMnkxdw%3D%3D&utm_source=qr"
-             aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-            <i class="bi bi-instagram"></i>
-          </a>
-        </div>
-
-        <!-- Small badges for mobile -->
-        <div class="d-flex gap-2 flex-wrap mt-4 footer-badges-sm">
-          <a
-            title="AppStore"
-            href="https://apps.apple.com/us/app/ennwy-%D8%A7%D9%86%D9%88%D9%8A/id6743961218"
-            target="_blank" rel="noopener noreferrer">
-            <img src="images/footer/AppStore.svg" alt="AppStore" class="store-badge-sm" loading="lazy">
-          </a>
-
-          <a
-            title="GooglePlay"
-            href="https://play.google.com/store/apps/details?id=com.ennwy.app&hl=en"
-            target="_blank" rel="noopener noreferrer">
-            <img src="images/footer/GooglePlay.svg" alt="GooglePlay" class="store-badge-sm" loading="lazy">
-          </a>
-        </div>
-      </div>
+    <!-- Center: Store Badges -->
+    <div class="footer-badges">
+      <a href="https://apps.apple.com/us/app/ennwy-%D8%A7%D9%86%D9%88%D9%8A/id6743961218" target="_blank" rel="noopener noreferrer">
+        <img src="images/footer/AppStore.svg" alt="AppStore" class="store-badge">
+      </a>
+      <a href="https://play.google.com/store/apps/details?id=com.ennwy.app&hl=en" target="_blank" rel="noopener noreferrer">
+        <img src="images/footer/GooglePlay.svg" alt="GooglePlay" class="store-badge">
+      </a>
     </div>
+
+    <!-- Right: Social -->
+    <div class="footer-social">
+      <a href="https://www.facebook.com/share/1DLrkv5ibE/?mibextid=wwXIfr" class="social-icon" target="_blank" rel="noopener noreferrer">
+        <i class="bi bi-facebook"></i>
+      </a>
+      <a href="https://www.instagram.com/ennwy_app" class="social-icon" target="_blank" rel="noopener noreferrer">
+        <i class="bi bi-instagram"></i>
+      </a>
+    </div>
+
   </div>
 
   <!-- Copy Right -->
-  <div class="copy-right py-3">
-    <div class="container" style="display:flex; align-items:center; justify-content:center;">
-      <small class="m-0 d-block text-center text-md-end">
-        <strong>{{ 'footer.copyright' | translate }}</strong>
-        . {{ 'footer.rights' | translate }}
-      </small>
-    </div>
+  <div class="copy-right">
+    <small>
+      <strong>{{ 'footer.copyright' | translate }}</strong>. {{ 'footer.rights' | translate }}
+    </small>
   </div>
 </footer>
