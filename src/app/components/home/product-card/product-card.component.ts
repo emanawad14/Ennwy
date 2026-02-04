@@ -33,7 +33,7 @@ export class ProductCardComponent {
   getPhotoUrl(): string {
 const photos = this.product()?.photos;
 
-  
+
   if (!photos) return 'images/default-image.webp';
 
   // لو الصور عبارة عن string

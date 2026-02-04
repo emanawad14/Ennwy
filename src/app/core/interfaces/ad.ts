@@ -1,5 +1,7 @@
 // ====== IAdDetails (مطابق للـ API الجديد) ======
 export interface IAdDetails {
+image: any;
+  categoryId: string;
   id: number;
   adsNumber: string;
   activStatus: boolean;

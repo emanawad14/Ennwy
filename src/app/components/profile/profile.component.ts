@@ -9,6 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { key } from '../../core/config/localStorage';
 import { RouterModule } from '@angular/router'; // ✅ إضافة هذا السطر لحل خطأ routerLink
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile',
@@ -34,6 +35,7 @@ export class ProfileComponent implements OnInit {
   pageNumber = signal<number>(1);
   pageSize = signal<number>(5);
   cityId = signal<string>('');
+  isBrowser: any;
 
   constructor(
     private readonly __LanguageService: LanguageService,
@@ -45,7 +47,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.getProfileData();
     this.userId.set(this.profileDetails()?.id);
-   
+
   }
 
   get firstLetter() {
@@ -59,12 +61,69 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  
+
 
   getCount(): number {
     return Math.round(this.totalAds() / 5);
   }
 
+   getUserData(): void {
+    if (!this.isBrowser) return;
+
+    const user = localStorage.getItem(key.userInfo);
+    if (!user) return;
+
+    const parsed = JSON.parse(user);
+    this.userId.set(parsed.id);
+  }
+
+  private isLoggedIn(): boolean {
+    return !!this.userId();
+  }
+  
+openAccountHighlightSwal() {
+  // أولاً: جلب بيانات المستخدم من localStorage
+ if (!this.userId()) {
+    Swal.fire('خطأ', 'يجب تسجيل الدخول أولاً', 'error');
+    return;
+  }
+
+  const user = this.userId();
+
+  // فتح Swal
+  Swal.fire({
+    title: 'تمييز الحساب',
+    input: 'text',
+    inputLabel: 'ملاحظة',
+    inputPlaceholder: 'اكتب ملاحظتك هنا',
+    showCancelButton: true,
+    confirmButtonText: 'تم',
+    cancelButtonText: 'إلغاء',
+    preConfirm: (note) => {
+      if (!note) {
+        Swal.showValidationMessage('الملاحظة مطلوبة');
+      }
+      return note;
+    }
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const data = {
+        userId: this.userId(),  // جلب id من localStorage
+        userNotes: result.value,
+        subscriptionType: 0 // 0 = تمييز حساب
+      };
+
+      this.__ProfileService.addLog(data).subscribe({
+        next: (res: any) => {
+          Swal.fire('تم', 'تم إرسال طلب تمييز الحساب بنجاح', 'success');
+        },
+        error: (err: any) => {
+          Swal.fire('خطأ', 'حدث خطأ أثناء إرسال الطلب', 'error');
+        }
+      });
+    }
+  });
+}
 
 
 }

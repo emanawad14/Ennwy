@@ -4,7 +4,7 @@ font-size: 14px;
 }
 
 .product-card[_ngcontent-ng-c3800291288] {
-   
+
     width: 320px;
 }
 
@@ -21,12 +21,11 @@ font-size: 14px;
   display: none;
 }
 
-.scroll-content {
-  display: flex;
-  gap: 16px;
-  flex-wrap: nowrap;
-}
-
+ .scroll-content {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
+  }
 app-category-card {
   flex: 0 0 auto;
   scroll-snap-align: start;

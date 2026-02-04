@@ -6,7 +6,9 @@ export const endpoints = {
   subDistrict: 'SubDistrict/GetAllByDistrictId',
   Favorite: 'AdLoger/AddAdToFavorite',
   ticketing: 'SupportTicket/Add',
-  
+  userrecommendation:"UserAdRecommendation/GetRecommendedAdsForUser",
+    userrecommendationbyad:"UserAdRecommendation/GetRecommendedAdByAd",
+   AddSubscriptionLog: "SubscriptionLog/AddSubscriptionLog",
   ads: {
     ads: 'Ads',
     topCatAds: 'GetTopCatAds',
@@ -16,6 +18,8 @@ export const endpoints = {
     favAds: 'GetUserFavAds',
     add: 'Add'
   },
+  searchlog:"SearchLogging/GetUserSearchLog",
+  deletesearchlog:"SearchLogging/DeleteUserSearch",
 
  filters:"Filter/GetSearchSuggession",
   Notification:"Notification/GetUserNotifications",

@@ -15,7 +15,7 @@ export class AdService {
 
 
   getAllAdsByCategoryId(searchBody: any): Observable<any> {
-  
+
     return this.__http.post(`${this.baseUrl}${endpoints.ads.ads}/${endpoints.ads.allAds}`, searchBody);
   }
   /*
@@ -31,6 +31,20 @@ export class AdService {
     return this.__http.post(`${this.baseUrl}${endpoints.ads.ads}/${endpoints.ads.adyId}?adId=${id}`, null);
   }
 
+
+  getuserrecommendationsbyad(userId: string ,catogeryid: string ,title:string , description:string ) : Observable<any> {
+  return this.__http.post(
+    `${this.baseUrl}${endpoints.userrecommendationbyad}`,
+    {
+      userId: userId,
+      page: 1,
+      pageSize: 10,
+      catogeryid: catogeryid,
+      title: title,
+      description: description
+    }
+  );
+}
 
 
   getAllAdsByPageUser(userId: string, pageNumber: number, pageSize: number, cityId: string, status: string): Observable<any> {
@@ -122,6 +136,21 @@ getfilters(searchtext: string, categoryId: number): Observable<any> {
     return this.__http.get(
       `${this.baseUrl}${endpoints.filters}?keyword=${searchtext}&categoryId=${categoryId}`
     );
+  }
+
+
+
+   getsearchlog(user: string): Observable<any> {
+
+
+    return this.__http.post(`${this.baseUrl}${endpoints.searchlog}?userId=${user}`, null);
+  }
+
+
+     deletegetsearchlog(id: string): Observable<any> {
+
+
+    return this.__http.post(`${this.baseUrl}${endpoints.deletesearchlog}?id=${id}`, null);
   }
 
 }

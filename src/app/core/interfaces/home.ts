@@ -1,4 +1,5 @@
 export interface ITopCategories {
+id: any
   "categoryId": number,
   "name_L1": string,
   "name": string,

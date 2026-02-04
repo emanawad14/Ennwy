@@ -33,6 +33,21 @@ export class HomeService {
     );
   }
 
+
+
+  getuserrecommendations(userId: string): Observable<any> {
+  return this.__http.post(
+    `${this.baseUrl}${endpoints.userrecommendation}`,
+    {
+      userId: userId,
+      page: 1,
+      pageSize: 10
+    }
+  );
+}
+
+
+
   getActiveCategories(): Observable<any> {
     return this.__http.get(`${this.baseUrl}${endpoints.activeCategories}`);
   }

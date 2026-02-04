@@ -14,4 +14,10 @@ export class ProfileService {
   getAdvertiserByUserId(id: string): Observable<any> {
     return this.__http.get(`${this.baseUrl}${endpoints.advertiserByUserId}?UserId=${id}`);
   }
+
+  addLog(data: any): Observable<any> {
+    return this.__http.post(`${this.baseUrl}${endpoints.AddSubscriptionLog}`, data);
+  }
+
+
 }

@@ -1,19 +1,20 @@
 <div class="product-card overflow-hidden h-100"
-  [routerLink]="['/ad',product()?.id,]">
-  <img [src]="getPhotoUrl()" 
-     alt="product" 
+  [routerLink]="['/ad',product()?.id]">
+  <img [src]="getPhotoUrl()"
+     alt="product"
      class="w-100 prd-image"
      (error)="onImageError($event)" />
 
   <div class="p-3">
     <div class="d-flex justify-content-between gap-2">
       <div class="d-flex align-content-center gap-2 flex-wrap">
-      <strong class="m-0 fs-5-2 text-main-color">
-      {{ product()?.price ? product()?.price : product()?.priceInUSD }}
-      {{ product()?.price ? ('lira' | translate) : ('dollar' | translate) }}
-      </strong>
+     <strong class="m-0 fs-5-2 text-main-color">
+  {{ product()?.price ? product()?.price : product()?.priceInUSD }}
+  {{ product()?.price ? ('lira' | translate) : ('dollar' | translate) }}
+</strong>
 
-        
+
+
       </div>
 <a title="favorite">
   <i class="pi fs-5"
@@ -87,7 +88,7 @@
       <small class="text-muted">
         {{(language()=='ar'?product()?.locationName:product()?.locationName_L1)||'---'}}
       </small>
-   
+
     </div>
   </div>
 </div>

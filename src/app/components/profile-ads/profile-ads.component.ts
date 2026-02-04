@@ -11,6 +11,7 @@ import { PaginatorComponent } from '../../shared/components/paginator/paginator.
 import { UtilityService } from '../../services/generic/utility.service';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile-ads',
@@ -54,6 +55,7 @@ export class ProfileadsComponent implements OnInit, OnDestroy {
     { label: 'status.expired', value: '5' },
     { label: 'status.deleted', value: '6' }
   ];
+  translate: any;
 
   constructor(
     private readonly __LanguageService: LanguageService,
@@ -171,4 +173,50 @@ export class ProfileadsComponent implements OnInit, OnDestroy {
     this.pageNumber.set(ev.page);
     this.getAllAdsByPageUser();
   }
+
+  openAdHighlightSwal(ad: any, event: MouseEvent) {
+  // منع تنفيذ التنقل عند الضغط على النجمة
+  event.stopPropagation();
+  event.preventDefault();
+
+  if (!this.userId()) {
+    Swal.fire('خطأ', 'يجب تسجيل الدخول أولاً', 'error');
+    return;
+  }
+
+  Swal.fire({
+    title: 'تمييز الإعلان',
+    input: 'text',
+    inputLabel: 'ملاحظة',
+    inputPlaceholder: 'اكتب ملاحظتك هنا',
+    showCancelButton: true,
+    confirmButtonText: 'تم',
+    cancelButtonText: 'إلغاء',
+    preConfirm: (note) => {
+      if (!note) {
+        Swal.showValidationMessage('الملاحظة مطلوبة');
+      }
+      return note;
+    }
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const data = {
+        adId: ad.id,
+        userNotes: result.value,
+        subscriptionType: 1 // 1 = تمييز إعلان
+      };
+
+      this.__ProfileService.addLog(data).subscribe({
+        next: (res: any) => {
+          Swal.fire('تم', 'تم إرسال طلب تمييز الإعلان بنجاح', 'success');
+        },
+        error: (err: any) => {
+          Swal.fire('خطأ', 'حدث خطأ أثناء إرسال الطلب', 'error');
+        }
+      });
+    }
+  });
+}
+
+
 }

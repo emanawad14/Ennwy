@@ -2,73 +2,87 @@ import { CategoryCardComponent } from './category-card/category-card.component';
 import { ProductCardComponent } from './product-card/product-card.component';
 import { HomeSliderComponent } from './home-slider/home-slider.component';
 import { HomeCardComponent } from './home-card/home-card.component';
-import { Component, signal, OnInit, OnDestroy, Inject, PLATFORM_ID, makeStateKey, TransferState } from '@angular/core';
+import {
+  Component,
+  signal,
+  OnInit,
+  OnDestroy,
+  Inject,
+  PLATFORM_ID
+} from '@angular/core';
 import { HomeService } from '../../services/home.service';
 import { LanguageService } from '../../services/generic/language.service';
 import { ITopCategories } from '../../core/interfaces/home';
 import { TranslateModule } from '@ngx-translate/core';
 import { UtilityService } from '../../services/generic/utility.service';
-import { SortAdsComponent } from "../region/sort-ads/sort-ads.component";
+import { SortAdsComponent } from '../region/sort-ads/sort-ads.component';
 import { NoDataComponent } from '../../shared/components/no-data/no-data.component';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
 import { Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
+import { key } from '../../core/config/localStorage';
 
-// تعريف الـ State Keys
-const ACTIVE_CATEGORIES_KEY = makeStateKey<any>('active_categories');
-const TOP_CATEGORIES_ADS_KEY = makeStateKey<any>('top_categories_ads');
-const BANNERS_KEY = makeStateKey<any>('banners');
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, HomeSliderComponent, CategoryCardComponent, ProductCardComponent, HomeCardComponent, TranslateModule, SortAdsComponent, NoDataComponent],
+  standalone: true,
+  imports: [
+    CommonModule,
+    HomeSliderComponent,
+    CategoryCardComponent,
+    ProductCardComponent,
+    HomeCardComponent,
+    TranslateModule,
+    SortAdsComponent
+],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit, OnDestroy {
+
+  /* =======================
+        Signals
+  ======================= */
   language = signal<string>('');
   searchKeyword = signal<string>('');
   cityId = signal<string>('');
   sortType = signal<string>('');
   topCategoriesAds = signal<ITopCategories[]>([]);
-  activeCategories = signal<any>([]);
-
-  categories = signal<{ id: number, name: string }[]>([
-    { id: 1, name: 'Cars for Sale' },
-    { id: 1, name: 'Cars for Rent' },
-  ]);
-
-  searches = signal<{ id: number, name_L1: string }[]>([
-    { id: 1, name_L1: 'Find Cars for Sale in Cairo' },
-    { id: 1, name_L1: 'Find Cars for Sale in Alexandria' },
-    { id: 1, name_L1: 'Find Cars for Sale in Giza' },
-  ]);
-
+  activeCategories = signal<any[]>([]);
   isLoading = signal<boolean>(false);
-  private subscriptions: Subscription = new Subscription();
-  private isBrowser: boolean;
-  private dataLoaded = false;
-  private originalData: any[] = [];
 
-rescueId: number|null|undefined;
+  // 👈 اليوزر
+  userId = signal<string | null>(null);
+
+  // 👈 علشان HTML (قسم البحث الشائع المخفي)
+  searches = signal<{ id: number; name_L1: string }[]>([
+    { id: 1, name_L1: 'Find Cars for Sale in Cairo' },
+    { id: 2, name_L1: 'Find Cars for Sale in Alexandria' },
+    { id: 3, name_L1: 'Find Cars for Sale in Giza' }
+  ]);
+
+  private subscriptions = new Subscription();
+  private isBrowser: boolean;
 
   constructor(
     private readonly __LanguageService: LanguageService,
     private readonly __UtilityService: UtilityService,
     private readonly __homeService: HomeService,
-    private readonly route: ActivatedRoute,
-    private readonly transferState: TransferState,
-    @Inject(PLATFORM_ID) private platformId: any
+    @Inject(PLATFORM_ID) platformId: any
   ) {
-    this.isBrowser = isPlatformBrowser(this.platformId);
+    this.isBrowser = isPlatformBrowser(platformId);
   }
 
+  /* =======================
+        Lifecycle
+  ======================= */
   ngOnInit(): void {
     this.language.set(this.__LanguageService.getLanguage());
 
-    // نستخدم البيانات من الـ Resolver أو الـ TransferState
-    this.loadInitialData();
+    // ✅ نجيب بيانات اليوزر
+    this.getUserData();
 
+    this.getActiveCategories();
+    this.getTopCategoriesAds();
     this.getSearchValue();
     this.getCityId();
   }
@@ -77,133 +91,126 @@ rescueId: number|null|undefined;
     this.subscriptions.unsubscribe();
   }
 
-  private loadInitialData(): void {
-    if (this.dataLoaded) return;
+  /* =======================
+        USER DATA
+  ======================= */
+  getUserData(): void {
+    if (!this.isBrowser) return;
 
-    // نجرب نجيب البيانات من الـ Resolver أولاً
-    this.route.data.subscribe(data => {
-      if (data['homeData'] && data['homeData'].activeCategories) {
-        this.setDataFromResolver(data['homeData']);
-        this.dataLoaded = true;
-        return;
-      }
-    });
+    const user = localStorage.getItem(key.userInfo);
+    if (!user) return;
 
-    // إذا مفيش بيانات من الـ Resolver، نجرب الـ TransferState
-    if (this.isBrowser) {
-      if (this.transferState.hasKey(ACTIVE_CATEGORIES_KEY)) {
-        const activeCategories = this.transferState.get(ACTIVE_CATEGORIES_KEY, null);
-        const topCategoriesAds = this.transferState.get(TOP_CATEGORIES_ADS_KEY, null);
-
-        if (activeCategories) {
-          this.activeCategories.set(activeCategories?.data || activeCategories);
-        }
-        if (topCategoriesAds) {
-          const data = topCategoriesAds?.data || topCategoriesAds;
-          this.processAndSetTopCategories(data);
-          this.originalData = [...data]; // نخزن نسخة من البيانات الأصلية
-        }
-        this.dataLoaded = true;
-        return;
-      }
-    }
-
-    // إذا مفيش بيانات لا من Resolver ولا من TransferState، نعمل API calls
-    if (!this.dataLoaded) {
-      this.getActiveCategories();
-      this.getTopCategoriesAds();
-      this.dataLoaded = true;
-    }
+    const parsed = JSON.parse(user);
+    this.userId.set(parsed.id);
   }
 
-  private setDataFromResolver(homeData: any): void {
-    if (homeData.activeCategories) {
-      this.activeCategories.set(homeData.activeCategories?.data || homeData.activeCategories);
-    }
-    if (homeData.topCategoriesAds) {
-      const data = homeData.topCategoriesAds?.data || homeData.topCategoriesAds;
-      this.processAndSetTopCategories(data);
-      this.originalData = [...data]; // نخزن نسخة من البيانات الأصلية
-    }
+  private isLoggedIn(): boolean {
+    return !!this.userId();
   }
 
+  /* =======================
+        Filters
+  ======================= */
   getSearchValue(): void {
-    const searchSub = this.__UtilityService.navbarSearch
-      .pipe(
-        debounceTime(800), // ينتظر 800ms بعد آخر كلمة
-        distinctUntilChanged() // ما يعملش call إذا القيمة متغيرتش
-      )
-      .subscribe((key: string) => {
+    const sub = this.__UtilityService.navbarSearch
+      .pipe(debounceTime(800), distinctUntilChanged())
+      .subscribe(key => {
         this.searchKeyword.set(key);
-        this.getTopCategoriesAds(); // نرجع للطريقة الأصلية
+        this.getTopCategoriesAds();
       });
-    this.subscriptions.add(searchSub);
+
+    this.subscriptions.add(sub);
   }
 
   getCityId(): void {
-    const citySub = this.__UtilityService.cityId.subscribe((id: string) => {
+    const sub = this.__UtilityService.cityId.subscribe(id => {
       this.cityId.set(id);
-      this.getTopCategoriesAds(); // نرجع للطريقة الأصلية
+      this.getTopCategoriesAds();
     });
-    this.subscriptions.add(citySub);
-  }
 
-  getActiveCategories(): void {
-    this.isLoading.set(true);
-    this.__homeService.getActiveCategories().subscribe({
-      next: (res: any) => {
-        this.activeCategories.set(res?.data);
-        this.isLoading.set(false);
-      },
-      error: (err: any) => {
-        this.isLoading.set(false);
-      }
-    });
+    this.subscriptions.add(sub);
   }
 
   sort(type: string): void {
     this.sortType.set(type);
-    this.getTopCategoriesAds(); // نرجع للطريقة الأصلية
+    this.getTopCategoriesAds();
   }
 
-  getTopCategoriesAds(): void {
-    // إذا مفيش search أو filter، نستخدم البيانات الأصلية من الكاش
-    if (!this.searchKeyword() && !this.cityId() && !this.sortType() && this.originalData.length > 0) {
-      this.processAndSetTopCategories(this.originalData);
-      return;
-    }
-
-    this.isLoading.set(true);
-    this.__homeService.getTopCatAds(this.searchKeyword(), this.cityId(), this.sortType()).subscribe({
-      next: (res: any) => {
-        this.isLoading.set(false);
-        const all = res?.data || [];
-
-   
-        if (!this.searchKeyword() && !this.cityId() && !this.sortType()) {
-          this.originalData = [...all];
-        }
-
-        const order = [13, 19, 17, 15, 3, 29, 5, 6, 28, 12];
-
-        const sorted = all.sort((a: any, b: any) => {
-          const aIndex = order.indexOf(a.categoryId);
-          const bIndex = order.indexOf(b.categoryId);
-          return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
-        });
-
-        this.topCategoriesAds.set(sorted);
-      },
-      error: () => this.isLoading.set(false)
+  /* =======================
+        Categories
+  ======================= */
+  getActiveCategories(): void {
+    this.__homeService.getActiveCategories().subscribe(res => {
+      this.activeCategories.set(res?.data || []);
     });
   }
 
-  private processAndSetTopCategories(data: any[]): void {
-    const all = data || [];
+  /* =======================
+        ⭐ CORE LOGIC ⭐
+  ======================= */
+  getTopCategoriesAds(): void {
 
+    this.isLoading.set(true);
+
+    /* ===== Logged In User ===== */
+    if (this.isLoggedIn()) {
+
+      this.__homeService
+        .getuserrecommendations(this.userId()!)
+        .subscribe({
+          next: res => {
+            this.isLoading.set(false);
+
+            // ✅ تحويل الـ API response
+            const adaptedData = this.adaptRecommendationsResponse(res);
+
+            this.topCategoriesAds.set(adaptedData);
+          },
+          error: () => this.isLoading.set(false)
+        });
+
+      return; // ⛔ مهم جدًا
+    }
+
+    /* ===== Guest ===== */
+    this.__homeService
+      .getTopCatAds(this.searchKeyword(), this.cityId(), this.sortType())
+      .subscribe({
+        next: res => {
+          this.isLoading.set(false);
+          this.processAndSetTopCategories(res?.data || []);
+        },
+        error: () => this.isLoading.set(false)
+      });
+  }
+
+  /* =======================
+        Adapter (المهم)
+  ======================= */
+  private adaptRecommendationsResponse(res: any): any[] {
+
+    // حسب رد الـ API الحقيقي
+    const products = res?.data?.data || [];
+
+    if (!products.length) return [];
+
+    return [
+      {
+        categoryId: -1, // dummy
+        name: 'مقترح لك',
+        name_L1: 'Recommended for you',
+        list: products
+      }
+    ];
+  }
+
+  /* =======================
+        Sorting (Guest)
+  ======================= */
+  private processAndSetTopCategories(data: any[]): void {
     const order = [13, 19, 17, 15, 3, 29, 5, 6, 28, 12];
 
-    const sorted = all.sort((a: any, b: any) => {
+    const sorted = [...data].sort((a, b) => {
       const aIndex = order.indexOf(a.categoryId);
       const bIndex = order.indexOf(b.categoryId);
       return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);

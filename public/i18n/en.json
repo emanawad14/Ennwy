@@ -210,15 +210,21 @@
   "location":"Location is required",
   "price":"Price is required",
   "name":"Name is required",
+
   "phoneNumber":"Mobile Phone Number is required",
   "contactMethod":"Contact Method is required",
   "passwordPattern":" Confirm password must be 8 or more characters, contains upper & lower case letters, numbers, and at least one special character (!%*?&|@...)",
   "confirmPassword":"Confirm password not match with password"
 },
+"SeachLog": "Search Log",
+"delete": "Delete",
+
+  "noSearchHistory": "No Search History",
 "profile":{
 "publicProfile":"Public Profile",
   "Profile": "Profile",
 "myAds":"My Ads",
+ "SeachLog": "Search Log",
 "logOut":"LogOut"
 },
   "footer": {
@@ -281,6 +287,7 @@
     "changePassword": "Change Password",
     "notifications": "Notifications",
     "favorites": "Favorites",
+    "highlightAccount": "highlight Account",
     "interaction": "Interaction",
     "terms": "Terms & Conditions",
     "contact": "Contact Us",

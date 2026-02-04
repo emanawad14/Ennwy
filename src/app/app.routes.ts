@@ -41,7 +41,11 @@ export const routes: Routes = [
     loadComponent: () => import('./components/profile-ads/profile-ads.component').then(c => c.ProfileadsComponent),
    /*data: { renderMode: RenderMode.Server }*/
   },
-
+{
+    path: 'searchlog',
+    loadComponent: () => import('./components/searchlog/searchlog.component').then(c => c.SearchlogComponent),
+   /*data: { renderMode: RenderMode.Server }*/
+  },
   {
     path: 'changepassword',
     loadComponent: () => import('./components/changepassword/changepassword.component')

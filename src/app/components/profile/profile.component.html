@@ -32,13 +32,16 @@
     </div>
   </div>
 
-  <div class="col-lg-4 col-md-6 col-12">
-    <div class="card p-3 h-100 d-flex justify-content-between align-items-center flex-row cursor-pointer"
-         [routerLink]="['/interaction']">
-      <span class="fw-semibold">{{ 'interaction' | translate }}</span>
-      <i class="pi pi-volume-up text-danger fs-5"></i>
-    </div>
+ <div class="col-lg-4 col-md-6 col-12">
+  <div class="card p-3 h-100 d-flex justify-content-between align-items-center flex-row cursor-pointer"
+       (click)="openAccountHighlightSwal()">
+    <span class="fw-semibold">{{ 'highlightAccount' | translate }}</span>
+    <i class="pi pi-star text-warning fs-5"></i> <!-- أيقونة نجمة باللون الأصفر لتوحي بالتمييز -->
   </div>
+</div>
+
+
+
 
   <div class="col-lg-4 col-md-6 col-12">
     <div class="card p-3 h-100 d-flex justify-content-between align-items-center flex-row cursor-pointer"

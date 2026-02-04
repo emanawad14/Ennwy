@@ -236,7 +236,7 @@
                   <i class="pi pi-share-alt"></i>
                 </button>
 
-               
+
 
               </div>
             </div>
@@ -343,6 +343,11 @@
 
         </div>
 
+
+        <!-- ===== Similar Ads ===== -->
+
+
+
         <!-- ===================== Right column ===================== -->
         <div class="col-md-4 mt-md-0 mt-3">
           <div class="ad-card p-3">
@@ -383,6 +388,68 @@
   </div>
 </div>
 
+@if (similarAds().length) {
+  <div class="mt-4 ad-card p-3">
+    <h3 class="fs-5 fw-bold mb-3">
+      {{ language() === 'ar' ? 'إعلانات مشابهة' : 'Similar Ads' }}
+    </h3>
+
+    <div class="row g-3">
+      @for (ad of similarAds().slice(0, 10); track $index) {
+        <div class="col-6 col-md-4 col-lg-2">
+          <div
+            class="card h-100 border-0 shadow-sm cursor-pointer"
+            [routerLink]="['/ad', ad.id]"
+            (click)="onSimilarAdClick()"
+
+          >
+
+            <img
+              [src]="ad.photos?.length ? ad.photos[0] : 'assets/no-image.png'"
+              class="card-img-top rounded-top"
+              style="height: 120px; object-fit: cover"
+              [alt]="ad.title"
+            />
+
+            <div class="card-body p-2 d-flex flex-column">
+              <h6
+                class="card-title mb-1 text-truncate"
+                style="font-size: 13px"
+              >
+                {{ language() === 'ar' ? ad.title : ad.title_L1 || ad.title }}
+              </h6>
+
+              <div
+                class="fw-bold text-danger mt-auto"
+                style="font-size: 13px"
+              >
+                {{ ad.price }} {{ 'lira' | translate }}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+ @if (isNavigating()) {
+  <div
+    class="position-fixed top-0 start-0 w-100 h-100
+           d-flex align-items-center justify-content-center"
+    style="background: rgba(255,255,255,0.8); z-index: 9999"
+  >
+    <div class="spinner-border text-danger" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+}
+
+
+}
+
+
+
 <!-- ===================== Chat Modal ===================== -->
 <div #chatModalRef class="modal fade" id="chatModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -404,4 +471,9 @@
       </div>
     </div>
   </div>
-</div>
+
+
+
+
+  </div>
+

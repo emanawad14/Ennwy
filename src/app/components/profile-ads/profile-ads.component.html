@@ -31,12 +31,21 @@
         <!-- Cards -->
         <div class="row mt-2 mx-0">
           @for (item of ads(); track $index) {
-            <div class="col-lg-4 col-md-6 mb-4">
-              <app-product-card
-                [isVillas]="true"
-                [product]="item">
-              </app-product-card>
-            </div>
+       <div class="col-lg-4 col-md-6 mb-4">
+  <div class="position-relative">
+    <app-product-card [isVillas]="true" [product]="item"></app-product-card>
+
+    <!-- نجمة التمييز -->
+    <i
+      class="pi pi-star fs-5 text-warning position-absolute"
+      style="top: 8px; right: 8px; cursor: pointer; z-index: 9999;"
+      (click)="openAdHighlightSwal(item, $event)"
+      title="{{ 'highlightAd' | translate }}"
+    ></i>
+  </div>
+</div>
+
+
           } @empty {
             <p class="text-center m-0 py-5 fs-5 border rounded">No Ads</p>
           }

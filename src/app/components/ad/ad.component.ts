@@ -7,16 +7,20 @@ import { AdService } from '../../services/ad.service';
 import { IAdDetails, IFlatField, IUser } from '../../core/interfaces/ad';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Component, computed, signal, ElementRef, ViewChild, AfterViewInit, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { key } from '../../core/config/localStorage';
 import { generateSeoFromDescription } from './seo.util';
 import Swal from 'sweetalert2';
+import { HomeService } from '../../services/home.service';
+import { ProductCardComponent } from "../home/product-card/product-card.component";
+import { effect } from '@angular/core';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-ad',
   standalone: true,
-  imports: [BreadcrumbComponent, AdOwnerCardComponent, TranslateModule, CommonModule, RouterModule],
+  imports: [BreadcrumbComponent, AdOwnerCardComponent, TranslateModule, CommonModule, RouterModule, ProductCardComponent],
   templateUrl: './ad.component.html',
   styleUrls: ['./ad.component.scss']
 })
@@ -25,13 +29,13 @@ export class AdComponent implements AfterViewInit {
   breadcrumbList = signal<{ name: string; routerLink?: string }[]>([]);
   adDetails = signal<IAdDetails>({} as IAdDetails);
   isLoading = signal<boolean>(false);
-
+  similarAds = signal<IAdDetails[]>([]);
   public mapError = false;
   mapUrl!: SafeResourceUrl;
-
   selectedImageUrl: string = '';
   currentAdId!: number;
   private loggedOnce = false;
+  isNavigating = signal(false);
 
   currentSlide = signal(0);
   @ViewChild('mobileCarousel', { static: false }) mobileCarousel?: ElementRef<HTMLElement>;
@@ -54,27 +58,42 @@ export class AdComponent implements AfterViewInit {
     private readonly __AdService: AdService,
     private sanitizer: DomSanitizer,
     private translate: TranslateService,
+    private readonly __HomeService: HomeService,
     private meta: Meta,
     private titleService: Title,
-    private readonly __Router: Router
+    public readonly __Router: Router
   ) {
     this.breadcrumbList().push({
       name: this.__LanguageService.translateText('home'),
       routerLink: '/'
     });
+ this.__Router.events
+    .pipe(filter(event => event instanceof NavigationEnd))
+    .subscribe(() => {
+      this.isNavigating.set(false);
+    });
   }
 
   get currentLang(): string { return this.translate.currentLang; }
 
-  ngOnInit(): void {
-    this.__ActivatedRoute.params.subscribe((param: any) => {
-      const id = Number(param.id);
-      this.currentAdId = id;
-      this.breadcrumbList().push({ name: param?.title });
-      this.getAdById(id);
-      this.language.set(this.__LanguageService.getLanguage());
-    });
-  }
+
+
+ngOnInit() {
+  this.__ActivatedRoute.params.subscribe((param: any) => {
+    const id = Number(param.id);
+    this.currentAdId = id;
+    this.breadcrumbList().push({ name: param?.title });
+    this.getAdById(id);
+    this.language.set(this.__LanguageService.getLanguage());
+
+
+  });
+
+
+
+}
+
+
 
   ngAfterViewInit(): void {
     queueMicrotask(() => {
@@ -135,6 +154,7 @@ export class AdComponent implements AfterViewInit {
         this.updateSEO(mapped);
         this.isLoading.set(false);
         this.logAdView();
+        this.loadSimilarAds();
       },
       error: () => { this.isLoading.set(false); }
     });
@@ -414,7 +434,7 @@ export class AdComponent implements AfterViewInit {
   }
 
   /** origin اختياري: 'image' | 'modal' | 'card' للتمييز بس */
-  toggleFavorite(origin?: 'image'|'modal'|'card'): void {
+  toggleFavorite(_origin?: 'image'|'modal'|'card'): void {
     const ad = this.adDetails();
     const adId = ad?.id;
     const userId = this.getCurrentUserId();
@@ -503,15 +523,79 @@ export class AdComponent implements AfterViewInit {
         if (btn) {
           btn.addEventListener('click', async () => {
             try {
-              await navigator.clipboard.writeText(shareUrl);
-              Swal.update({ html, icon: 'success', title: isAr ? 'تم نسخ الرابط' : 'Link copied' });
-              setTimeout(() => Swal.close(), 900);
+                 await navigator.clipboard.writeText(shareUrl);
+                 Swal.update({ html, icon: 'success', title: isAr ? 'تم نسخ الرابط' : 'Link copied' });
+                 setTimeout(() => Swal.close(), 900);
             } catch {
-              Swal.update({ icon: 'error', title: isAr ? 'تعذّر النسخ' : 'Copy failed' });
+                 Swal.update({ icon: 'error', title: isAr ? 'تعذّر النسخ' : 'Copy failed' });
             }
           });
         }
       }
     });
   }
+private loadSimilarAds(): void {
+  const ad = this.adDetails();
+  if (!ad?.id) return;
+
+  let userId = '';
+  try {
+    const raw = localStorage.getItem(key.userInfo);
+    if (raw) userId = JSON.parse(raw)?.id || '';
+  } catch {}
+
+  console.log('Calling Similar Ads API with:', {
+    userId,
+    categoryId: ad.categoryId,
+    title: ad.title
+  });
+
+  this.__AdService
+    .getuserrecommendationsbyad(
+      userId,
+      ad.categoryId || '',
+      ad.title || '',
+      ad.description || ''
+    )
+    .subscribe({
+  next: (res: any) => {
+  console.log('RAW RESPONSE:', res);
+
+  const raw = Array.isArray(res?.data?.data)
+    ? res.data.data
+    : [];
+
+  console.log('RAW DATA:', raw);
+
+  const list = raw.map((ad: any) => ({
+    ...ad,
+    photos:
+      typeof ad.photos === 'string'
+        ? [ad.photos]
+        : Array.isArray(ad.photos)
+        ? ad.photos
+        : []
+  }));
+
+  console.log('MAPPED LIST:', list);
+
+  this.similarAds.set(list);
+},
+
+
+    });
 }
+onSimilarAdClick() {
+  this.isNavigating.set(true);
+
+  // يطلع لفوق فورًا
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth' // لو مش عايز animation شيلها
+  });
+}
+
+
+}
+
+
