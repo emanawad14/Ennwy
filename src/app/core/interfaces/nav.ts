@@ -5,6 +5,7 @@ export interface ILink {
   "slug": string,
   "level": number,
   "parentId": null | number,
+   image?: string;
   "displayPriority": number,
   "displayPriorityInFirst": number,
   "purpose": null | string,

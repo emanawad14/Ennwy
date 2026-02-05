@@ -41,7 +41,7 @@ export class HomeService {
     {
       userId: userId,
       page: 1,
-      pageSize: 10
+      pageSize: 50
     }
   );
 }

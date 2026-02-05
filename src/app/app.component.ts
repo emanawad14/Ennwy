@@ -10,7 +10,7 @@ import {
   NavigationCancel,
   NavigationError,
 } from '@angular/router';
-import { Component, signal, OnInit, OnDestroy, DoCheck } from '@angular/core';
+import { Component, signal, OnInit, OnDestroy, DoCheck, HostListener } from '@angular/core';
 import { MobileNavbarComponent } from './core/components/mobile-navbar/mobile-navbar.component';
 import { LanguageService } from './services/generic/language.service';
 import { TranslateModule } from '@ngx-translate/core';
@@ -116,5 +116,21 @@ export class AppComponent implements OnInit, OnDestroy, DoCheck {
 
   ngOnDestroy(): void {
     this.navSub.unsubscribe();
+  }
+
+
+
+
+
+
+  hideSlider = false;
+
+  @HostListener('window:scroll', [])
+  onScroll() {
+    const scrollTop =
+      window.pageYOffset || document.documentElement.scrollTop;
+
+    // أول ما نتحرك من فوق
+    this.hideSlider = scrollTop > 50;
   }
 }

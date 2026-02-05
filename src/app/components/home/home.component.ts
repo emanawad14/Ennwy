@@ -163,6 +163,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
             // ✅ تحويل الـ API response
             const adaptedData = this.adaptRecommendationsResponse(res);
+            console.log("Recommadtion",res );
+            
 
             this.topCategoriesAds.set(adaptedData);
           },

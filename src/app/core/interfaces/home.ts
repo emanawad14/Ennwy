@@ -17,6 +17,7 @@ interface ITopCategory {
   "description": string,
   "description_L1": string,
   "slug": null,
+  
   "slug_L1": null,
   "keywords": null,
   "locationName": string,

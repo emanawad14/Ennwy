@@ -1,5 +1,5 @@
 @if(shouldRender()){
-  <header class="site-header bg-white mb-2">
+  <header class="site-header bg-white mb-2" >
     <div class="  bg-white navbar-content ">
       <!-- Desktop -->
       <div class="d-none d-md-block">
@@ -24,9 +24,9 @@
         <app-mobile-navbar></app-mobile-navbar>
       </div>
     </div>
-    <div class="layout-wrapper slide">
-      <app-home-slider></app-home-slider>
-    </div>
+     <div class="layout-wrapper slide" [class.hide]="hideSlider">
+    <app-home-slider></app-home-slider>
+  </div>
 
     @if(shouldNavbar()){
       <app-navbar-links class="links-bar bg-white border-bottom"></app-navbar-links>

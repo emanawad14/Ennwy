@@ -21,6 +21,8 @@ export class NavbarLinksComponent {
   categories = signal<ILink[]>([]);
   isLoading = signal<boolean>(false);
   isMobile = signal(false);
+  activeCategories = signal<any[]>([]);
+
 
   private breakpointObserver = inject(BreakpointObserver);
 
@@ -39,6 +41,7 @@ export class NavbarLinksComponent {
   ngOnInit(): void {
     this.language.set(this.__LanguageService.getLanguage());
     this.getCategories();
+     this.getActiveCategories();
   }
 
   getCategories(): void {
@@ -52,4 +55,13 @@ export class NavbarLinksComponent {
       error: () => this.isLoading.set(false)
     });
   }
+
+
+
+  getActiveCategories(): void {
+  this.__homeService.getActiveCategories().subscribe(res => {
+    this.activeCategories.set(res?.data || []);
+  });
+}
+
 }

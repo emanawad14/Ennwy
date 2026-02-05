@@ -1,4 +1,4 @@
-/* زر العنوان */
+
 .dropdown-toggle {
   font-size: 15px;
   color: black;
@@ -7,10 +7,10 @@
   margin-top: 12px;
 }
 
-/* لازم الغلاف يكون: <div class="dropdown more-cats"> */
+
 .more-cats { position: relative; }
 
-/* لوحة المنيو (كتلة واحدة) */
+
 .more-cats .dropdown-menu {
   position: absolute;
   inset: auto !important;

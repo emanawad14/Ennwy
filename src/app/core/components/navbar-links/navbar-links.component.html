@@ -5,26 +5,25 @@
     <ul class="d-flex justify-content-between gap-1 flex-wrap categories-icons-bar">
 
       @defer (when !isLoading()) {
-        @for (item of categories(); track $index) {
-          @if ($index < 9) {
-            <li class="category-with-icon">
+       @for (item of activeCategories(); track $index) {
+  @if ($index < 9) {
+    <li class="category-with-icon">
 
-              <!-- الأيقونة (static) -->
-              <i class="pi pi-car category-icon"></i>
+      <img
+        [src]="item?.image"
+        class="category-icon"
+        alt="category icon"
+      />
 
-              <!-- نفس الـ component زي ما هو -->
-              <app-drop-menu
-                ngSkipHydration
-                [title]="language() == 'en' ? item?.name_L1 : item?.name"
-                [titleId]="item?.id ?? null"
-                [list]="item?.children"
-                [megaMenu]="(item?.children?.length ?? 0) > 9"
-                [width]="(item?.children?.length ?? 0) > 9 ? '34rem' : ''">
-              </app-drop-menu>
+      <app-drop-menu
+        [title]="language() == 'en' ? item?.name_L1 : item?.name"
+        [list]="item?.children">
+      </app-drop-menu>
 
-            </li>
-          }
-        }
+    </li>
+  }
+}
+
 
         @if (categories().length > 9) {
           <li class="category-with-icon">

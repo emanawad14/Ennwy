@@ -26,3 +26,59 @@
     padding-right: 0.5rem;
   }
 }
+
+
+.slide {
+  transition: 
+    max-height 0.35s ease,
+    opacity 0.25s ease,
+    margin 0.25s ease,
+    padding 0.25s ease;
+
+  overflow: hidden;
+}
+
+.slide.hide {
+  max-height: 0 !important;
+  opacity: 0;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  pointer-events: none;
+}
+
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1100;
+  background: #fff;
+}
+
+/* navbar + links */
+.navbar-content,
+.links-bar {
+  background: #fff;
+  z-index: 1110;
+}
+
+/* السلايدر */
+.slide {
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+  overflow: hidden;
+}
+
+.slide.hide {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* الدروب داون */
+header,
+nav,
+.container,
+.container-fluid {
+  overflow: visible !important;
+}

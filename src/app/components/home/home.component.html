@@ -4,7 +4,7 @@
 
     <!-- <app-home-slider></app-home-slider> -->
     
- <!--
+<!--     
     <section class="mt-5">
       <div class="d-flex justify-content-between align-items-center">
 
@@ -42,7 +42,16 @@
           </div>
         }
       </div>
-    </section>-->
+    </section> -->
+
+   
+
+
+
+
+
+
+
 
  
     @for (cat of topCategoriesAds(); track $index) {
@@ -52,7 +61,7 @@
           [categoryId]="cat.categoryId">
 
           @for (item of cat?.list; track $index) {
-            @if ($index < 10) {
+            @if ($index < 50) {
               <div class="card-wrapper">
                 <app-product-card [product]="item" [isVillas]="true"></app-product-card>
               </div>

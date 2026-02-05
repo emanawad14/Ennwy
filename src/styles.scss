@@ -270,7 +270,7 @@
 @import "@ng-select/ng-select/themes/default.theme.css";
 :root {
   --body-bg: #ffffff;
-  --text-main-color: #dc143c;
+  --text-main-color: black;
   --card-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
   --card-radius: 10px;
   --font-sans: "Cairo", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
@@ -439,20 +439,87 @@ app-root {
   min-height: 60vh;
 }
 
-/* Headers والNavbar ثابتة وتاخد العرض كامل */
-.site-header,
-.navbar-content {
-  position: static !important;
-}
+//*****************8
 
-.links-bar {
+// /* Headers والNavbar ثابتة وتاخد العرض كامل */
+// .site-header,
+// .navbar-content {
+//   position: static !important;
+// }
+
+// .links-bar {
+//   position: sticky;
+//   top: 0;
+//   z-index: 1100;
+// }
+
+
+.site-header {
   position: sticky;
   top: 0;
   z-index: 1100;
+  background: #fff;
+}
+
+/* navbar + links */
+.navbar-content,
+.links-bar {
+  background: #fff;
+  z-index: 1110;
+}
+
+/* السلايدر */
+.slide {
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+  overflow: hidden;
+}
+
+.slide.hide {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* الدروب داون */
+header,
+nav,
+.container,
+.container-fluid {
+  overflow: visible !important;
 }
 
 
-/* إصلاح flex للـheader */
+
+
+
+
+//***************8
+
+.site-header .dropdown-menu { z-index: 1200; }
+.offcanvas { z-index: 1250; }
+.modal     { z-index: 1300; }
+
+
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: nowrap;     
+  min-height: 64px;
+}
+.header-logo-wrap {
+  flex: 0 0 auto;        
+  display: inline-flex;
+  align-items: center;
+}
+
+
+
+
+
+
+
 .header-row {
   display: flex;
   justify-content: space-between;
@@ -553,7 +620,7 @@ app-root {
 }
 
 .card-wrapper img {
-  width: 270px !important;
+  width: 250px !important;
   height: 180px !important;
   object-fit: cover;
   border-radius: 10px;
@@ -594,3 +661,44 @@ app-root {
 //   box-shadow: 0 10px 25px rgba(31, 185, 237, 0.35);
 //   transition: 0.3s;
 // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+// .navbar-content {
+//   position: relative;
+// }
+
+// @media (max-width: 768px) {
+
+//   .dropdown-menu-custom {
+//     position: fixed !important;
+//     top: auto;
+//     right: 0;
+//     left: 0;
+//     width: 100%;
+//     max-width: 100%;
+//     border-radius: 0;
+//     z-index: 2000;
+//   }
+
+// }
+// header,
+// nav,
+// .container,
+// .container-fluid {
+//   overflow: visible !important;
+// }
+// .site-header {
+//   overflow: visible !important;
+// }
+
