@@ -9,8 +9,8 @@
 }
 
 .slide{
-  margin-top: 40px;
-  margin-bottom: 40px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 @media (max-width: 992px) {
@@ -63,6 +63,7 @@
   z-index: 1110;
 }
 
+
 /* السلايدر */
 .slide {
   transition: max-height 0.4s ease, opacity 0.3s ease;
@@ -82,3 +83,7 @@ nav,
 .container-fluid {
   overflow: visible !important;
 }
+
+
+
+

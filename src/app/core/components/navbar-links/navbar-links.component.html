@@ -1,4 +1,4 @@
-<nav *ngIf="!isMobile()" class="navbar-links py-6 my-6 pt-2"
+<nav *ngIf="!isMobile()" class="navbar-links "
      style="padding-bottom:1px; box-shadow:0 8px 16px -8px #00000024;">
 
   <div class="container">
@@ -9,12 +9,11 @@
   @if ($index < 9) {
     <li class="category-with-icon">
 
-      <img
-        [src]="item?.image"
-        class="category-icon"
-        alt="category icon"
-      />
-
+   <img
+  [src]="item?.image"
+  alt="category icon"
+  style="filter: invert(56%) sepia(78%) saturate(456%) hue-rotate(162deg) brightness(96%) contrast(96%);"
+/>
       <app-drop-menu
         [title]="language() == 'en' ? item?.name_L1 : item?.name"
         [list]="item?.children">

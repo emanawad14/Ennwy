@@ -133,4 +133,13 @@ export class AppComponent implements OnInit, OnDestroy, DoCheck {
     // أول ما نتحرك من فوق
     this.hideSlider = scrollTop > 50;
   }
+
+
+
+
+
+
+ 
+  
+
 }

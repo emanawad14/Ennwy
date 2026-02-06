@@ -13,3 +13,22 @@
     transition: opacity 1s ease-in-out;
   }
 }
+
+
+
+
+#carouselExampleDark {
+  margin: auto;
+  border-radius: 16px;
+
+  
+  width: 100%;
+
+  @media (min-width: 768px) {
+    width: 85%;
+  }
+
+  @media (min-width: 1200px) {
+    width: 70%;
+  }
+}

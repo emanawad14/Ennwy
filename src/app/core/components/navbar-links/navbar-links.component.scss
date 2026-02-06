@@ -17,11 +17,16 @@
   min-width: 70px;
 }
 
+.red-bg {
+  background-color: black;
+}
 
-/* الأيقونة */
+
 .category-icon {
-  font-size: 22px;
+  font-size: 18px;
   color: #1fb9ed !important;
+ 
+  
 }
 
 @media (max-width: 768px) {
