@@ -10,6 +10,8 @@ import Swal from 'sweetalert2';
 import { LanguageService } from '../../../services/generic/language.service';
 import { key } from '../../config/localStorage';
 
+
+
 @Component({
   selector: 'app-mobile-navbar',
   standalone: true,
@@ -19,7 +21,8 @@ import { key } from '../../config/localStorage';
     TranslateModule,
     SearchComponent,
     LocationComponent,
-  ],
+    
+],
   templateUrl: './mobile-navbar.component.html',
   styleUrls: ['./mobile-navbar.component.scss'],
 })
@@ -178,4 +181,23 @@ export class MobileNavbarComponent {
     if (this.userInfo()) { this.router.navigate(['/notifications']); return; }
     await this.showLoginToastAndRedirect('/notifications');
   }
+
+
+
+
+
+
+
+  selectedCategory: any = null;
+
+goToCategory(cat: any) {
+  this.selectedCategory = cat;
+  // أو router navigation
+  // this.router.navigate(['/category', cat.id]);
+}
+
+goToSubCategory(sub: any) {
+  this.router.navigate(['/category', sub.parentId, sub.id]);
+}
+
 }

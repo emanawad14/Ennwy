@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-navbar-links',
   standalone: true,
-  imports: [DropMenuComponent, TranslateModule, MoreCategoryDropMenuComponent,CommonModule,RouterLink],
+  imports: [DropMenuComponent, TranslateModule, MoreCategoryDropMenuComponent,CommonModule],
   templateUrl: './navbar-links.component.html',
   styleUrl: './navbar-links.component.scss'
 })

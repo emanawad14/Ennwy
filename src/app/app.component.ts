@@ -99,7 +99,8 @@ export class AppComponent implements OnInit, OnDestroy, DoCheck {
       url.includes('helpsupport') ||
       url.includes('ticket') ||
       url.includes('sell-ad') ||
-      url.includes('properties')
+      url.includes('properties')||
+      url.includes('profile')
     ) {
       this.shouldNavbar.set(false);
     } else {

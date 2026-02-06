@@ -702,3 +702,30 @@ nav,
 //   overflow: visible !important;
 // }
 
+
+
+
+.scroll-content {
+  display: flex;
+  gap: 16px;
+  flex-wrap: nowrap;
+}
+
+/* default (desktop / tablet) */
+app-category-card {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  width: 100%;
+}
+
+/* 📱 الموبايل */
+@media (max-width: 576px) {
+  app-category-card {
+    width: calc(50% - 8px);   /* اتنين جنب بعض */
+    max-width: none;
+  }
+}
+
+
+
+
