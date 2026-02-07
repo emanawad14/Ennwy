@@ -1,5 +1,7 @@
 @defer (when !isLoading()) {
-  <div #carousel
+ 
+  <div class="item">
+     <div #carousel
        id="carouselExampleDark"
        class="carousel carousel-dark slide carousel-fade"
        data-bs-ride="carousel"
@@ -50,6 +52,7 @@
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
+  </div>
   </div>
 } @loading (minimum 100ms) {
   <div class="placeholder-glow">

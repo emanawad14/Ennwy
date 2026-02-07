@@ -12,7 +12,9 @@
     border-radius: 6px 0 0 6px !important;
   }
 }
-.search-wrapper { position: relative; }
+.search-wrapper { position: relative;
+width: 100%;
+}
 
 .search-dd {
   position: fixed;

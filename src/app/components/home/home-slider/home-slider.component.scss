@@ -13,8 +13,17 @@
     transition: opacity 1s ease-in-out;
   }
 }
+.carousel{
+  width:100%;
+  
 
-
+  
+}
+.item{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 
 // #carouselExampleDark {
