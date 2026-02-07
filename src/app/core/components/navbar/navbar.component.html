@@ -40,9 +40,14 @@
     </div>
 
     <!-- الصف السفلي: البحث لوحده -->
-    <div class="nav-search">
-      <app-search></app-search>
-    </div>
+    @if (showExtras) {
+      <div class="nav-search">
+        <app-search></app-search>
+      </div>
 
+      <!-- <app-navbar-links></app-navbar-links> -->
+    }
+
+ 
   </div>
 </nav>

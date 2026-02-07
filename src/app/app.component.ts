@@ -40,6 +40,12 @@ export class AppComponent implements OnInit, OnDestroy, DoCheck {
   shouldNavbar = signal<boolean>(true);
   shouldRender = signal<boolean>(false);
 
+  showSearchAndCategory = signal<boolean>(false);
+
+  showNavExtras = signal<boolean>(false);
+
+
+
   /** ✅ Unified loader: router + data */
   isNavigating = signal<boolean>(false);
   private navSub = new Subscription();
@@ -86,34 +92,27 @@ export class AppComponent implements OnInit, OnDestroy, DoCheck {
   private updateOverlay(): void {
     this.isNavigating.set(this.routerBusy || this.dataBusy);
   }
+ngDoCheck(): void {
+  const url = this.__Router.url;
 
-  ngDoCheck(): void {
-    const url = this.__Router.url;
-
-    // تحكّم في ظهور الهيدر/الفوتر حسب المسارات
-    if (
-      url.includes('post-ad') ||
-      url.includes('changepassword') ||
-      url.includes('terms-and-conditions') ||
-      url.includes('contact-us') ||
-      url.includes('helpsupport') ||
-      url.includes('ticket') ||
-      url.includes('sell-ad') ||
-      url.includes('properties')||
-      url.includes('profile')
-    ) {
-      this.shouldNavbar.set(false);
-    } else {
-      this.shouldNavbar.set(true);
-    }
-
-    // تحكّم في render أجزاء الواجهة حسب auth
-    if (url.includes('auth')) {
-      this.shouldRender.set(false);
-    } else {
-      this.shouldRender.set(true);
-    }
+  // يظهر search + categories بس في home و ads
+  if (
+    url === '/' ||
+    url.includes('home') ||
+    url.includes('ads')
+  ) {
+    this.showNavExtras.set(true);
+  } else {
+    this.showNavExtras.set(false);
   }
+
+  if (url.includes('auth')) {
+    this.shouldRender.set(false);
+  } else {
+    this.shouldRender.set(true);
+  }
+}
+
 
   ngOnDestroy(): void {
     this.navSub.unsubscribe();

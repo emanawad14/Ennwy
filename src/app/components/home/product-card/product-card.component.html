@@ -26,9 +26,15 @@
 
 
     </div>
-    <p class="m-0 fs-5-2 description">
-      {{language()=='ar'?product()?.title:product()?.title_L1}}
-    </p>
+   <p class="m-0 fs-5-2 description">
+  {{
+    (language()=='ar'
+      ? product()?.title
+      : product()?.title_L1
+    )?.split(' ').slice(0,3).join(' ')
+  }}
+</p>
+
     <div class="mt-2">
       @if(isNew()&&false){
       <div class="d-flex align-items-center gap-1 text-muted fs-6-1">

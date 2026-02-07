@@ -69,3 +69,45 @@
   width: 0.7rem;
   height: 0.7rem;
 }
+
+
+
+
+
+
+
+@media (max-width: 576px) {
+
+  /* نخليها flex بدل grid */
+  .categories-icons-bar {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 12px;
+    padding-inline: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .categories-icons-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* كل عنصر */
+  .category-with-icon {
+    flex: 0 0 auto;
+    min-width: 70px;
+  }
+
+  /* أول عنصرين ثابتين */
+  .category-with-icon.fixed-item:nth-child(1),
+  .category-with-icon.fixed-item:nth-child(2) {
+    position: sticky;
+    left: 0;
+    background: #fff;
+    z-index: 2;
+  }
+
+  .category-with-icon.fixed-item:nth-child(2) {
+    left: 70px; /* عرض العنصر الأول */
+  }
+}

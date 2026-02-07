@@ -12,7 +12,7 @@
             
             @if(shouldNavbar()){
               <div class="header-actions-wrap  flex-grow-1">
-                <app-navbar></app-navbar>
+                <app-navbar [showExtras]="showNavExtras()"></app-navbar>
               </div>
             }
           </div>
@@ -28,11 +28,19 @@
     <app-home-slider></app-home-slider>
   </div> -->
 
-    @if(shouldNavbar()){
-      <app-navbar-links class="links-bar bg-white border-bottom"></app-navbar-links>
-    }
+   @if(shouldNavbar() && showNavExtras()){
+  <app-navbar-links class="links-bar bg-white border-bottom"></app-navbar-links>
+}
+
   </header>
 }
+
+
+
+
+
+
+
 
 <main class="page-content">
   <router-outlet></router-outlet>

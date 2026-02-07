@@ -1,4 +1,4 @@
-import { Component, signal, NgZone } from '@angular/core';
+import { Component, signal, NgZone, Input } from '@angular/core';
 import { Router, RouterModule, NavigationExtras } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -48,6 +48,8 @@ export class NavbarComponent {
     this.language.set(this.__LanguageService.getLanguage());
     this.getUserData();
   }
+
+  @Input() showExtras: boolean = false;
 
   changeLanguage(lang: string): void {
     this.__LanguageService.changeLang(lang);
