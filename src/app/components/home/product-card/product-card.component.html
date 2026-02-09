@@ -92,7 +92,12 @@
       </div>
       }
       <small class="text-muted">
-        {{(language()=='ar'?product()?.locationName:product()?.locationName_L1)||'---'}}
+        {{
+          (language()=='ar'
+            ? product()?.locationName
+            : product()?.locationName_L1
+          )?.split(' ').slice(0,3).join(' ') || '---'
+        }}
       </small>
 
     </div>

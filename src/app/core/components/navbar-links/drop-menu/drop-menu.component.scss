@@ -217,6 +217,11 @@
   white-space: normal;
 }
 
+.dropdown {
+  position: relative;
+  max-width: 100%;
+}
+
 /* ===== Toggle ===== */
 .dropdown-toggle {
   font-size: 14px;
@@ -242,6 +247,28 @@
   width: max-content;
   max-width: 90vw;
   overflow: visible;
+}
+
+/* ===== Bootstrap dropdown menu used in template ===== */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  left: auto;
+  width: max-content;
+  min-width: 200px;
+  max-width: min(90vw, 320px);
+  max-height: min(70vh, 420px);
+  overflow: visible;
+  border-radius: 8px;
+  padding: 6px;
+  box-sizing: border-box;
+  overscroll-behavior: contain;
+}
+
+.dropdown-menu .row {
+  margin-left: 0;
+  margin-right: 0;
 }
 
 /* Grid for mega menu */
@@ -276,6 +303,8 @@
 .item-text {
   line-height: 1.3;
   text-align: right;
+  white-space: normal;
+  word-break: break-word;
 }
 
 /* ===== Child Menu ===== */
@@ -284,13 +313,17 @@
   top: 0;
   right: 100%;
   min-width: 180px;
-  max-width: 220px;
+  max-width: min(75vw, 220px);
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 8px 20px rgba(0,0,0,.12);
   padding: 4px;
   display: none;
   z-index: 1000;
+  max-height: min(70vh, 520px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .child-menu.show {
@@ -307,6 +340,35 @@
 .dropdown-menu-custom,
 .child-menu {
   overflow-x: hidden;
+}
+
+/* ===== Direction fixes ===== */
+[dir="rtl"] .dropdown-menu {
+  right: 0;
+  left: auto;
+  transform: translateX(16px);
+  text-align: right;
+}
+[dir="rtl"] .child-menu {
+  right: auto;
+  left: 100%;
+  transform: none;
+}
+[dir="rtl"] .dropdown-item {
+  justify-content: flex-end;
+  text-align: right;
+}
+[dir="rtl"] .dropdown-menu .row {
+  direction: rtl;
+}
+[dir="ltr"] .dropdown-menu {
+  left: 0;
+  right: auto;
+}
+[dir="ltr"] .child-menu {
+  left: 100%;
+  right: auto;
+  transform: none;
 }
 
 /* ===== Mobile Fix ===== */
@@ -330,6 +392,7 @@
     display: block;
     box-shadow: none;
     margin-right: 8px;
+    transform: none;
   }
 
   .rtl-icon {

@@ -51,24 +51,22 @@
 
 .scroll-content {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 2px; 
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  justify-items: stretch;
 }
 
 
 
 @media (max-width: 992px) {
   .scroll-content {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
   }
 }
 @media (max-width: 576px) {
   .scroll-content {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 12px;
   }
 }
-
-
-

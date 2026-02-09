@@ -283,6 +283,10 @@
   margin: 0 ;
   box-sizing: border-box;
 }
+
+body {
+  overflow-x: hidden;
+}
 .swal2-container{
   position: absolute !important;
   z-index: 9999999 !important;
