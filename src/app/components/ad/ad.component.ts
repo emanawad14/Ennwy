@@ -421,6 +421,10 @@ ngOnInit() {
     return newUrl;
   }
 
+  setSelectedImage(imageUrl: string): void {
+    this.selectedImageUrl = imageUrl;
+  }
+
   openPopup(imageUrl: string) { this.selectedImageUrl = imageUrl; }
 
   // ===================== المفضلة =====================
@@ -586,7 +590,7 @@ private loadSimilarAds(): void {
     });
 }
 onSimilarAdClick() {
-  this.isNavigating.set(true);
+  this.isNavigating.set(false);
 
   // يطلع لفوق فورًا
   window.scrollTo({

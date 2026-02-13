@@ -1,4 +1,4 @@
-import { Component, signal, inject, effect } from '@angular/core';
+import { Component, signal, inject, effect, computed } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MoreCategoryDropMenuComponent } from './drop-menu copy/more-category-drop-menu.component';
 import { LanguageService } from './../../../services/generic/language.service';
@@ -22,6 +22,9 @@ export class NavbarLinksComponent {
   isLoading = signal<boolean>(false);
   isMobile = signal(false);
   activeCategories = signal<any[]>([]);
+  displayCategories = computed(() =>
+    (this.activeCategories()?.length ?? 0) > 0 ? this.activeCategories() : this.categories()
+  );
 
 
   private breakpointObserver = inject(BreakpointObserver);

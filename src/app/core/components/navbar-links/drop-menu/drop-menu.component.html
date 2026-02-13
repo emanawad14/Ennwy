@@ -27,7 +27,12 @@
            [attr.aria-haspopup]="hasChildren(item)"
            [attr.aria-expanded]="hoveredItemId() === item?.id">
 
-          <span class="item-text">{{ getItemName(item) }}</span>
+          <span class="item-content">
+            @if (item?.image) {
+              <img [src]="item?.image" alt="category icon" class="item-icon">
+            }
+            <span class="item-text">{{ getItemName(item) }}</span>
+          </span>
 
           @if(hasChildren(item)){
           <div class="d-flex align-items-center position-relative">
@@ -47,7 +52,12 @@
                    (click)="handleItemClick($event, title(), list(), child, false)"
                    [routerLink]="getAdsRoute(child, false)">
 
-                  <span class="item-text">{{ getItemName(child) }}</span>
+                  <span class="item-content">
+                    @if (child?.image) {
+                      <img [src]="child?.image" alt="category icon" class="item-icon">
+                    }
+                    <span class="item-text">{{ getItemName(child) }}</span>
+                  </span>
 
                   @if(hasChildren(child)){
                   <div class="d-flex align-items-center position-relative">
@@ -62,7 +72,12 @@
                            (click)="handleItemClick($event, title(), list(), grandChild, false)"
                            [routerLink]="getAdsRoute(grandChild, false)">
 
-                          <span class="item-text">{{ getItemName(grandChild) }}</span>
+                          <span class="item-content">
+                            @if (grandChild?.image) {
+                              <img [src]="grandChild?.image" alt="category icon" class="item-icon">
+                            }
+                            <span class="item-text">{{ getItemName(grandChild) }}</span>
+                          </span>
                         </a>
                       </li>
                       }

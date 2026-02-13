@@ -1,7 +1,7 @@
 <div class="ad-owner">
   <h6 class="fs-5">{{ 'privateUser' | translate }}</h6>
 
-  <div class="d-flex align-items-center gap-2 mt-4">
+  <div class="d-flex align-items-center gap-2 mt-4 owner-head">
     <div class="img-container rounded-circle fs-4 fw-bold d-flex justify-content-center align-items-center text-main-color">
       @if (user?.userImageUrl) {
         <img [src]="user.userImageUrl" alt="" class="w-100 h-100 rounded-circle">
@@ -10,9 +10,9 @@
       }
     </div>
 
-    <div>
-      <p class="fs-6-1 fw-medium m-0">{{ user?.fullName }}</p>
-      <small>
+    <div class="owner-meta">
+      <p class="fs-6-1 fw-medium m-0 owner-name">{{ user?.fullName }}</p>
+      <small class="text-muted">
         {{ 'memberSince' | translate }}
         {{ formatCreateDate(user?.createDate) }}
       </small>

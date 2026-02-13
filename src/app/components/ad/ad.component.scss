@@ -25,14 +25,56 @@
     .main { aspect-ratio: 16 / 9; }
   }
 
-  /* Desktop thumbs (يمين) */
-  .thumb-grid {
+  .thumb-strip {
+    width: 100%;
     display: grid;
-    grid-template-rows: 1fr 1fr;
-    gap: .75rem;
-    height: 100%;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: .5rem;
   }
-  .thumb { aspect-ratio: 4 / 3; }
+
+  .thumb-btn {
+    position: relative;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: 10px;
+    opacity: .9;
+    transition: .2s ease;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    &.active {
+      outline: 2px solid var(--text-main-color, #1fb9ed);
+      opacity: 1;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .thumb-strip.two-thumbs .thumb-btn {
+    aspect-ratio: 16 / 7;
+  }
+
+  .thumb-more {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.35);
+  }
 
   /* ===== Mobile carousel (زي dubizzle) ===== */
   .mobile-carousel {
@@ -122,7 +164,7 @@
 }
 
 .media.main img { display: block; }
-.thumb-grid .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.thumb-strip img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 .more-overlay {
   position: absolute; inset: 0;
@@ -132,4 +174,121 @@
 .photo-counter {
   position: absolute; bottom: .5rem; inset-inline-end: .5rem;
   background: rgba(0,0,0,.5); color: #fff; padding: .25rem .5rem; font-size: .9rem;
+}
+
+@media (max-width: 991.98px) {
+  .ad-details .thumb-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.similar-ads-grid .similar-item {
+  display: flex;
+}
+
+.similar-ads-section {
+  width: 100%;
+}
+
+.similar-ads-grid .similar-item app-product-card {
+  width: 100%;
+}
+
+@media (min-width: 1200px) {
+  .similar-ads-grid .similar-item {
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+}
+
+.ad-details {
+  --accent: #1fb9ed;
+  --accent-soft: #eef9fe;
+  --accent-border: #cfeefe;
+
+  .text-accent {
+    color: var(--accent) !important;
+  }
+
+  .ad-card {
+    border: 1px solid var(--accent-border);
+  }
+
+  .price-card {
+    .text-main-color {
+      color: var(--accent) !important;
+    }
+  }
+
+  .action-btn {
+    color: var(--accent);
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s ease;
+
+    &:hover {
+      background: #d7f1fc;
+    }
+  }
+
+  .details-card {
+    .details-title {
+      color: var(--accent);
+    }
+
+    .details-row {
+      .col-6 {
+        display: flex;
+      }
+    }
+  }
+
+  .field-item {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid var(--accent-border);
+    background: #f9fdff !important;
+    padding: 0.55rem 0.7rem !important;
+    gap: 0.5rem;
+  }
+
+  .extras-card {
+    border: 1px solid var(--accent-border) !important;
+    border-radius: 14px !important;
+
+    .extra-item {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--accent-border);
+      background: #f9fdff !important;
+      min-height: 48px;
+    }
+  }
+
+  .description-card h3,
+  .similar-ads-section h3 {
+    color: var(--accent);
+  }
+
+  .safety-box {
+    border: 1px solid var(--accent-border);
+  }
+
+  .btn-accent {
+    background: var(--accent);
+    color: #fff;
+    border: 1px solid var(--accent);
+
+    &:hover,
+    &:focus {
+      background: #11a7d9;
+      border-color: #11a7d9;
+      color: #fff;
+    }
+  }
 }

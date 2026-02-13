@@ -1,4 +1,4 @@
-<div class="dropdown more-cats my-12 py-12">
+<div class="dropdown more-cats">
   <a class="dropdown-toggle fw-bold" data-bs-toggle="dropdown" aria-expanded="false">
     {{ title() }}
   </a>
@@ -18,7 +18,12 @@
                 (focus)="hoverMain($index, item)"
                 (click)="!hasChildren(item) && goToCategory(item?.id, item?.name, item?.name_L1, $event)"
               >
-                {{ language() === 'en' ? item?.name_L1 : item?.name }}
+                <span class="mc-item-content">
+                  @if (item?.image) {
+                    <img [src]="item?.image" alt="category icon" class="mc-item-icon">
+                  }
+                  <span>{{ language() === 'en' ? item?.name_L1 : item?.name }}</span>
+                </span>
               </button>
             </li>
           }
@@ -35,7 +40,12 @@
                     [routerLink]="['/ads', child.id, language() === 'ar' ? child.name : child.name_L1]"
                     (click)="goToCategory(child.id, child?.name, child?.name_L1, $event)"
                   >
-                    {{ language() === 'ar' ? child?.name : child?.name_L1 }}
+                    <span class="mc-item-content">
+                      @if ($any(child)?.image) {
+                        <img [src]="$any(child)?.image" alt="category icon" class="mc-item-icon">
+                      }
+                      <span>{{ language() === 'ar' ? child?.name : child?.name_L1 }}</span>
+                    </span>
                   </a>
                 </li>
               }

@@ -1,53 +1,57 @@
-<nav  class="navbar-links "
-     style="padding-bottom:1px; box-shadow:0 8px 16px -8px #00000024;">
-
+<nav *ngIf="!isMobile()" class="navbar-links py-1 pt-2" style="
+  padding-bottom: 1px;
+  box-shadow: 0 8px 16px -8px #00000024;
+">
   <div class="container">
-    <ul class="d-flex justify-content-between  flex-wrap limited-width categories-icons-bar">
-
+    <ul class="d-flex justify-content-between gap-2 flex-wrap">
       @defer (when !isLoading()) {
-       @for (item of activeCategories(); track $index) {
-  @if ($index < 9) {
-    <li class="category-with-icon">
+        @for (item of displayCategories(); track $index) {
+          @if($index<9){
+            <li class="category-with-icon">
+              <div class="category-title-with-icon">
+                @if (item?.image) {
+                  <img
+                    [src]="item?.image"
+                    alt="category icon"
+                    class="category-icon-image"
+                    style="filter: invert(56%) sepia(78%) saturate(456%) hue-rotate(162deg) brightness(96%) contrast(96%);"
+                  >
+                }
 
- <img
-  [src]="item?.image"
-  alt="category icon"
-  style="
-    width: 20px;
-    height: 20px;
-    margin-top: 10px;
-    filter: invert(56%) sepia(78%) saturate(456%) hue-rotate(162deg) brightness(96%) contrast(96%);
-  "
-/>
+                <app-drop-menu
+                  ngSkipHydration
+                  [title]="language() == 'en' ? item?.name_L1 : item?.name"
+                  [titleId]="item?.id ?? null"
+                  [list]="item?.children"
+                  [megaMenu]="(item?.children?.length ?? 0) > 9"
+                  [width]="(item?.children?.length ?? 0) > 9 ? '34rem' : ''">
+                </app-drop-menu>
+              </div>
+            </li>
+          }
+        }
 
-      <app-drop-menu
-        [title]="language() == 'en' ? item?.name_L1 : item?.name"
-        [list]="item?.children">
-      </app-drop-menu>
-
-    </li>
-  }
-}
-
-
-        @if (categories().length > 9) {
-          <li class="category-with-icon   fixed-item">
-            <i class="pi pi-ellipsis-h category-icon"></i>
-
-            <app-more-category-drop-menu
-              [title]="'moreCategories' | translate"
-              [list]="categories()">
-            </app-more-category-drop-menu>
-
+        @if(displayCategories().length > 9){
+          <li class="category-with-icon">
+            <div class="category-title-with-icon">
+              <app-more-category-drop-menu
+                [title]="'moreCategories' | translate"
+                [list]="displayCategories()">
+              </app-more-category-drop-menu>
+              <i class="pi pi-ellipsis-h category-icon-image more-icon"></i>
+            </div>
           </li>
         }
 
-      } @loading {
+      } @loading (minimum 100ms) {
         <div class="d-flex justify-content-center gap-1 w-100">
-          <div class="spinner-grow text-secondary"></div>
+          @for (el of [1, 2, 3, 4]; track $index) {
+            <div class="spinner-grow text-secondary" role="status" style="width: 0.7rem; height: 0.7rem;">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          }
         </div>
       }
-
     </ul>
   </div>
 </nav>

@@ -1,16 +1,138 @@
 
+// .dropdown-toggle {
+//   font-size: 15px;
+//   color: black;
+//   &:hover { border-bottom: 1px solid #111; }
+//   margin-bottom: 12px;
+//   margin-top: 12px;
+// }
+
+
+// .more-cats { position: relative; }
+
+
+// .more-cats .dropdown-menu {
+//   position: absolute;
+//   inset: auto !important;
+//   top: calc(100% + 6px) !important;
+//   left: 0 !important;
+//   right: auto !important;
+//   transform: none !important;
+
+//   width: 560px;
+//   max-width: calc(100vw - 2rem);
+//   padding: 0;
+//   overflow: hidden;
+//   border: 1px solid var(--bs-border-color, rgba(0,0,0,.125));
+//   border-radius: .5rem;
+//   box-shadow:
+//     0 .25rem .75rem rgba(0,0,0,.06),
+//     0 .125rem .25rem rgba(0,0,0,.04);
+//   background: var(--bs-body-bg, #fff);
+//   z-index: 1050;
+// }
+
+// /* RTL */
+// [dir="rtl"] .more-cats .dropdown-menu {
+//   right: 0 !important;
+//   left: auto !important;
+// }
+
+// /* تخطيط عمودين */
+// .mc-wrap {
+//   display: flex;
+//   align-items: stretch;
+//   min-height: 280px;
+//   max-height: 380px;
+// }
+
+// /* العمود الأيسر */
+// .mc-main {
+//   width: 220px;
+//   margin: 0;
+//   padding: .5rem 0;
+//   list-style: none;
+//   overflow-y: auto;
+//   border-inline-end: 1px solid var(--bs-border-color, rgba(0,0,0,.08));
+// }
+
+// .mc-main-item {
+//   display: block;
+//   width: 100%;
+//   text-align: start;
+//   background: transparent;
+//   border: 0;
+//   outline: 0;
+//   cursor: pointer;
+//   padding: .5rem .75rem;
+//   font-size: 14px;
+//   line-height: 1.35;
+//   text-decoration: none;
+//   white-space: normal;
+//   border-radius: 0;
+// }
+// .mc-main-item:hover,
+// .mc-main-item.active {
+//   background-color: #f8f9fa;
+//   color: #111;
+// }
+
+// /* العمود الأيمن يظهر فقط عندما له أطفال (عن طريق *ngIf) */
+// .mc-sub {
+//   flex: 1;
+//   padding: .5rem 0;
+//   overflow: hidden;
+// }
+// .mc-sub-list {
+//   list-style: none;
+//   margin: 0;
+//   padding: 0 .5rem;
+//   height: 100%;
+//   overflow-y: auto;
+// }
+// .mc-sub-link {
+//   display: block;
+//   padding: .4rem .5rem;
+//   font-size: 14px;
+//   line-height: 1.35;
+//   text-decoration: none;
+// }
+// .mc-sub-link:hover {
+//   background-color: #f8f9fa;
+//   color: #111;
+// }
+
+
+// @media (max-width: 576px) {
+//   .more-cats .dropdown-menu {
+//     width: 95vw;
+//     max-height: 70vh;
+//   }
+//   .mc-wrap { max-height: 70vh; }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+/* زر العنوان */
 .dropdown-toggle {
   font-size: 15px;
   color: black;
   &:hover { border-bottom: 1px solid #111; }
-  margin-bottom: 12px;
-  margin-top: 12px;
 }
 
-
+/* لازم الغلاف يكون: <div class="dropdown more-cats"> */
 .more-cats { position: relative; }
 
-
+/* لوحة المنيو (كتلة واحدة) */
 .more-cats .dropdown-menu {
   position: absolute;
   inset: auto !important;
@@ -109,4 +231,18 @@
     max-height: 70vh;
   }
   .mc-wrap { max-height: 70vh; }
+}
+
+.mc-item-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.mc-item-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: invert(56%) sepia(78%) saturate(456%) hue-rotate(162deg) brightness(96%) contrast(96%);
 }

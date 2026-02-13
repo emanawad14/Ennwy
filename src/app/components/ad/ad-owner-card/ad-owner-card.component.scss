@@ -1,25 +1,53 @@
 .ad-owner {
+  --accent: #1fb9ed;
+  --accent-soft: #eef9fe;
+
+  .owner-head {
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #f1f1f1;
+  }
+
+  .owner-meta {
+    min-width: 0;
+  }
+
+  .owner-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .img-container {
     width: 65px;
     min-width: 65px;
     height: 65px;
-    border: 1px solid var(--text-main-color);
-    background-color: #fef5f5;
+    border: 1px solid var(--accent);
+    background-color: var(--accent-soft);
   }
   .btn {
-    padding-block: 0.6rem;
-    border: 0;
+    padding-block: 0.7rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    transition: 0.2s ease;
   }
   .btn-main {
-    background-color: #fbe0e0;
+    background-color: var(--accent-soft);
+    border-color: #cfeefe;
+    color: #0f3140;
+
+    .pi {
+      color: var(--accent) !important;
+    }
+
     &:hover {
-      background-color: #f08080;
+      background-color: #dbf3fe;
     }
   }
   .btn-green {
-    background-color: #e8f7e8;
+    background-color: #ecfdf3;
+    border-color: #c8f0da;
     &:hover {
-      background-color: #93d8b5;
+      background-color: #dcf9e9;
     }
     .pi {
       color: #137310;
