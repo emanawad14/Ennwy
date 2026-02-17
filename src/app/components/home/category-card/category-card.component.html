@@ -36,11 +36,13 @@
   </ul>
 
   <!-- رابط "الكل في …" -->
-  <a class="text-danger d-flex align-items-center fw-bold small"
-     [routerLink]="allInRoute()">
-    <i class="pi pi-angle-left me-1"></i>
-    {{ allInLabel() }}
-  </a>
+  @if (!hideAllOption()) {
+    <a class="text-danger d-flex align-items-center fw-bold small"
+       [routerLink]="allInRoute()">
+      <i class="pi pi-angle-left me-1"></i>
+      {{ allInLabel() }}
+    </a>
+  }
 </div>
 
 <!-- Offcanvas (للموبايل) -->
@@ -61,13 +63,6 @@
   </div>
 
   <div class="offcanvas-body p-0">
-    <!-- "الكل في ..." للمستوى الحالي -->
-    <div *ngIf="currentAllInRoute() as allRoute" class="border-bottom">
-      <a class="d-block py-3 px-3 fw-medium text-main-color" [routerLink]="allRoute" data-bs-dismiss="offcanvas">
-        {{ currentAllInLabel() }}
-      </a>
-    </div>
-
     <!-- لستة المستوى الحالي -->
     <ul class="list-unstyled m-0">
       <li *ngFor="let item of currentList(); trackBy: trackById" class="border-bottom">

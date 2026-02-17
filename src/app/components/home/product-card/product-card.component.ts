@@ -29,6 +29,12 @@ export class ProductCardComponent {
     this.language.set(this.__LanguageService.getLanguage());
   }
 
+  getAdLink(): any[] {
+    const rawId = this.product()?.id;
+    const cleanId = String(rawId ?? '').trim().replace(/^\/+|\/+$/g, '');
+    return ['/ad', cleanId];
+  }
+
 
   getPhotoUrl(): string {
 const photos = this.product()?.photos;

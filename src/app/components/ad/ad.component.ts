@@ -50,6 +50,17 @@ export class AdComponent implements AfterViewInit {
   private chatModal?: any;
 
   private metaService = inject(Meta);
+  private resetBreadcrumb(adTitle?: string): void {
+    const items: { name: string; routerLink?: string }[] = [
+      { name: this.__LanguageService.translateText('home'), routerLink: '/' }
+    ];
+
+    if (adTitle && adTitle.trim()) {
+      items.push({ name: adTitle.trim() });
+    }
+
+    this.breadcrumbList.set(items);
+  }
 
   constructor(
     private readonly __LanguageService: LanguageService,
@@ -63,10 +74,7 @@ export class AdComponent implements AfterViewInit {
     private titleService: Title,
     public readonly __Router: Router
   ) {
-    this.breadcrumbList().push({
-      name: this.__LanguageService.translateText('home'),
-      routerLink: '/'
-    });
+    this.resetBreadcrumb();
  this.__Router.events
     .pipe(filter(event => event instanceof NavigationEnd))
     .subscribe(() => {
@@ -82,7 +90,7 @@ ngOnInit() {
   this.__ActivatedRoute.params.subscribe((param: any) => {
     const id = Number(param.id);
     this.currentAdId = id;
-    this.breadcrumbList().push({ name: param?.title });
+    this.resetBreadcrumb();
     this.getAdById(id);
     this.language.set(this.__LanguageService.getLanguage());
 
@@ -150,6 +158,7 @@ ngOnInit() {
         } as IAdDetails;
 
         this.adDetails.set(mapped);
+        this.resetBreadcrumb(mapped?.title || mapped?.title_L1 || '');
         this.updateMapFromAdDetails();
         this.updateSEO(mapped);
         this.isLoading.set(false);
@@ -426,6 +435,13 @@ ngOnInit() {
   }
 
   openPopup(imageUrl: string) { this.selectedImageUrl = imageUrl; }
+
+  onAdImageError(event: Event): void {
+    const img = event.target as HTMLImageElement | null;
+    if (!img) return;
+    if (img.src.includes('images/default-image.webp')) return;
+    img.src = 'images/default-image.webp';
+  }
 
   // ===================== المفضلة =====================
   private getCurrentUserId(): string | null {

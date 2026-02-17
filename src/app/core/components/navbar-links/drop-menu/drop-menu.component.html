@@ -10,10 +10,10 @@
     {{ title() }}
   </a>
 
-  @if(list()?.length > 0 && showChildDropdown()){
+  @if(getVisibleList(list()).length > 0 && showChildDropdown()){
   <ul class="dropdown-menu border-0 shadow py-1 show">
     <div class="row g-0">
-      @for (item of list(); track $index) {
+      @for (item of getVisibleList(list()); track $index) {
       <li [ngClass]="{'col-6': megaMenu()}"
           class="dropdown-item-container"
           (mouseenter)="setHoveredItem(item?.id)"
@@ -41,7 +41,7 @@
                 [class.d-none]="hoveredItemId() !== item?.id"
                 [class.d-block]="hoveredItemId() === item?.id">
 
-              @for (child of item?.children; track $index) {
+              @for (child of getVisibleList(item?.children); track $index) {
               <li class="child-item"
                   (mouseenter)="setHoveredItem(item?.id)"
                   (mouseleave)="setHoveredItem(null)">
@@ -66,7 +66,7 @@
                         [class.d-none]="hoveredItemId() !== item?.id"
                         [class.d-block]="hoveredItemId() === item?.id">
 
-                      @for (grandChild of child?.children; track $index) {
+                      @for (grandChild of getVisibleList(child?.children); track $index) {
                       <li class="grandchild-item">
                         <a class="dropdown-item px-2 d-flex justify-content-between align-items-center w-100 no-children"
                            (click)="handleItemClick($event, title(), list(), grandChild, false)"

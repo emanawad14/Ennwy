@@ -275,6 +275,14 @@
     color: var(--accent);
   }
 
+  .section-title {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--accent);
+  }
+
   .safety-box {
     border: 1px solid var(--accent-border);
   }

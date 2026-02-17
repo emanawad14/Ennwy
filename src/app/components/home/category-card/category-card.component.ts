@@ -32,6 +32,7 @@ export class CategoryCardComponent implements AfterViewInit, OnDestroy {
   icon = input<string>('');
   items = input<CategoryItem[]>([]);
   index = input<number>(0);
+  hideAllOption = input<boolean>(false);
 
   // لو الأب بعث parentId صريح لمسار "الكل في ..."
   parentId = input<number | string | null | undefined>(null);
@@ -83,8 +84,10 @@ export class CategoryCardComponent implements AfterViewInit, OnDestroy {
   }
 
   currentList(): CategoryItem[] {
-    if (this.depth === 0) return this.items() || [];
-    return this.path[this.depth - 1]?.children || [];
+    const list = this.depth === 0
+      ? (this.items() || [])
+      : (this.path[this.depth - 1]?.children || []);
+    return list.filter((item) => !this.isAllOption(item));
   }
 
   currentAllInRoute(): any[] | null {
@@ -112,6 +115,17 @@ export class CategoryCardComponent implements AfterViewInit, OnDestroy {
   }
 
   trackById = (_: number, item: CategoryItem) => String(item?.id);
+
+  private normalizeLabel(v: any): string {
+    return String(v ?? '').trim().toLowerCase();
+  }
+
+  private isAllOption(item: CategoryItem | null | undefined): boolean {
+    const ar = this.normalizeLabel(item?.name);
+    const en = this.normalizeLabel(item?.name_L1);
+    return ar === 'الكل' || ar.startsWith('الكل ') || ar.includes('الكل في')
+      || en === 'all' || en.startsWith('all ') || en.startsWith('all in');
+  }
 
   private slugify(text: string): string {
     return (text || '')

@@ -7,12 +7,12 @@ import { HomeService } from '../../../services/home.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { ILink } from '../../interfaces/nav';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { CategoryCardComponent } from '../../../components/home/category-card/category-card.component';
 
 @Component({
   selector: 'app-navbar-links',
   standalone: true,
-  imports: [DropMenuComponent, TranslateModule, MoreCategoryDropMenuComponent,CommonModule],
+  imports: [DropMenuComponent, TranslateModule, MoreCategoryDropMenuComponent, CommonModule, CategoryCardComponent],
   templateUrl: './navbar-links.component.html',
   styleUrl: './navbar-links.component.scss'
 })
@@ -24,6 +24,9 @@ export class NavbarLinksComponent {
   activeCategories = signal<any[]>([]);
   displayCategories = computed(() =>
     (this.activeCategories()?.length ?? 0) > 0 ? this.activeCategories() : this.categories()
+  );
+  mobileDisplayCategories = computed(() =>
+    (this.displayCategories() || []).filter((item: any) => !this.isAllCategory(item))
   );
 
 
@@ -66,5 +69,21 @@ export class NavbarLinksComponent {
     this.activeCategories.set(res?.data || []);
   });
 }
+
+  getCategoryName(item: ILink): string {
+    return this.language() === 'en' ? (item?.name_L1 || item?.name || '') : (item?.name || item?.name_L1 || '');
+  }
+
+  getMobileChildren(item: any): any[] {
+    const children = Array.isArray(item?.children) ? item.children : [];
+    return children.filter((child: any) => !this.isAllCategory(child));
+  }
+
+  private isAllCategory(item: any): boolean {
+    const ar = (item?.name || '').toString().trim();
+    const en = (item?.name_L1 || '').toString().trim().toLowerCase();
+    return ar === 'الكل' || ar.startsWith('الكل ') || ar.includes('الكل في')
+      || en === 'all' || en.startsWith('all ') || en.startsWith('all in');
+  }
 
 }

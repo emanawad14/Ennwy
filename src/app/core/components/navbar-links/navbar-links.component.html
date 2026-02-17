@@ -55,3 +55,37 @@
     </ul>
   </div>
 </nav>
+
+<nav *ngIf="isMobile()" class="navbar-links-mobile py-2 border-bottom bg-white">
+  <div class="container">
+    @defer (when !isLoading()) {
+      <section class="mobile-cats-section">
+        <div class="scroll-wrapper mt-1">
+          <div class="scroll-content">
+            @for (item of mobileDisplayCategories(); track item?.id; let i = $index) {
+              <div class="mobile-cat-item">
+                <app-category-card
+                  [showIcon]="true"
+                  [title]="getCategoryName(item)"
+                  [icon]="item?.image"
+                  [items]="getMobileChildren(item)"
+                  [parentId]="item?.id"
+                  [hideAllOption]="true"
+                  [index]="i">
+                </app-category-card>
+              </div>
+            }
+          </div>
+        </div>
+      </section>
+    } @loading (minimum 100ms) {
+      <div class="d-flex justify-content-center gap-1 w-100 py-2">
+        @for (el of [1, 2, 3, 4]; track $index) {
+          <div class="spinner-grow text-secondary" role="status" style="width: 0.7rem; height: 0.7rem;">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</nav>

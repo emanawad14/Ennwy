@@ -1,5 +1,5 @@
 <div class="product-card overflow-hidden h-100"
-  [routerLink]="['/ad',product()?.id]">
+  [routerLink]="getAdLink()">
   <img [src]="getPhotoUrl()"
      alt="product"
      class="w-100 prd-image"

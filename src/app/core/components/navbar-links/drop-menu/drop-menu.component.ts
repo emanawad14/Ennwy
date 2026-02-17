@@ -108,6 +108,25 @@ export class DropMenuComponent implements OnInit {
     this.showChildDropdown.set(!this.showChildDropdown());
   }
 
+  private normalizeLabel(v: any): string {
+    return String(v ?? '').trim().toLowerCase();
+  }
+
+  private isAllLabel(text: string): boolean {
+    const t = this.normalizeLabel(text);
+    return t === 'all' || t.startsWith('all ') || t === 'الكل' || t.startsWith('الكل ');
+  }
+
+  isAllOption(item: any): boolean {
+    const ar = this.normalizeLabel(item?.name);
+    const en = this.normalizeLabel(item?.name_L1);
+    return this.isAllLabel(ar) || this.isAllLabel(en);
+  }
+
+  getVisibleList(items: any[] | null | undefined): any[] {
+    return (Array.isArray(items) ? items : []).filter((x) => !this.isAllOption(x));
+  }
+
   private slugify(text: string): string {
     return (text || '')
       .toString()

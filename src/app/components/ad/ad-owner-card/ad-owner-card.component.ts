@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal, OnChanges, SimpleChanges } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { IUser } from '../../../core/interfaces/ad';
@@ -10,7 +10,7 @@ import { IUser } from '../../../core/interfaces/ad';
   templateUrl: './ad-owner-card.component.html',
   styleUrls: ['./ad-owner-card.component.scss']
 })
-export class AdOwnerCardComponent {
+export class AdOwnerCardComponent implements OnChanges {
   @Input({ required: true }) user!: IUser;
 
   // Events للأب
@@ -21,9 +21,19 @@ export class AdOwnerCardComponent {
 
   // حالة إظهار الرقم داخل الطفل
   showNumber = signal<boolean>(false);
+  imageBroken = signal<boolean>(false);
+  readonly fallbackAvatar = 'images/95028257-800x600.jpg';
 
   get firstLetter(): string {
     return this.user?.fullName?.charAt(0)?.toUpperCase() ?? '';
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['user']) this.imageBroken.set(false);
+  }
+
+  onAvatarError(): void {
+    this.imageBroken.set(true);
   }
 
   // "عضو منذ" (user.createDate: "16-07-2025 18:29:52")
