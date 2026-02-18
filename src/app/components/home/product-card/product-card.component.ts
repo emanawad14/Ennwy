@@ -2,8 +2,9 @@ import { UtilityService } from './../../../services/generic/utility.service';
 import { Component, input, signal } from '@angular/core';
 import { LanguageService } from '../../../services/generic/language.service';
 import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-product-card',
@@ -14,6 +15,7 @@ import { CommonModule } from '@angular/common';
 })
 export class ProductCardComponent {
   language = signal<string>('en');
+  private langSub?: Subscription;
 
   product = input<any>();
   isNew = input<boolean>(false);
@@ -22,11 +24,21 @@ export class ProductCardComponent {
 
   constructor(
     private readonly __LanguageService: LanguageService,
-    protected readonly __UtilityService: UtilityService
+    protected readonly __UtilityService: UtilityService,
+    private readonly translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
-    this.language.set(this.__LanguageService.getLanguage());
+    const currentLang = this.translateService.currentLang || this.__LanguageService.getLanguage();
+    this.language.set(currentLang || 'en');
+
+    this.langSub = this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.language.set(event.lang || 'en');
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.langSub?.unsubscribe();
   }
 
   getAdLink(): any[] {

@@ -351,7 +351,13 @@ input:checked {
     text-align: right !important;
   }
 
-  .pi {
+  /* Flip only directional icons in RTL, not all icons */
+  .pi-angle-left,
+  .pi-angle-right,
+  .pi-chevron-left,
+  .pi-chevron-right,
+  .pi-arrow-left,
+  .pi-arrow-right {
     transform: scaleX(-1);
   }
 

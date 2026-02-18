@@ -6,34 +6,33 @@
      (error)="onImageError($event)" />
 
   <div class="p-3">
-    <div class="d-flex justify-content-between gap-2">
-      <div class="d-flex align-content-center gap-2 flex-wrap">
-     <strong class="m-0 fs-5-2 text-main-color">
-  {{ product()?.price ? product()?.price : product()?.priceInUSD }}
-  {{ product()?.price ? ('lira' | translate) : ('dollar' | translate) }}
-</strong>
-
-
-
+    <div class="price-row d-flex justify-content-between gap-2">
+      <div class="price-wrap d-flex align-content-center gap-2 flex-wrap">
+        <strong class="m-0 fs-5-2 text-main-color price-text">
+          <span class="price-value force-ltr">
+            {{ product()?.price ? product()?.price : product()?.priceInUSD }}
+          </span>
+          <span class="currency-label">
+            {{ product()?.price ? ('lira' | translate) : ('dollar' | translate) }}
+          </span>
+        </strong>
       </div>
-<a title="favorite">
-  <i class="pi fs-5"
-     [ngClass]="{
-       'pi-heart-fill text-danger': isFavoritePage() && product()?.isFavorite,
-       'pi-heart': !isFavoritePage() || !product()?.isFavorite
-     }"></i>
-</a>
-
-
+      <a title="favorite" class="favorite-btn">
+        <i class="pi fs-5"
+           [ngClass]="{
+             'pi-heart-fill text-danger': isFavoritePage() && product()?.isFavorite,
+             'pi-heart': !isFavoritePage() || !product()?.isFavorite
+           }"></i>
+      </a>
     </div>
-   <p class="m-0 fs-5-2 description">
-  {{
-    (language()=='ar'
-      ? product()?.title
-      : product()?.title_L1
-    )?.split(' ').slice(0,3).join(' ')
-  }}
-</p>
+    <p class="m-0 fs-5-2 description">
+      {{
+        (language()=='ar'
+          ? product()?.title
+          : product()?.title_L1
+        )?.split(' ').slice(0,3).join(' ')
+      }}
+    </p>
 
     <div class="mt-2">
       @if(isNew()&&false){

@@ -32,6 +32,8 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
     line-clamp: 1;
+    word-break: break-word;
+    unicode-bidi: plaintext;
   }
   .location {
     overflow: hidden;
@@ -40,6 +42,8 @@
     -webkit-line-clamp: 1;
     line-clamp: 1;
     min-height: 1.25rem;
+    word-break: break-word;
+    unicode-bidi: plaintext;
   }
   .days {
     font-size: 0.75rem;
@@ -59,6 +63,39 @@
   margin-top: auto;
 }
 
+.price-row {
+  align-items: flex-start;
+}
+
+.price-wrap {
+  min-width: 0;
+}
+
+.price-text {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+}
+
+.price-value {
+  font-variant-numeric: tabular-nums;
+}
+
+.currency-label {
+  unicode-bidi: isolate;
+}
+
+.favorite-btn {
+  flex: 0 0 auto;
+  line-height: 1;
+}
+
 .text-main-color {
   color: black;
+}
+
+.force-ltr {
+  direction: ltr;
+  unicode-bidi: isolate;
 }

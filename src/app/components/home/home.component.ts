@@ -14,6 +14,7 @@ import { HomeService } from '../../services/home.service';
 import { LanguageService } from '../../services/generic/language.service';
 import { ITopCategories } from '../../core/interfaces/home';
 import { TranslateModule } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { UtilityService } from '../../services/generic/utility.service';
 import { SortAdsComponent } from '../region/sort-ads/sort-ads.component';
 import { NoDataComponent } from '../../shared/components/no-data/no-data.component';
@@ -67,6 +68,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private readonly __LanguageService: LanguageService,
     private readonly __UtilityService: UtilityService,
     private readonly __homeService: HomeService,
+    private readonly translateService: TranslateService,
     @Inject(PLATFORM_ID) platformId: any
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -76,7 +78,13 @@ export class HomeComponent implements OnInit, OnDestroy {
         Lifecycle
   ======================= */
   ngOnInit(): void {
-    this.language.set(this.__LanguageService.getLanguage());
+    const currentLang = this.translateService.currentLang || this.__LanguageService.getLanguage();
+    this.language.set(currentLang || 'en');
+    this.subscriptions.add(
+      this.translateService.onLangChange.subscribe(event => {
+        this.language.set(event.lang || 'en');
+      })
+    );
 
     // ✅ نجيب بيانات اليوزر
     this.getUserData();
