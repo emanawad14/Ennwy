@@ -2,27 +2,52 @@ import { UtilityService } from './../../services/generic/utility.service';
 import { BreadcrumbComponent } from '../region/breadcrumb/breadcrumb.component';
 import { AdOwnerCardComponent } from './ad-owner-card/ad-owner-card.component';
 import { LanguageService } from '../../services/generic/language.service';
-import { DomSanitizer, SafeResourceUrl, Meta, Title } from '@angular/platform-browser';
+import {
+  DomSanitizer,
+  SafeResourceUrl,
+  Meta,
+  Title,
+} from '@angular/platform-browser';
 import { AdService } from '../../services/ad.service';
 import { IAdDetails, IFlatField, IUser } from '../../core/interfaces/ad';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Component, computed, signal, ElementRef, ViewChild, AfterViewInit, inject } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
+import {
+  Component,
+  computed,
+  signal,
+  ElementRef,
+  ViewChild,
+  AfterViewInit,
+  inject,
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterModule,
+} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { key } from '../../core/config/localStorage';
 import { generateSeoFromDescription } from './seo.util';
 import Swal from 'sweetalert2';
 import { HomeService } from '../../services/home.service';
-import { ProductCardComponent } from "../home/product-card/product-card.component";
+import { ProductCardComponent } from '../home/product-card/product-card.component';
 import { effect } from '@angular/core';
 import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-ad',
   standalone: true,
-  imports: [BreadcrumbComponent, AdOwnerCardComponent, TranslateModule, CommonModule, RouterModule, ProductCardComponent],
+  imports: [
+    BreadcrumbComponent,
+    AdOwnerCardComponent,
+    TranslateModule,
+    CommonModule,
+    RouterModule,
+    ProductCardComponent,
+  ],
   templateUrl: './ad.component.html',
-  styleUrls: ['./ad.component.scss']
+  styleUrls: ['./ad.component.scss'],
 })
 export class AdComponent implements AfterViewInit {
   language = signal<string>('en');
@@ -38,7 +63,8 @@ export class AdComponent implements AfterViewInit {
   isNavigating = signal(false);
 
   currentSlide = signal(0);
-  @ViewChild('mobileCarousel', { static: false }) mobileCarousel?: ElementRef<HTMLElement>;
+  @ViewChild('mobileCarousel', { static: false })
+  mobileCarousel?: ElementRef<HTMLElement>;
 
   isPhoneRevealed = signal(false);
   phoneNumber: string | null = null;
@@ -52,7 +78,7 @@ export class AdComponent implements AfterViewInit {
   private metaService = inject(Meta);
   private resetBreadcrumb(adTitle?: string): void {
     const items: { name: string; routerLink?: string }[] = [
-      { name: this.__LanguageService.translateText('home'), routerLink: '/' }
+      { name: this.__LanguageService.translateText('home'), routerLink: '/' },
     ];
 
     if (adTitle && adTitle.trim()) {
@@ -72,36 +98,29 @@ export class AdComponent implements AfterViewInit {
     private readonly __HomeService: HomeService,
     private meta: Meta,
     private titleService: Title,
-    public readonly __Router: Router
+    public readonly __Router: Router,
   ) {
     this.resetBreadcrumb();
- this.__Router.events
-    .pipe(filter(event => event instanceof NavigationEnd))
-    .subscribe(() => {
-      this.isNavigating.set(false);
-    });
+    this.__Router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.isNavigating.set(false);
+      });
   }
 
-  get currentLang(): string { return this.translate.currentLang; }
+  get currentLang(): string {
+    return this.translate.currentLang;
+  }
 
-
-
-ngOnInit() {
-  this.__ActivatedRoute.params.subscribe((param: any) => {
-    const id = Number(param.id);
-    this.currentAdId = id;
-    this.resetBreadcrumb();
-    this.getAdById(id);
-    this.language.set(this.__LanguageService.getLanguage());
-
-
-  });
-
-
-
-}
-
-
+  ngOnInit() {
+    this.__ActivatedRoute.params.subscribe((param: any) => {
+      const id = Number(param.id);
+      this.currentAdId = id;
+      this.resetBreadcrumb();
+      this.getAdById(id);
+      this.language.set(this.__LanguageService.getLanguage());
+    });
+  }
 
   ngAfterViewInit(): void {
     queueMicrotask(() => {
@@ -136,13 +155,25 @@ ngOnInit() {
   private updateSEO(ad: any): void {
     const seo = generateSeoFromDescription(ad.description || ad.title);
     this.titleService.setTitle(ad.title);
-    this.metaService.updateTag({ name: 'description', content: ad.description });
-    this.metaService.updateTag({ name: 'keywords', content: seo.keywords.join(', ') });
+    this.metaService.updateTag({
+      name: 'description',
+      content: ad.description,
+    });
+    this.metaService.updateTag({
+      name: 'keywords',
+      content: seo.keywords.join(', '),
+    });
     if (ad.photos?.length) {
-      this.metaService.updateTag({ property: 'og:image', content: this.convertToSeoImage(ad.photos[0]) });
+      this.metaService.updateTag({
+        property: 'og:image',
+        content: this.convertToSeoImage(ad.photos[0]),
+      });
     }
     this.metaService.updateTag({ property: 'og:title', content: ad.title });
-    this.metaService.updateTag({ property: 'og:description', content: ad.description });
+    this.metaService.updateTag({
+      property: 'og:description',
+      content: ad.description,
+    });
     this.metaService.updateTag({ name: 'slug', content: seo.slug });
   }
 
@@ -154,7 +185,7 @@ ngOnInit() {
         const mapped: IAdDetails = {
           ...data,
           photos: Array.isArray(data?.photos) ? data.photos : [],
-          flatFields: Array.isArray(data?.flatFields) ? data.flatFields : []
+          flatFields: Array.isArray(data?.flatFields) ? data.flatFields : [],
         } as IAdDetails;
 
         this.adDetails.set(mapped);
@@ -165,7 +196,9 @@ ngOnInit() {
         this.logAdView();
         this.loadSimilarAds();
       },
-      error: () => { this.isLoading.set(false); }
+      error: () => {
+        this.isLoading.set(false);
+      },
     });
   }
 
@@ -176,115 +209,142 @@ ngOnInit() {
 
     try {
       const user = JSON.parse(raw);
-      const userId = user?.id ?? user?.userId ?? user?.UserId ?? user?.ID ?? null;
+      const userId =
+        user?.id ?? user?.userId ?? user?.UserId ?? user?.ID ?? null;
       if (!userId || !this.currentAdId) return;
 
-      this.__AdService.LogAd({ userId, advertisementId: this.currentAdId }).subscribe({
-        next: () => (this.loggedOnce = true),
-        error: () => { }
-      });
-    } catch { }
+      this.__AdService
+        .LogAd({ userId, advertisementId: this.currentAdId })
+        .subscribe({
+          next: () => (this.loggedOnce = true),
+          error: () => {},
+        });
+    } catch {}
   }
 
   private hasValue(ff: IFlatField): boolean {
     const hasNum = typeof ff.valueNumber === 'number' && ff.valueNumber > 0;
-    const hasStr = typeof ff.valueString === 'string' && ff.valueString.trim() !== '';
-    const hasChoice = typeof ff.choiceName === 'string' && ff.choiceName.trim() !== '';
-    const hasChoiceL1 = typeof ff.choiceName_L1 === 'string' && ff.choiceName_L1?.trim() !== '';
+    const hasStr =
+      typeof ff.valueString === 'string' && ff.valueString.trim() !== '';
+    const hasChoice =
+      typeof ff.choiceName === 'string' && ff.choiceName.trim() !== '';
+    const hasChoiceL1 =
+      typeof ff.choiceName_L1 === 'string' && ff.choiceName_L1?.trim() !== '';
     return hasNum || hasStr || hasChoice || hasChoiceL1;
   }
 
   featuredDetails = computed(() =>
-    (this.adDetails()?.flatFields || []).filter(ff =>
-      !['الكماليات', 'الإضافات', 'Add-ons', 'Extras'].includes(ff.name?.trim() || '') && this.hasValue(ff)
-    )
+    (this.adDetails()?.flatFields || []).filter(
+      (ff) =>
+        !['الكماليات', 'الإضافات', 'Add-ons', 'Extras'].includes(
+          ff.name?.trim() || '',
+        ) && this.hasValue(ff),
+    ),
   );
 
   featuredSpecs = computed(() =>
-    (this.adDetails()?.flatFields || []).filter(ff =>
-      !['الكماليات', 'الإضافات', 'Add-ons', 'Extras'].includes(ff.name?.trim() || '') && this.hasValue(ff)
-    )
+    (this.adDetails()?.flatFields || []).filter(
+      (ff) =>
+        !['الكماليات', 'الإضافات', 'Add-ons', 'Extras'].includes(
+          ff.name?.trim() || '',
+        ) && this.hasValue(ff),
+    ),
   );
 
   getExtras(): IFlatField[] {
-    const list = (this.adDetails()?.flatFields || []);
-    return list.filter(ff =>
-      (ff.attribute === 'extra_features' || ['الكماليات', 'إضافات', 'Add-ons', 'Extras'].includes(ff.name?.trim() || ''))
-      && this.hasValue(ff)
+    const list = this.adDetails()?.flatFields || [];
+    return list.filter(
+      (ff) =>
+        (ff.attribute === 'extra_features' ||
+          ['الكماليات', 'إضافات', 'Add-ons', 'Extras'].includes(
+            ff.name?.trim() || '',
+          )) &&
+        this.hasValue(ff),
     );
   }
 
   getAmenityIcon(label: string): string {
     const iconsMap: { [k: string]: string } = {
-      'شرفة': 'bi-house-door',
+      شرفة: 'bi-house-door',
       'أجهزة المطبخ': 'bi-refrigerator',
-      'أمن': 'bi-shield-lock',
+      أمن: 'bi-shield-lock',
       'عداد كهرباء': 'bi-lightning-charge',
       'عداد مياه': 'bi-droplet',
       'مسموح بالحيوانات الاليفة': 'bi-paw',
-      'أسانسير': 'bi bi-arrow-down-up',
+      أسانسير: 'bi bi-arrow-down-up',
       'تدفئة وتكييف مركزي': 'bi bi-wind',
       'Air Conditioner': 'bi bi-wind',
-      'انترنت': 'bi bi-wifi',
-      'Internet': 'bi bi-wifi',
-      'غسالة': 'bi bi-droplet-half',
+      انترنت: 'bi bi-wifi',
+      Internet: 'bi bi-wifi',
+      غسالة: 'bi bi-droplet-half',
       'Washing Machine': 'bi bi-droplet-half',
-      'سخان': 'bi bi-fire',
-      'Heater': 'bi bi-fire',
-      'Furnished': 'bi-sofa',
+      سخان: 'bi bi-fire',
+      Heater: 'bi bi-fire',
+      Furnished: 'bi-sofa',
       'Kitchen Appliances': 'bi-refrigerator',
-      'Balcony': 'bi-house-door',
+      Balcony: 'bi-house-door',
       'Electric Meter': 'bi-lightning-charge',
       'Water Meter': 'bi-droplet',
-      'Security': 'bi-shield-lock',
+      Security: 'bi-shield-lock',
       'Pets Allowed': 'bi-paw',
-      'Elevator': 'bi bi-arrow-down-up'
+      Elevator: 'bi bi-arrow-down-up',
     };
     return iconsMap[label?.trim()] || 'bi-check-circle';
   }
 
   getFeatureIcon(key: string): string {
     const iconsMap: { [k: string]: string } = {
-      'النوع': 'bi bi-house',
-      'المساحة': 'bi bi-aspect-ratio',
+      النوع: 'bi bi-house',
+      المساحة: 'bi bi-aspect-ratio',
       'غرف نوم': 'bi bi-door-closed',
-      'الحمامات': 'bi bi-droplet-half',
-      'مفروش': 'bi bi-house',
+      الحمامات: 'bi bi-droplet-half',
+      مفروش: 'bi bi-house',
       'معدل الإيجار': 'bi bi-calendar-week',
-      'الدور': 'bi bi-building',
-      'الموقع': 'bi bi-geo-alt',
-      'الواجهة': 'bi bi-compass',
+      الدور: 'bi bi-building',
+      الموقع: 'bi bi-geo-alt',
+      الواجهة: 'bi bi-compass',
       'عدد الطوابق': 'bi bi-layers',
       'عدد الشقق': 'bi bi-grid-1x2',
       'المساحة (م٢)': 'bi bi-aspect-ratio',
-      'Area': 'bi bi-aspect-ratio',
+      Area: 'bi bi-aspect-ratio',
       'نوع الوقود': 'bi bi-fuel-pump',
       'Fuel Type': 'bi bi-fuel-pump',
-      'الحالة': 'bi bi-check-circle',
-      'الماركة': 'bi bi-car-front-fill',
+      الحالة: 'bi bi-check-circle',
+      الماركة: 'bi bi-car-front-fill',
       'ناقل الحركة': 'bi bi bi-gear',
-      'Transmission': 'bi bi bi-gear',
+      Transmission: 'bi bi bi-gear',
       'سنة الصنع': 'bi bi-calendar',
-      'Year': 'bi bi-calendar',
-      'كيلومترات': 'bi bi-speedometer2',
-      'Mileage': 'bi bi-speedometer2',
+      Year: 'bi bi-calendar',
+      كيلومترات: 'bi bi-speedometer2',
+      Mileage: 'bi bi-speedometer2',
       'عدد الملاك': 'bi bi-people',
-      'Owners': 'bi bi-people',
-      'Condition': 'bi bi-check-circle',
+      Owners: 'bi bi-people',
+      Condition: 'bi bi-check-circle',
       'سعة المحرك': 'bi bi-speedometer',
       'Engine Capacity': 'bi bi-speedometer',
       'عدد الأبواب': 'bi bi-door-open',
-      'Doors': 'bi bi-door-open',
-      'الدفع': 'bi bi-gear-wide-connected',
-      'Drive': 'bi bi-gear-wide-connected'
+      Doors: 'bi bi-door-open',
+      الدفع: 'bi bi-gear-wide-connected',
+      Drive: 'bi bi-gear-wide-connected',
     };
     return 'bi ' + (iconsMap[key?.trim()] || 'bi-check-circle');
   }
 
   // ======== Utils للأزرار فوق الصور / داخل المودال ========
-  eat(e: Event): void { if (e) { e.preventDefault(); e.stopPropagation(); } }
-  onShareFromImage(e: Event): void { this.eat(e); this.onShare(); }
-  onFavFromImage(e: Event): void { this.eat(e); this.toggleFavorite('image'); }
+  eat(e: Event): void {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
+  onShareFromImage(e: Event): void {
+    this.eat(e);
+    this.onShare();
+  }
+  onFavFromImage(e: Event): void {
+    this.eat(e);
+    this.toggleFavorite('image');
+  }
 
   private getAdOwnerUserId(): string | null {
     const ad = this.adDetails();
@@ -301,36 +361,45 @@ ngOnInit() {
   }
 
   private ensurePhoneThen(action: () => void): void {
-    if (this.phoneNumber) { action(); return; }
+    if (this.phoneNumber) {
+      action();
+      return;
+    }
     if (this.fetchingPhone) return;
 
     const userId = this.getAdOwnerUserId();
     if (!userId || !this.currentAdId) return;
 
     this.fetchingPhone = true;
-    this.__AdService.LogContact({
-      userId,
-      advertisementId: this.currentAdId,
-      contactMethod: 2
-    }).subscribe({
-      next: (res: any) => {
-        const apiNumber =
-          (typeof res?.data === 'string' && res.data) ||
-          res?.data?.phoneNumber ||
-          res?.phoneNumber ||
-          null;
+    this.__AdService
+      .LogContact({
+        userId,
+        advertisementId: this.currentAdId,
+        contactMethod: 2,
+      })
+      .subscribe({
+        next: (res: any) => {
+          const apiNumber =
+            (typeof res?.data === 'string' && res.data) ||
+            res?.data?.phoneNumber ||
+            res?.phoneNumber ||
+            null;
 
-        this.phoneNumber = apiNumber || this.adDetails()?.phoneNumber || null;
-        this.isPhoneRevealed.set(!!this.phoneNumber);
-        this.fetchingPhone = false;
+          this.phoneNumber = apiNumber || this.adDetails()?.phoneNumber || null;
+          this.isPhoneRevealed.set(!!this.phoneNumber);
+          this.fetchingPhone = false;
 
-        if (this.phoneNumber) action();
-      },
-      error: () => { this.fetchingPhone = false; }
-    });
+          if (this.phoneNumber) action();
+        },
+        error: () => {
+          this.fetchingPhone = false;
+        },
+      });
   }
 
-  onRevealPhone(): void { this.ensurePhoneThen(() => {}); }
+  onRevealPhone(): void {
+    this.ensurePhoneThen(() => {});
+  }
 
   callNumber(): void {
     this.ensurePhoneThen(() => {
@@ -342,8 +411,11 @@ ngOnInit() {
   openWhatsApp(): void {
     this.ensurePhoneThen(() => {
       const digits = this.onlyDigits(this.phoneNumber!);
-      const url = this.isMobileDevice() ? `whatsapp://send?phone=${digits}` : `https://wa.me/${digits}`;
-      if (typeof window !== 'undefined') window.open(url, this.isMobileDevice() ? '_self' : '_blank');
+      const url = this.isMobileDevice()
+        ? `whatsapp://send?phone=${digits}`
+        : `https://wa.me/${digits}`;
+      if (typeof window !== 'undefined')
+        window.open(url, this.isMobileDevice() ? '_self' : '_blank');
     });
   }
 
@@ -368,12 +440,14 @@ ngOnInit() {
     await Swal.fire({
       icon: 'warning',
       title: isAr ? 'تسجيل الدخول مطلوب' : 'Login required',
-      text: isAr ? 'يرجى تسجيل الدخول لبدء محادثة مع المعلن.' : 'Please log in to start a chat with the seller.',
+      text: isAr
+        ? 'يرجى تسجيل الدخول لبدء محادثة مع المعلن.'
+        : 'Please log in to start a chat with the seller.',
       showCancelButton: true,
       confirmButtonText: isAr ? 'تسجيل الدخول' : 'Log in',
       cancelButtonText: isAr ? 'إلغاء' : 'Cancel',
       reverseButtons: isAr,
-      confirmButtonColor: '#d33'
+      confirmButtonColor: '#d33',
     });
     // مجرد تنبيه – من غير تحويل تلقائي
     return false;
@@ -400,7 +474,13 @@ ngOnInit() {
 
     if (!adId || !sellerId || !myId) return;
 
-    const payload = { adId, sellerId, buyerId: myId, senderId: myId, message: msg };
+    const payload = {
+      adId,
+      sellerId,
+      buyerId: myId,
+      senderId: myId,
+      message: msg,
+    };
 
     this.sendingChat.set(true);
     this.__AdService.addchat(payload).subscribe({
@@ -409,7 +489,9 @@ ngOnInit() {
         this.chatMessage.set('');
         if (this.chatModal) this.chatModal.hide();
       },
-      error: () => { this.sendingChat.set(false); }
+      error: () => {
+        this.sendingChat.set(false);
+      },
     });
   }
 
@@ -420,7 +502,7 @@ ngOnInit() {
       fullName: ad?.userDisplayName,
       createDate: ad?.userCreateData,
       userImageUrl: ad?.userPhoto,
-      phoneNumber: this.phoneNumber || ad?.phoneNumber || ''
+      phoneNumber: this.phoneNumber || ad?.phoneNumber || '',
     } as IUser;
   }
 
@@ -434,7 +516,9 @@ ngOnInit() {
     this.selectedImageUrl = imageUrl;
   }
 
-  openPopup(imageUrl: string) { this.selectedImageUrl = imageUrl; }
+  openPopup(imageUrl: string) {
+    this.selectedImageUrl = imageUrl;
+  }
 
   onAdImageError(event: Event): void {
     const img = event.target as HTMLImageElement | null;
@@ -450,11 +534,13 @@ ngOnInit() {
       if (!raw) return null;
       const u = JSON.parse(raw);
       return u?.id ?? u?.userId ?? u?.UserId ?? u?.ID ?? null;
-    } catch { return null; }
+    } catch {
+      return null;
+    }
   }
 
   /** origin اختياري: 'image' | 'modal' | 'card' للتمييز بس */
-  toggleFavorite(_origin?: 'image'|'modal'|'card'): void {
+  toggleFavorite(_origin?: 'image' | 'modal' | 'card'): void {
     const ad = this.adDetails();
     const adId = ad?.id;
     const userId = this.getCurrentUserId();
@@ -468,7 +554,7 @@ ngOnInit() {
         position: isAr ? 'top-start' : 'top-end',
         timer: 1500,
         showConfirmButton: false,
-        title: isAr ? 'من فضلك سجّل الدخول أولًا' : 'Please log in first'
+        title: isAr ? 'من فضلك سجّل الدخول أولًا' : 'Please log in first',
       });
       // بدون انتقال للّوجن
       return;
@@ -477,7 +563,10 @@ ngOnInit() {
     const payload = { userId, advertisementId: adId };
     this.__AdService.adFavorite(payload).subscribe({
       next: () => {
-        this.adDetails.update((prev) => ({ ...prev, isFavorite: !prev.isFavorite }));
+        this.adDetails.update((prev) => ({
+          ...prev,
+          isFavorite: !prev.isFavorite,
+        }));
         const isFav = this.adDetails()?.isFavorite;
         Swal.fire({
           icon: 'success',
@@ -486,18 +575,25 @@ ngOnInit() {
           timer: 1000,
           showConfirmButton: false,
           title: isFav
-            ? (this.language() === 'ar' ? 'تمت الإضافة إلى المفضلة ✅' : 'Added to favorites ✅')
-            : (this.language() === 'ar' ? 'تمت الإزالة من المفضلة ❌' : 'Removed from favorites ❌')
+            ? this.language() === 'ar'
+              ? 'تمت الإضافة إلى المفضلة ✅'
+              : 'Added to favorites ✅'
+            : this.language() === 'ar'
+              ? 'تمت الإزالة من المفضلة ❌'
+              : 'Removed from favorites ❌',
         });
       },
       error: () => {
         Swal.fire({
           icon: 'error',
           title: this.language() === 'ar' ? 'حدث خطأ' : 'Error',
-          text: this.language() === 'ar' ? 'لم يتم حفظ التغيير، حاول مرة أخرى.' : 'Could not save your change. Please try again.',
-          confirmButtonText: this.language() === 'ar' ? 'حسنًا' : 'OK'
+          text:
+            this.language() === 'ar'
+              ? 'لم يتم حفظ التغيير، حاول مرة أخرى.'
+              : 'Could not save your change. Please try again.',
+          confirmButtonText: this.language() === 'ar' ? 'حسنًا' : 'OK',
         });
-      }
+      },
     });
   }
 
@@ -507,7 +603,9 @@ ngOnInit() {
     const isAr = this.language() === 'ar';
     const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
     const title = (isAr ? ad?.title : ad?.title_L1) || ad?.title || 'Ad';
-    const text = isAr ? `شاهد هذا الإعلان على Ennwy: ${title}` : `Check out this ad on Ennwy: ${title}`;
+    const text = isAr
+      ? `شاهد هذا الإعلان على Ennwy: ${title}`
+      : `Check out this ad on Ennwy: ${title}`;
 
     if (navigator && (navigator as any).share) {
       (navigator as any).share({ title, text, url: shareUrl }).catch(() => {});
@@ -520,7 +618,7 @@ ngOnInit() {
       whatsapp: `https://wa.me/?text=${encodedText}%20${encodedUrl}`,
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
       twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}`,
-      telegram: `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`
+      telegram: `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`,
     };
 
     const html = `
@@ -543,79 +641,78 @@ ngOnInit() {
         if (btn) {
           btn.addEventListener('click', async () => {
             try {
-                 await navigator.clipboard.writeText(shareUrl);
-                 Swal.update({ html, icon: 'success', title: isAr ? 'تم نسخ الرابط' : 'Link copied' });
-                 setTimeout(() => Swal.close(), 900);
+              await navigator.clipboard.writeText(shareUrl);
+              Swal.update({
+                html,
+                icon: 'success',
+                title: isAr ? 'تم نسخ الرابط' : 'Link copied',
+              });
+              setTimeout(() => Swal.close(), 900);
             } catch {
-                 Swal.update({ icon: 'error', title: isAr ? 'تعذّر النسخ' : 'Copy failed' });
+              Swal.update({
+                icon: 'error',
+                title: isAr ? 'تعذّر النسخ' : 'Copy failed',
+              });
             }
           });
         }
-      }
+      },
     });
   }
-private loadSimilarAds(): void {
-  const ad = this.adDetails();
-  if (!ad?.id) return;
+  private loadSimilarAds(): void {
+    const ad = this.adDetails();
+    if (!ad?.id) return;
 
-  let userId = '';
-  try {
-    const raw = localStorage.getItem(key.userInfo);
-    if (raw) userId = JSON.parse(raw)?.id || '';
-  } catch {}
+    let userId = '';
+    try {
+      const raw = localStorage.getItem(key.userInfo);
+      if (raw) userId = JSON.parse(raw)?.id || '';
+    } catch {}
 
-  console.log('Calling Similar Ads API with:', {
-    userId,
-    categoryId: ad.categoryId,
-    title: ad.title
-  });
-
-  this.__AdService
-    .getuserrecommendationsbyad(
+    console.log('Calling Similar Ads API with:', {
       userId,
-      ad.categoryId || '',
-      ad.title || '',
-      ad.description || ''
-    )
-    .subscribe({
-  next: (res: any) => {
-  console.log('RAW RESPONSE:', res);
-
-  const raw = Array.isArray(res?.data?.data)
-    ? res.data.data
-    : [];
-
-  console.log('RAW DATA:', raw);
-
-  const list = raw.map((ad: any) => ({
-    ...ad,
-    photos:
-      typeof ad.photos === 'string'
-        ? [ad.photos]
-        : Array.isArray(ad.photos)
-        ? ad.photos
-        : []
-  }));
-
-  console.log('MAPPED LIST:', list);
-
-  this.similarAds.set(list);
-},
-
-
+      categoryId: ad.categoryId,
+      title: ad.title,
     });
+
+    this.__AdService
+      .getuserrecommendationsbyad(
+        userId,
+        ad.categoryId || '',
+        ad.title || '',
+        ad.description || '',
+      )
+      .subscribe({
+        next: (res: any) => {
+          console.log('RAW RESPONSE:', res);
+
+          const raw = Array.isArray(res?.data?.data) ? res.data.data : [];
+
+          console.log('RAW DATA:', raw);
+
+          const list = raw.map((ad: any) => ({
+            ...ad,
+            photos:
+              typeof ad.photos === 'string'
+                ? [ad.photos]
+                : Array.isArray(ad.photos)
+                  ? ad.photos
+                  : [],
+          }));
+
+          console.log('MAPPED LIST:', list);
+
+          this.similarAds.set(list);
+        },
+      });
+  }
+  onSimilarAdClick() {
+    this.isNavigating.set(false);
+
+    // يطلع لفوق فورًا
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth', // لو مش عايز animation شيلها
+    });
+  }
 }
-onSimilarAdClick() {
-  this.isNavigating.set(false);
-
-  // يطلع لفوق فورًا
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth' // لو مش عايز animation شيلها
-  });
-}
-
-
-}
-
-

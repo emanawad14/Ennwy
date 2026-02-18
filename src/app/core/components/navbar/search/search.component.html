@@ -43,8 +43,8 @@
             class="sg-item d-flex align-items-center px-2 py-2"
             *ngFor="let it of g.items; trackBy: trackByItem"
             (click)="onPick(g, it)">
-            <span class="badge rounded-pill bg-success-subtle text-success-emphasis border-0 me-2"
-                  style="min-width:36px; text-align:center;">{{ it.frequency }}</span>
+            <!-- <span class="badge rounded-pill bg-success-subtle text-success-emphasis border-0 me-2"
+                  style="min-width:36px; text-align:center;">{{ it.frequency }}</span> -->
             <span class="text flex-fill text-truncate">{{ it.text }}</span>
             <i class="pi pi-search opacity-50 ms-2"></i>
           </div>

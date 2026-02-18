@@ -408,7 +408,7 @@
       </h3>
 
       <div class="row g-3 similar-ads-grid">
-        @for (ad of similarAds().slice(0, 5); track $index) {
+        @for (ad of similarAds().slice(0, 10); track $index) {
           <div class="col-6 col-md-4 similar-item" (click)="onSimilarAdClick()">
             <app-product-card [product]="ad"></app-product-card>
           </div>
