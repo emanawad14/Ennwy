@@ -1,3 +1,8 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
 .product-card {
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
   border-radius: 10px;
@@ -5,11 +10,12 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-height: 340px;
   .prd-image {
     width: 100%;
     display: block;
     aspect-ratio: 4 / 3;
-    height: auto;
+    height: 190px;
     object-fit: cover;
   }
   .fs-5-2 {
@@ -27,13 +33,20 @@
     -webkit-line-clamp: 1;
     line-clamp: 1;
   }
+  .location {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    min-height: 1.25rem;
+  }
   .days {
     font-size: 0.75rem;
   }
 }
 .product-card {
   width: 100%;
-  min-height: 180px;
 }
 
 .product-card .p-3 {

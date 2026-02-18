@@ -54,6 +54,17 @@
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 12px;
   justify-items: stretch;
+  align-items: stretch;
+  grid-auto-rows: 1fr;
+}
+
+.scroll-content > .card-wrapper {
+  height: 100%;
+}
+
+.scroll-content > .card-wrapper app-product-card {
+  display: block;
+  height: 100%;
 }
 
 
